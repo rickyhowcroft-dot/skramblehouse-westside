@@ -28,7 +28,10 @@ export default function HomePage() {
             More content coming soon.
           </h1>
           <p className="text-sm text-zinc-400 leading-relaxed">
-            We&apos;re working on something great. Reach out to us directly in the meantime.
+            We&apos;re working on something great.
+          </p>
+          <p className="text-sm text-zinc-400 leading-relaxed mt-1">
+            Reach out to us directly in the meantime.
           </p>
         </div>
 
