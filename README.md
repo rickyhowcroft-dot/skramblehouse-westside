@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Skramblehouse West Side — Pre-Sale Landing Page
 
-## Getting Started
+Hero + countdown + 4-field form. Saves signups to Supabase, sends email via Resend.
 
-First, run the development server:
+## Setup
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### 1. Supabase table
+
+Run this in your Supabase SQL Editor:
+
+```sql
+CREATE TABLE presale_signups (
+  id           uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  first_name   text NOT NULL,
+  last_name    text NOT NULL,
+  email        text NOT NULL UNIQUE,
+  presale_code text,
+  created_at   timestamptz DEFAULT now()
+);
+
+-- No public SELECT — keep signups private
+ALTER TABLE presale_signups ENABLE ROW LEVEL SECURITY;
+-- (no policies = table is locked down; only service role key can read/write)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Environment variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Copy `.env.local.example` → `.env.local` and fill in:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable | Where to get it |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase → Project Settings → API |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase → Project Settings → API → service_role |
+| `RESEND_API_KEY` | resend.com → API Keys |
+| `NOTIFY_EMAIL` | The email address that receives signup notifications |
+| `EMAIL_FROM` | Verified sender in Resend (e.g. `noreply@skramblehouse.com`) |
 
-## Learn More
+### 3. Resend domain verification
 
-To learn more about Next.js, take a look at the following resources:
+Add DNS records for `skramblehouse.com` in Resend → Domains.  
+Until the domain is verified, use Resend's sandbox: set `EMAIL_FROM=onboarding@resend.dev`  
+(only delivers to the account owner's email during sandbox mode).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 4. Hero image
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Drop your image into `public/hero.jpg`.  
+Optionally add `public/logo.png` (logo overlaid on hero).
 
-## Deploy on Vercel
+### 5. Deploy
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run dev          # local
+vercel deploy --prod # manual
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Or push to `master` → GitHub Actions auto-deploys.
+
+### 6. Vercel GitHub Secrets
+
+```
+VERCEL_TOKEN      → vercel.com → Account Settings → Tokens
+VERCEL_ORG_ID     → vercel.com → Team Settings → General
+VERCEL_PROJECT_ID → vercel.com → Project → Settings → General
+```
+
+Set all 5 env vars in Vercel → Project → Settings → Environment Variables (Production).
+
+## Notes
+
+- Form auto-closes once 100 spots are filled
+- Duplicate email check prevents double signups
+- Email notification is non-blocking (won't fail the form if email fails)
+- To serve at `skramblehouse.com/westside`: add a rewrite in your main site or point the subdomain `westside.skramblehouse.com` to this Vercel project
