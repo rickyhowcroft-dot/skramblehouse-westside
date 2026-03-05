@@ -52,7 +52,7 @@ export default function WestSidePage() {
     required = true
   ) => (
     <div>
-      <label className="block text-xs font-bold text-gray-300 uppercase tracking-widest mb-1">
+      <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">
         {label}{required && <span className="text-cyan-400 ml-0.5">*</span>}
       </label>
       <input
@@ -61,69 +61,82 @@ export default function WestSidePage() {
         value={form[key]}
         onChange={e => setForm(p => ({ ...p, [key]: e.target.value }))}
         placeholder={placeholder}
-        className="w-full bg-black/40 border border-white/20 rounded-xl px-4 py-4 text-white text-base placeholder-gray-500 focus:outline-none focus:border-cyan-400/70 focus:bg-black/60 backdrop-blur-sm transition-colors"
+        className="w-full bg-zinc-800/80 border border-zinc-700 rounded-lg px-4 py-3.5 text-white text-sm placeholder-zinc-500 focus:outline-none focus:border-cyan-400/60 focus:bg-zinc-800 transition-colors"
       />
     </div>
   )
 
   return (
-    <main className="relative min-h-screen flex flex-col overflow-hidden">
+    <main className="min-h-screen bg-zinc-950 text-white flex flex-col">
 
-      {/* Full-bleed background image */}
-      <Image
-        src="/hero.jpg"
-        alt="Skramble West Side"
-        fill
-        priority
-        className="object-cover object-center"
-      />
-
-      {/* Dark overlay — heavier at bottom so form is readable */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/55 to-black/85" />
+      {/* Hero image — fixed height, shows top branding */}
+      <div className="relative w-full h-[36vh] flex-shrink-0 overflow-hidden">
+        <Image
+          src="/hero.jpg"
+          alt="Skramble West Side"
+          fill
+          priority
+          className="object-cover object-top"
+        />
+        {/* Fade into background color at bottom */}
+        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-zinc-950 to-transparent" />
+      </div>
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col min-h-screen px-5 pb-8 pt-6">
+      <div className="flex-1 flex flex-col max-w-lg w-full mx-auto px-5 pt-2 pb-6">
 
-        {/* Spacer — pushes form down, reduced for compact height */}
-        <div className="h-32" />
+        {/* Blurb + counter row */}
+        <div className="flex items-start gap-4 mb-5">
+          <div className="flex-1">
+            <p className="text-[13px] font-semibold text-cyan-400 uppercase tracking-widest mb-1">
+              West Side is Coming
+            </p>
+            <p className="text-sm text-gray-300 leading-relaxed">
+              You asked. We listened. Skramblehouse is building
+              a new house on the West Side — and we&apos;re saving
+              the first 100 spots for the people who made it happen.
+            </p>
+          </div>
 
-        {/* Tagline + counter */}
-        <div className="flex items-end justify-between gap-3 mb-4">
-          <p className="text-sm text-gray-200 leading-snug flex-1 drop-shadow">
-            Presale limited to the first <strong className="text-white">100 people.</strong><br />
-            Enter your info to secure your spot.
-          </p>
-          <div className="flex-shrink-0">
+          {/* Counter badge */}
+          <div className="flex-shrink-0 text-center bg-zinc-800 border border-zinc-700 rounded-xl px-3 py-2.5 min-w-[60px]">
             {remaining !== null ? (
-              <div className="flex flex-col items-center bg-black/50 border border-cyan-400/30 rounded-xl px-3 py-2 min-w-[62px] backdrop-blur-sm">
-                <span className="text-2xl font-black text-cyan-400 tabular-nums leading-none">{remaining}</span>
-                <span className="text-gray-400 text-[10px] font-medium leading-tight text-center mt-0.5">of 100<br/>remain</span>
-              </div>
+              <>
+                <div className="text-2xl font-black text-cyan-400 tabular-nums leading-none">{remaining}</div>
+                <div className="text-[10px] text-gray-400 font-medium leading-tight mt-0.5">of 100<br/>spots</div>
+              </>
             ) : (
-              <div className="w-16 h-14 bg-white/10 rounded-xl animate-pulse" />
+              <div className="w-10 h-10 bg-zinc-700 rounded animate-pulse mx-auto" />
             )}
           </div>
         </div>
 
+        {/* Divider */}
+        <div className="border-t border-zinc-800 mb-5" />
+
         {/* States */}
         {isFull ? (
-          <div className="text-center py-8 border border-white/20 rounded-2xl bg-black/50 backdrop-blur-sm">
-            <p className="text-xl font-bold mb-1">🎉 The list is full!</p>
-            <p className="text-gray-300 text-sm">All 100 spots claimed. Follow us for updates.</p>
+          <div className="flex-1 flex items-center justify-center">
+            <div className="text-center py-10 border border-zinc-700 rounded-2xl bg-zinc-900 w-full">
+              <p className="text-xl font-bold mb-1">🎉 The list is full!</p>
+              <p className="text-gray-400 text-sm">All 100 spots claimed. Follow us for updates.</p>
+            </div>
           </div>
         ) : submitted ? (
-          <div className="text-center py-8 border border-cyan-500/40 rounded-2xl bg-black/50 backdrop-blur-sm">
-            <p className="text-3xl mb-2">✅</p>
-            <p className="text-lg font-bold mb-1">You&apos;re on the list!</p>
-            <p className="text-gray-300 text-sm">We&apos;ll be in touch with pre-sale details soon.</p>
+          <div className="flex-1 flex items-center justify-center">
+            <div className="text-center py-10 border border-cyan-500/30 rounded-2xl bg-cyan-500/5 w-full">
+              <p className="text-3xl mb-3">✅</p>
+              <p className="text-lg font-bold mb-1">You&apos;re on the list!</p>
+              <p className="text-gray-400 text-sm">We&apos;ll be in touch with pre-sale details soon.</p>
+            </div>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-3">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-3">
             <div className="grid grid-cols-2 gap-3">
-              {field('First Name', 'firstName', 'text', 'Jane')}
-              {field('Last Name', 'lastName', 'text', 'Smith')}
+              {field('First Name', 'firstName', 'text', 'First')}
+              {field('Last Name', 'lastName', 'text', 'Last')}
             </div>
-            {field('Email Address', 'email', 'email', 'jane@example.com')}
+            {field('Email Address', 'email', 'email', 'your@email.com')}
             {field('Pre-Sale Code', 'presaleCode', 'text', 'Optional', false)}
 
             {/* Honeypot */}
@@ -133,12 +146,12 @@ export default function WestSidePage() {
                 value={form.website} onChange={e => setForm(p => ({ ...p, website: e.target.value }))} />
             </div>
 
-            {error && <p className="text-red-400 text-xs text-center">{error}</p>}
+            {error && <p className="text-red-400 text-xs text-center -mt-1">{error}</p>}
 
             <button
               type="submit"
               disabled={loading || isFull}
-              className="w-full bg-cyan-400 text-black font-extrabold py-4 rounded-xl hover:bg-cyan-300 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed transition-all text-base tracking-wide shadow-lg shadow-cyan-400/20 mt-1"
+              className="w-full bg-cyan-400 text-black font-extrabold py-4 rounded-xl hover:bg-cyan-300 active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed transition-all text-sm tracking-widest uppercase shadow-lg shadow-cyan-400/15 mt-1"
             >
               {loading ? 'Submitting…' : 'Learn More'}
             </button>
