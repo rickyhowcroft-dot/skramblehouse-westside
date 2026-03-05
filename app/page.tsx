@@ -52,7 +52,7 @@ export default function WestSidePage() {
     required = true
   ) => (
     <div>
-      <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wide mb-1">
+      <label className="block text-xs font-bold text-gray-300 uppercase tracking-widest mb-1">
         {label}{required && <span className="text-cyan-400 ml-0.5">*</span>}
       </label>
       <input
@@ -61,59 +61,61 @@ export default function WestSidePage() {
         value={form[key]}
         onChange={e => setForm(p => ({ ...p, [key]: e.target.value }))}
         placeholder={placeholder}
-        className="w-full bg-white/6 border border-white/15 rounded-xl px-4 py-4 text-white text-base placeholder-gray-600 focus:outline-none focus:border-cyan-400/60 focus:bg-white/10 transition-colors"
+        className="w-full bg-black/40 border border-white/20 rounded-xl px-4 py-4 text-white text-base placeholder-gray-500 focus:outline-none focus:border-cyan-400/70 focus:bg-black/60 backdrop-blur-sm transition-colors"
       />
     </div>
   )
 
   return (
-    <main className="min-h-screen bg-zinc-950 text-white flex flex-col">
+    <main className="relative min-h-screen flex flex-col overflow-hidden">
 
-      {/* Hero — compact crop showing top branding */}
-      <div className="relative h-44 w-full overflow-hidden flex-shrink-0">
-        <Image
-          src="/hero.jpg"
-          alt="Skramble West Side"
-          fill
-          priority
-          className="object-cover object-top"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-zinc-950" />
-      </div>
+      {/* Full-bleed background image */}
+      <Image
+        src="/hero.jpg"
+        alt="Skramble West Side"
+        fill
+        priority
+        className="object-cover object-center"
+      />
+
+      {/* Dark overlay — heavier at bottom so form is readable */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/55 to-black/85" />
 
       {/* Content */}
-      <div className="flex-1 max-w-lg w-full mx-auto px-5 pt-3 pb-6">
+      <div className="relative z-10 flex flex-col min-h-screen px-5 pb-8 pt-6">
 
-        {/* Description + counter row */}
-        <div className="flex items-center justify-between gap-3 mb-4">
-          <p className="text-sm text-gray-300 leading-snug flex-1">
-            Presale limited to the first{' '}
-            <strong className="text-white">100 people.</strong>{' '}
+        {/* Spacer — pushes form toward bottom where overlay is darkest */}
+        <div className="flex-1" />
+
+        {/* Tagline + counter */}
+        <div className="flex items-end justify-between gap-3 mb-4">
+          <p className="text-sm text-gray-200 leading-snug flex-1 drop-shadow">
+            Presale limited to the first <strong className="text-white">100 people.</strong><br />
             Enter your info to secure your spot.
           </p>
           <div className="flex-shrink-0">
             {remaining !== null ? (
-              <div className="flex flex-col items-center bg-cyan-400/10 border border-cyan-400/20 rounded-xl px-3 py-2 min-w-[64px]">
-                <span className="text-xl font-black text-cyan-400 tabular-nums leading-none">{remaining}</span>
-                <span className="text-gray-500 text-[10px] font-medium leading-tight text-center">of 100<br/>remain</span>
+              <div className="flex flex-col items-center bg-black/50 border border-cyan-400/30 rounded-xl px-3 py-2 min-w-[62px] backdrop-blur-sm">
+                <span className="text-2xl font-black text-cyan-400 tabular-nums leading-none">{remaining}</span>
+                <span className="text-gray-400 text-[10px] font-medium leading-tight text-center mt-0.5">of 100<br/>remain</span>
               </div>
             ) : (
-              <div className="w-16 h-14 bg-white/5 rounded-xl animate-pulse" />
+              <div className="w-16 h-14 bg-white/10 rounded-xl animate-pulse" />
             )}
           </div>
         </div>
 
         {/* States */}
         {isFull ? (
-          <div className="text-center py-8 border border-gray-700 rounded-2xl bg-white/3">
+          <div className="text-center py-8 border border-white/20 rounded-2xl bg-black/50 backdrop-blur-sm">
             <p className="text-xl font-bold mb-1">🎉 The list is full!</p>
-            <p className="text-gray-400 text-sm">All 100 spots claimed. Follow us for updates.</p>
+            <p className="text-gray-300 text-sm">All 100 spots claimed. Follow us for updates.</p>
           </div>
         ) : submitted ? (
-          <div className="text-center py-8 border border-cyan-500/30 rounded-2xl bg-cyan-500/5">
+          <div className="text-center py-8 border border-cyan-500/40 rounded-2xl bg-black/50 backdrop-blur-sm">
             <p className="text-3xl mb-2">✅</p>
             <p className="text-lg font-bold mb-1">You&apos;re on the list!</p>
-            <p className="text-gray-400 text-sm">We&apos;ll be in touch with pre-sale details soon.</p>
+            <p className="text-gray-300 text-sm">We&apos;ll be in touch with pre-sale details soon.</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-3">
@@ -124,28 +126,19 @@ export default function WestSidePage() {
             {field('Email Address', 'email', 'email', 'jane@example.com')}
             {field('Pre-Sale Code', 'presaleCode', 'text', 'Optional', false)}
 
-            {/* Honeypot — hidden from real users */}
+            {/* Honeypot */}
             <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }}>
               <label htmlFor="website">Website</label>
-              <input
-                id="website"
-                name="website"
-                type="text"
-                tabIndex={-1}
-                autoComplete="off"
-                value={form.website}
-                onChange={e => setForm(p => ({ ...p, website: e.target.value }))}
-              />
+              <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off"
+                value={form.website} onChange={e => setForm(p => ({ ...p, website: e.target.value }))} />
             </div>
 
-            {error && (
-              <p className="text-red-400 text-xs text-center">{error}</p>
-            )}
+            {error && <p className="text-red-400 text-xs text-center">{error}</p>}
 
             <button
               type="submit"
               disabled={loading || isFull}
-              className="w-full bg-cyan-400 text-black font-bold py-4 rounded-xl hover:bg-cyan-300 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed transition-all text-base"
+              className="w-full bg-cyan-400 text-black font-extrabold py-4 rounded-xl hover:bg-cyan-300 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed transition-all text-base tracking-wide shadow-lg shadow-cyan-400/20 mt-1"
             >
               {loading ? 'Submitting…' : 'Learn More'}
             </button>
