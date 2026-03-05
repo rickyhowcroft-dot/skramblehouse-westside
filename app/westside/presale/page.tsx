@@ -20,6 +20,7 @@ export default function WestSidePage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [slide, setSlide] = useState(0)
+  const [lightbox, setLightbox] = useState<number | null>(null)
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   useEffect(() => {
@@ -176,7 +177,10 @@ export default function WestSidePage() {
         {CAROUSEL_IMAGES.length > 0 && (
           <div className="mt-2">
             <div className="border-t border-zinc-800 mb-5" />
-            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-xl shadow-black/40">
+            <div
+              className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-xl shadow-black/40 cursor-pointer"
+              onClick={() => setLightbox(slide)}
+            >
               {CAROUSEL_IMAGES.map((src, i) => (
                 <div
                   key={src}
@@ -185,6 +189,10 @@ export default function WestSidePage() {
                   <Image src={src} alt={`Skramblehouse ${i + 1}`} fill className="object-cover" />
                 </div>
               ))}
+              {/* Expand hint */}
+              <div className="absolute top-2.5 right-2.5 bg-black/40 rounded-lg px-2 py-1 text-[10px] text-white/70">
+                tap to expand
+              </div>
             </div>
             {/* Dot indicators */}
             {CAROUSEL_IMAGES.length > 1 && (
@@ -202,6 +210,64 @@ export default function WestSidePage() {
         )}
 
       </div>
+
+      {/* Lightbox */}
+      {lightbox !== null && (
+        <div
+          className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center"
+          onClick={() => setLightbox(null)}
+        >
+          {/* Close button */}
+          <button
+            className="absolute top-4 right-4 text-white/70 hover:text-white text-3xl leading-none z-10"
+            onClick={() => setLightbox(null)}
+          >
+            ✕
+          </button>
+
+          {/* Prev */}
+          {CAROUSEL_IMAGES.length > 1 && (
+            <button
+              className="absolute left-3 text-white/60 hover:text-white text-3xl z-10 px-2 py-4"
+              onClick={e => { e.stopPropagation(); setLightbox(l => (l! - 1 + CAROUSEL_IMAGES.length) % CAROUSEL_IMAGES.length) }}
+            >
+              ‹
+            </button>
+          )}
+
+          {/* Full image */}
+          <div className="relative w-full h-full max-w-2xl mx-auto px-12" onClick={e => e.stopPropagation()}>
+            <Image
+              src={CAROUSEL_IMAGES[lightbox]}
+              alt={`Skramblehouse ${lightbox + 1}`}
+              fill
+              className="object-contain"
+            />
+          </div>
+
+          {/* Next */}
+          {CAROUSEL_IMAGES.length > 1 && (
+            <button
+              className="absolute right-3 text-white/60 hover:text-white text-3xl z-10 px-2 py-4"
+              onClick={e => { e.stopPropagation(); setLightbox(l => (l! + 1) % CAROUSEL_IMAGES.length) }}
+            >
+              ›
+            </button>
+          )}
+
+          {/* Dot indicators */}
+          <div className="absolute bottom-6 flex gap-2 justify-center w-full">
+            {CAROUSEL_IMAGES.map((_, i) => (
+              <button
+                key={i}
+                onClick={e => { e.stopPropagation(); setLightbox(i) }}
+                className={`w-2 h-2 rounded-full transition-colors ${i === lightbox ? 'bg-cyan-400' : 'bg-white/30'}`}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
     </main>
   )
 }
