@@ -6,7 +6,11 @@ import Image from 'next/image'
 // ── Carousel images ──────────────────────────────────────────
 // Drop images into /public/carousel/ and add filenames here
 const CAROUSEL_IMAGES: string[] = [
-  // e.g. '/carousel/photo1.jpg',
+  '/carousel/1.jpg',
+  '/carousel/2.jpg',
+  '/carousel/3.jpg',
+  '/carousel/4.jpg',
+  '/carousel/5.jpg',
 ]
 
 export default function WestSidePage() {
