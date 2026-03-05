@@ -72,19 +72,15 @@ export default function WestSidePage() {
     placeholder = '',
     required = true
   ) => (
-    <div>
-      <label className="block text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">
-        {label}{required && <span className="text-cyan-400 ml-0.5">*</span>}
-      </label>
-      <input
-        type={type}
-        required={required}
-        value={form[key]}
-        onChange={e => setForm(p => ({ ...p, [key]: e.target.value }))}
-        placeholder={placeholder}
-        className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-5 text-white text-sm placeholder-zinc-500 focus:outline-none focus:border-cyan-400/70 focus:bg-zinc-700/60 transition-colors"
-      />
-    </div>
+    <input
+      aria-label={label}
+      type={type}
+      required={required}
+      value={form[key]}
+      onChange={e => setForm(p => ({ ...p, [key]: e.target.value }))}
+      placeholder={placeholder}
+      className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-5 text-white text-sm placeholder-zinc-500 focus:outline-none focus:border-cyan-400/70 focus:bg-zinc-700/60 transition-colors"
+    />
   )
 
   return (
