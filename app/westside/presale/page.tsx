@@ -90,15 +90,16 @@ export default function WestSidePage() {
     <main className="bg-zinc-950 text-white">
       <div className="max-w-lg w-full mx-auto px-5 pt-6 pb-10 flex flex-col gap-5">
 
-        {/* Image — small portrait card, centered */}
+        {/* Image — full portrait poster, centered */}
         <div className="flex justify-center">
-          <div className="relative w-44 h-64 rounded-2xl overflow-hidden shadow-2xl shadow-black/60">
+          <div className="w-44 rounded-2xl overflow-hidden shadow-2xl shadow-black/60">
             <Image
               src="/hero.jpg"
               alt="Skramble West Side"
-              fill
+              width={440}
+              height={660}
               priority
-              className="object-cover object-center"
+              className="w-full h-auto"
             />
           </div>
         </div>
