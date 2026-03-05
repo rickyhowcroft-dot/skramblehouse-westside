@@ -14,26 +14,23 @@ export default function HomePage() {
           sizes="100vw"
           className="object-cover object-top"
         />
-        {/* Gradient overlay so text is readable */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/70" />
-
-        {/* Text on image */}
-        <div className="absolute bottom-0 left-0 right-0 px-6 pb-6">
-          <p className="text-[11px] font-bold text-cyan-400 uppercase tracking-widest mb-1">
-            The Skramble House of Golf
-          </p>
-          <h1 className="text-2xl font-extrabold text-white leading-tight">
-            More content<br />coming soon.
-          </h1>
-        </div>
+        {/* no overlay */}
       </div>
 
       {/* Bottom section — contact */}
       <div className="flex-1 flex flex-col justify-center px-6 py-8 max-w-lg w-full mx-auto gap-5">
 
-        <p className="text-zinc-400 text-sm leading-relaxed">
-          We&apos;re working on something great. Reach out to us directly in the meantime.
-        </p>
+        <div>
+          <p className="text-[11px] font-bold text-cyan-400 uppercase tracking-widest mb-1.5">
+            The Skramble House of Golf
+          </p>
+          <h1 className="text-2xl font-extrabold text-white mb-1">
+            More content coming soon.
+          </h1>
+          <p className="text-sm text-zinc-400 leading-relaxed">
+            We&apos;re working on something great. Reach out to us directly in the meantime.
+          </p>
+        </div>
 
         <div className="flex flex-col gap-3">
           <a
