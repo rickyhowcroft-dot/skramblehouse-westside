@@ -6,14 +6,13 @@ export default function HomePage() {
       <div className="max-w-lg w-full mx-auto px-5 pt-6 pb-10 flex flex-col gap-5">
 
         {/* Hero image card */}
-        <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl shadow-black/60">
+        <div className="relative w-full h-52 rounded-2xl overflow-hidden shadow-2xl shadow-black/60">
           <Image
             src="/storefront.jpg"
             alt="The Skramble House of Golf"
-            width={1080}
-            height={1080}
+            fill
             priority
-            className="w-full h-auto"
+            className="object-cover object-top"
           />
         </div>
 
@@ -26,7 +25,7 @@ export default function HomePage() {
             More content coming soon.
           </h1>
           <p className="text-sm text-zinc-400 leading-relaxed">
-            In the meantime, reach out to us directly.
+            Reach out to us directly.
           </p>
         </div>
 
