@@ -67,19 +67,20 @@ export default function WestSidePage() {
   )
 
   return (
-    <main className="min-h-screen bg-zinc-950 text-white flex flex-col">
-      <div className="flex-1 max-w-lg w-full mx-auto px-5 pt-5 pb-6 flex flex-col gap-4">
+    <main className="bg-zinc-950 text-white">
+      <div className="max-w-lg w-full mx-auto px-5 pt-6 pb-8 flex flex-col gap-4">
 
-        {/* Image — small card, padded, not the hero */}
-        <div className="relative w-full h-36 rounded-2xl overflow-hidden shadow-xl shadow-black/50 flex-shrink-0">
-          <Image
-            src="/hero.jpg"
-            alt="Skramble West Side"
-            fill
-            priority
-            className="object-cover object-top"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+        {/* Image — small portrait card, centered */}
+        <div className="flex justify-center">
+          <div className="relative w-44 h-64 rounded-2xl overflow-hidden shadow-2xl shadow-black/60 flex-shrink-0">
+            <Image
+              src="/hero.jpg"
+              alt="Skramble West Side"
+              fill
+              priority
+              className="object-cover object-center"
+            />
+          </div>
         </div>
 
         {/* Blurb */}
