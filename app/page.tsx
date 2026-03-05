@@ -61,64 +61,60 @@ export default function WestSidePage() {
         value={form[key]}
         onChange={e => setForm(p => ({ ...p, [key]: e.target.value }))}
         placeholder={placeholder}
-        className="w-full bg-zinc-800/80 border border-zinc-700 rounded-lg px-4 py-3.5 text-white text-sm placeholder-zinc-500 focus:outline-none focus:border-cyan-400/60 focus:bg-zinc-800 transition-colors"
+        className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3.5 text-white text-sm placeholder-zinc-500 focus:outline-none focus:border-cyan-400/70 focus:bg-zinc-700/60 transition-colors"
       />
     </div>
   )
 
   return (
     <main className="min-h-screen bg-zinc-950 text-white flex flex-col">
+      <div className="flex-1 max-w-lg w-full mx-auto px-5 pt-5 pb-6 flex flex-col gap-4">
 
-      {/* Hero image — fixed height, shows top branding */}
-      <div className="relative w-full h-[36vh] flex-shrink-0 overflow-hidden">
-        <Image
-          src="/hero.jpg"
-          alt="Skramble West Side"
-          fill
-          priority
-          className="object-cover object-top"
-        />
-        {/* Fade into background color at bottom */}
-        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-zinc-950 to-transparent" />
-      </div>
+        {/* Image — small card, padded, not the hero */}
+        <div className="relative w-full h-36 rounded-2xl overflow-hidden shadow-xl shadow-black/50 flex-shrink-0">
+          <Image
+            src="/hero.jpg"
+            alt="Skramble West Side"
+            fill
+            priority
+            className="object-cover object-top"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+        </div>
 
-      {/* Content */}
-      <div className="flex-1 flex flex-col max-w-lg w-full mx-auto px-5 pt-2 pb-6">
+        {/* Blurb */}
+        <div>
+          <p className="text-[11px] font-bold text-cyan-400 uppercase tracking-widest mb-1">
+            West Side is Coming
+          </p>
+          <p className="text-sm text-gray-300 leading-relaxed">
+            You asked. We listened. Skramblehouse is planting its flag on the West Side.
+          </p>
+        </div>
 
-        {/* Blurb + counter row */}
-        <div className="flex items-start gap-4 mb-5">
-          <div className="flex-1">
-            <p className="text-[13px] font-semibold text-cyan-400 uppercase tracking-widest mb-1">
-              West Side is Coming
-            </p>
-            <p className="text-sm text-gray-300 leading-relaxed">
-              You asked. We listened. Skramblehouse is planting
-              its flag on the West Side.
-            </p>
-          </div>
-
-          {/* Counter badge */}
-          <div className="flex-shrink-0 text-center bg-zinc-800 border border-zinc-700 rounded-xl px-3 py-2.5 min-w-[60px]">
-            {remaining !== null ? (
-              <>
-                <div className="text-2xl font-black text-cyan-400 tabular-nums leading-none">{remaining}</div>
-                <div className="text-[10px] text-gray-400 font-medium leading-tight mt-0.5">of 100<br/>spots</div>
-              </>
-            ) : (
-              <div className="w-10 h-10 bg-zinc-700 rounded animate-pulse mx-auto" />
-            )}
-          </div>
+        {/* Spots pill */}
+        <div className="flex justify-center">
+          {remaining !== null ? (
+            <div className="flex items-center gap-2 bg-zinc-800 border border-zinc-700 rounded-full px-5 py-2">
+              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+              <span className="text-sm font-semibold text-white tabular-nums">
+                {remaining} <span className="text-zinc-400 font-normal">of 100 spots available</span>
+              </span>
+            </div>
+          ) : (
+            <div className="h-9 w-52 bg-zinc-800 rounded-full animate-pulse" />
+          )}
         </div>
 
         {/* Divider */}
-        <div className="border-t border-zinc-800 mb-5" />
+        <div className="border-t border-zinc-800" />
 
-        {/* States */}
+        {/* Form / States */}
         {isFull ? (
           <div className="flex-1 flex items-center justify-center">
             <div className="text-center py-10 border border-zinc-700 rounded-2xl bg-zinc-900 w-full">
               <p className="text-xl font-bold mb-1">🎉 The list is full!</p>
-              <p className="text-gray-400 text-sm">All 100 spots claimed. Follow us for updates.</p>
+              <p className="text-zinc-400 text-sm">All 100 spots claimed. Follow us for updates.</p>
             </div>
           </div>
         ) : submitted ? (
@@ -126,7 +122,7 @@ export default function WestSidePage() {
             <div className="text-center py-10 border border-cyan-500/30 rounded-2xl bg-cyan-500/5 w-full">
               <p className="text-3xl mb-3">✅</p>
               <p className="text-lg font-bold mb-1">You&apos;re on the list!</p>
-              <p className="text-gray-400 text-sm">We&apos;ll be in touch with pre-sale details soon.</p>
+              <p className="text-zinc-400 text-sm">We&apos;ll be in touch with pre-sale details soon.</p>
             </div>
           </div>
         ) : (
@@ -145,7 +141,7 @@ export default function WestSidePage() {
                 value={form.website} onChange={e => setForm(p => ({ ...p, website: e.target.value }))} />
             </div>
 
-            {error && <p className="text-red-400 text-xs text-center -mt-1">{error}</p>}
+            {error && <p className="text-red-400 text-xs text-center">{error}</p>}
 
             <button
               type="submit"
@@ -156,6 +152,7 @@ export default function WestSidePage() {
             </button>
           </form>
         )}
+
       </div>
     </main>
   )
