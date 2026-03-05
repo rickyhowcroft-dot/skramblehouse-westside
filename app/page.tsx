@@ -84,8 +84,8 @@ export default function WestSidePage() {
       {/* Content */}
       <div className="relative z-10 flex flex-col min-h-screen px-5 pb-8 pt-6">
 
-        {/* Spacer — pushes form toward bottom where overlay is darkest */}
-        <div className="flex-1" />
+        {/* Spacer — pushes form down, reduced for compact height */}
+        <div className="h-32" />
 
         {/* Tagline + counter */}
         <div className="flex items-end justify-between gap-3 mb-4">
