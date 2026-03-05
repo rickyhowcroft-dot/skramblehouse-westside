@@ -5,13 +5,14 @@ export default function HomePage() {
     <main className="bg-zinc-950 text-white">
       <div className="max-w-lg w-full mx-auto px-5 pt-6 pb-10 flex flex-col gap-5">
 
-        {/* Hero image card */}
-        <div className="relative w-full h-52 rounded-2xl overflow-hidden shadow-2xl shadow-black/60">
+        {/* Hero image card — crops to bright storefront top half only */}
+        <div className="relative w-full h-44 rounded-2xl overflow-hidden shadow-2xl shadow-black/60">
           <Image
             src="/storefront.jpg"
             alt="The Skramble House of Golf"
             fill
             priority
+            sizes="(max-width: 512px) 100vw, 512px"
             className="object-cover object-top"
           />
         </div>
