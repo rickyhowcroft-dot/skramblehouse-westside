@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 
 export default function WestSidePage() {
   const [count, setCount] = useState<number | null>(null)
@@ -52,7 +53,7 @@ export default function WestSidePage() {
   ) => (
     <div>
       <label className="block text-sm font-medium text-gray-400 mb-1.5">
-        {label}{required && <span className="text-yellow-400 ml-0.5">*</span>}
+        {label}{required && <span className="text-cyan-400 ml-0.5">*</span>}
       </label>
       <input
         type={type}
@@ -60,37 +61,31 @@ export default function WestSidePage() {
         value={form[key]}
         onChange={e => setForm(p => ({ ...p, [key]: e.target.value }))}
         placeholder={placeholder}
-        className="w-full bg-white/5 border border-white/15 rounded-lg px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-yellow-400/70 focus:bg-white/8 transition-colors"
+        className="w-full bg-white/5 border border-white/15 rounded-lg px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400/60 focus:bg-white/8 transition-colors"
       />
     </div>
   )
 
   return (
     <main className="min-h-screen bg-zinc-950 text-white">
-      {/* Hero */}
-      <div className="relative min-h-[55vh] flex items-center justify-center overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: 'url(/hero.jpg)' }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/60 to-zinc-950" />
-        <div className="relative z-10 text-center px-6 max-w-2xl mx-auto pt-12 pb-8">
-          {/* swap /logo.png for your actual logo */}
-          <img
-            src="/logo.png"
-            alt="Skramblehouse"
-            className="h-14 mx-auto mb-8 opacity-90"
-            onError={e => (e.currentTarget.style.display = 'none')}
+
+      {/* Hero image — portrait, centered */}
+      <div className="flex justify-center pt-8 pb-2 px-6">
+        <div className="w-full max-w-sm">
+          <Image
+            src="/hero.jpg"
+            alt="Skramble West Side"
+            width={480}
+            height={720}
+            priority
+            className="w-full h-auto rounded-2xl shadow-2xl shadow-black/60"
+            style={{ objectFit: 'cover', objectPosition: 'center' }}
           />
-          <h1 className="text-4xl md:text-5xl font-extrabold leading-tight tracking-tight mb-4">
-            Skramblehouse is coming to the{' '}
-            <span className="text-yellow-400">West Side!</span>
-          </h1>
         </div>
       </div>
 
       {/* Content */}
-      <div className="max-w-lg mx-auto px-6 pb-20 -mt-4">
+      <div className="max-w-lg mx-auto px-6 pt-8 pb-20">
         <p className="text-base text-gray-300 text-center mb-6 leading-relaxed">
           We have exciting news — we are limiting the presale to the first{' '}
           <strong className="text-white">100 people</strong>. Enter your information
@@ -100,8 +95,8 @@ export default function WestSidePage() {
         {/* Spots counter */}
         <div className="flex justify-center mb-8">
           {remaining !== null ? (
-            <div className="flex items-baseline gap-1.5 bg-yellow-400/10 border border-yellow-400/25 rounded-full px-6 py-2.5">
-              <span className="text-3xl font-black text-yellow-400 tabular-nums">{remaining}</span>
+            <div className="flex items-baseline gap-1.5 bg-cyan-400/10 border border-cyan-400/25 rounded-full px-6 py-2.5">
+              <span className="text-3xl font-black text-cyan-400 tabular-nums">{remaining}</span>
               <span className="text-gray-400 text-sm font-medium">/ 100 spots remain</span>
             </div>
           ) : (
@@ -116,7 +111,7 @@ export default function WestSidePage() {
             <p className="text-gray-400">All 100 pre-sale spots have been claimed. Follow us for updates.</p>
           </div>
         ) : submitted ? (
-          <div className="text-center py-10 border border-green-500/30 rounded-2xl bg-green-500/5">
+          <div className="text-center py-10 border border-cyan-500/30 rounded-2xl bg-cyan-500/5">
             <p className="text-4xl mb-3">✅</p>
             <p className="text-xl font-bold mb-1">You&apos;re on the list!</p>
             <p className="text-gray-400 text-sm">We&apos;ll be in touch with pre-sale details soon.</p>
@@ -130,7 +125,7 @@ export default function WestSidePage() {
             {field('Email Address', 'email', 'email', 'jane@example.com')}
             {field('Pre-Sale Code', 'presaleCode', 'text', 'Optional', false)}
 
-            {/* Honeypot — hidden from real users; bots fill it, request is silently dropped */}
+            {/* Honeypot — hidden from real users */}
             <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }}>
               <label htmlFor="website">Website</label>
               <input
@@ -151,7 +146,7 @@ export default function WestSidePage() {
             <button
               type="submit"
               disabled={loading || isFull}
-              className="w-full bg-yellow-400 text-black font-bold py-4 rounded-xl hover:bg-yellow-300 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed transition-all text-base mt-2"
+              className="w-full bg-cyan-400 text-black font-bold py-4 rounded-xl hover:bg-cyan-300 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed transition-all text-base mt-2"
             >
               {loading ? 'Submitting…' : 'Reserve My Spot →'}
             </button>
