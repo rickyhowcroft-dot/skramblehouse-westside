@@ -149,7 +149,7 @@ export default function WestSidePage() {
               {field('Last Name', 'lastName', 'text', 'Last')}
             </div>
             {field('Email Address', 'email', 'email', 'your@email.com')}
-            {field('Pre-Sale Code', 'presaleCode', 'text', 'Optional', false)}
+            {field('Pre-Sale Code', 'presaleCode', 'text', 'Pre-Sale Code')}
 
             {/* Honeypot */}
             <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }}>

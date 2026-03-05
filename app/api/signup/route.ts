@@ -60,9 +60,9 @@ export async function POST(req: Request) {
   const email       = sanitize(body.email).toLowerCase()
   const presaleCode = sanitize(body.presaleCode)
 
-  if (!firstName || !lastName || !email) {
+  if (!firstName || !lastName || !email || !presaleCode) {
     return NextResponse.json(
-      { error: 'First name, last name, and email are required.' },
+      { error: 'All fields are required.' },
       { status: 400 }
     )
   }
