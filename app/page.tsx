@@ -61,7 +61,7 @@ export default function WestSidePage() {
         value={form[key]}
         onChange={e => setForm(p => ({ ...p, [key]: e.target.value }))}
         placeholder={placeholder}
-        className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3.5 text-white text-sm placeholder-zinc-500 focus:outline-none focus:border-cyan-400/70 focus:bg-zinc-700/60 transition-colors"
+        className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-5 text-white text-sm placeholder-zinc-500 focus:outline-none focus:border-cyan-400/70 focus:bg-zinc-700/60 transition-colors"
       />
     </div>
   )
