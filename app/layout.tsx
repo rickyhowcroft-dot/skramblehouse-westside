@@ -5,8 +5,8 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Skramblehouse West Side — Pre-Sale',
-  description: 'Get on the pre-sale list. Limited to the first 100 people.',
+  title: 'The Skramble House of Golf',
+  description: "Rochester's premier indoor golf simulator experience. Coming soon to the West Side.",
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
