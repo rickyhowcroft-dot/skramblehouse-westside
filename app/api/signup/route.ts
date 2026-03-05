@@ -30,8 +30,9 @@ export async function POST(req: Request) {
   const host = req.headers.get('host') ?? ''
   const allowedOrigins = [
     `https://${host}`,
-    'https://skramblehouse-westside.vercel.app',
     'https://skramblehouse.com',
+    'https://www.skramblehouse.com',
+    'https://skramblehouse-westside.vercel.app',
     'http://localhost:3000',
   ]
   if (origin && !allowedOrigins.includes(origin)) {
