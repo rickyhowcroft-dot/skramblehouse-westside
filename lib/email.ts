@@ -1,8 +1,6 @@
 import 'server-only'
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 interface SignupPayload {
   firstName: string
   lastName: string
@@ -12,11 +10,17 @@ interface SignupPayload {
 }
 
 export async function sendSignupNotification(payload: SignupPayload) {
+  if (!process.env.RESEND_API_KEY || !process.env.NOTIFY_EMAIL) {
+    console.warn('[email] RESEND_API_KEY or NOTIFY_EMAIL not set — skipping notification')
+    return
+  }
+
   const { firstName, lastName, email, presaleCode, spotNumber } = payload
+  const resend = new Resend(process.env.RESEND_API_KEY)
 
   await resend.emails.send({
     from: process.env.EMAIL_FROM ?? 'Skramblehouse <noreply@skramblehouse.com>',
-    to: process.env.NOTIFY_EMAIL!,
+    to: process.env.NOTIFY_EMAIL,
     subject: `🎉 Pre-Sale Signup #${spotNumber} — ${firstName} ${lastName}`,
     html: `
       <div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:24px">
