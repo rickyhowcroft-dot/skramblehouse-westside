@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 
 export default function WestSidePage() {
   const [count, setCount] = useState<number | null>(null)
-  const [form, setForm] = useState({ firstName: '', lastName: '', email: '', presaleCode: '' })
+  const [form, setForm] = useState({ firstName: '', lastName: '', email: '', presaleCode: '', website: '' })
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -129,6 +129,20 @@ export default function WestSidePage() {
             </div>
             {field('Email Address', 'email', 'email', 'jane@example.com')}
             {field('Pre-Sale Code', 'presaleCode', 'text', 'Optional', false)}
+
+            {/* Honeypot — hidden from real users; bots fill it, request is silently dropped */}
+            <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }}>
+              <label htmlFor="website">Website</label>
+              <input
+                id="website"
+                name="website"
+                type="text"
+                tabIndex={-1}
+                autoComplete="off"
+                value={form.website}
+                onChange={e => setForm(p => ({ ...p, website: e.target.value }))}
+              />
+            </div>
 
             {error && (
               <p className="text-red-400 text-sm text-center py-1">{error}</p>
