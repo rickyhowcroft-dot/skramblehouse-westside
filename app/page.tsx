@@ -52,7 +52,7 @@ export default function WestSidePage() {
     required = true
   ) => (
     <div>
-      <label className="block text-sm font-medium text-gray-400 mb-1.5">
+      <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wide mb-1">
         {label}{required && <span className="text-cyan-400 ml-0.5">*</span>}
       </label>
       <input
@@ -61,64 +61,63 @@ export default function WestSidePage() {
         value={form[key]}
         onChange={e => setForm(p => ({ ...p, [key]: e.target.value }))}
         placeholder={placeholder}
-        className="w-full bg-white/5 border border-white/15 rounded-lg px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400/60 focus:bg-white/8 transition-colors"
+        className="w-full bg-white/6 border border-white/15 rounded-xl px-4 py-4 text-white text-base placeholder-gray-600 focus:outline-none focus:border-cyan-400/60 focus:bg-white/10 transition-colors"
       />
     </div>
   )
 
   return (
-    <main className="min-h-screen bg-zinc-950 text-white">
+    <main className="min-h-screen bg-zinc-950 text-white flex flex-col">
 
-      {/* Hero image — portrait, centered */}
-      <div className="flex justify-center pt-8 pb-2 px-6">
-        <div className="w-full max-w-sm">
-          <Image
-            src="/hero.jpg"
-            alt="Skramble West Side"
-            width={480}
-            height={720}
-            priority
-            className="w-full h-auto rounded-2xl shadow-2xl shadow-black/60"
-            style={{ objectFit: 'cover', objectPosition: 'center' }}
-          />
-        </div>
+      {/* Hero — compact crop showing top branding */}
+      <div className="relative h-44 w-full overflow-hidden flex-shrink-0">
+        <Image
+          src="/hero.jpg"
+          alt="Skramble West Side"
+          fill
+          priority
+          className="object-cover object-top"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-zinc-950" />
       </div>
 
       {/* Content */}
-      <div className="max-w-lg mx-auto px-6 pt-8 pb-20">
-        <p className="text-base text-gray-300 text-center mb-6 leading-relaxed">
-          We have exciting news — we are limiting the presale to the first{' '}
-          <strong className="text-white">100 people</strong>. Enter your information
-          now to get on the pre-sale list.
-        </p>
+      <div className="flex-1 max-w-lg w-full mx-auto px-5 pt-3 pb-6">
 
-        {/* Spots counter */}
-        <div className="flex justify-center mb-8">
-          {remaining !== null ? (
-            <div className="flex items-baseline gap-1.5 bg-cyan-400/10 border border-cyan-400/25 rounded-full px-6 py-2.5">
-              <span className="text-3xl font-black text-cyan-400 tabular-nums">{remaining}</span>
-              <span className="text-gray-400 text-sm font-medium">/ 100 spots remain</span>
-            </div>
-          ) : (
-            <div className="h-11 w-44 bg-white/5 rounded-full animate-pulse" />
-          )}
+        {/* Description + counter row */}
+        <div className="flex items-center justify-between gap-3 mb-4">
+          <p className="text-sm text-gray-300 leading-snug flex-1">
+            Presale limited to the first{' '}
+            <strong className="text-white">100 people.</strong>{' '}
+            Enter your info to secure your spot.
+          </p>
+          <div className="flex-shrink-0">
+            {remaining !== null ? (
+              <div className="flex flex-col items-center bg-cyan-400/10 border border-cyan-400/20 rounded-xl px-3 py-2 min-w-[64px]">
+                <span className="text-xl font-black text-cyan-400 tabular-nums leading-none">{remaining}</span>
+                <span className="text-gray-500 text-[10px] font-medium leading-tight text-center">of 100<br/>remain</span>
+              </div>
+            ) : (
+              <div className="w-16 h-14 bg-white/5 rounded-xl animate-pulse" />
+            )}
+          </div>
         </div>
 
         {/* States */}
         {isFull ? (
-          <div className="text-center py-10 border border-gray-700 rounded-2xl bg-white/3">
-            <p className="text-2xl font-bold mb-2">🎉 The list is full!</p>
-            <p className="text-gray-400">All 100 pre-sale spots have been claimed. Follow us for updates.</p>
+          <div className="text-center py-8 border border-gray-700 rounded-2xl bg-white/3">
+            <p className="text-xl font-bold mb-1">🎉 The list is full!</p>
+            <p className="text-gray-400 text-sm">All 100 spots claimed. Follow us for updates.</p>
           </div>
         ) : submitted ? (
-          <div className="text-center py-10 border border-cyan-500/30 rounded-2xl bg-cyan-500/5">
-            <p className="text-4xl mb-3">✅</p>
-            <p className="text-xl font-bold mb-1">You&apos;re on the list!</p>
+          <div className="text-center py-8 border border-cyan-500/30 rounded-2xl bg-cyan-500/5">
+            <p className="text-3xl mb-2">✅</p>
+            <p className="text-lg font-bold mb-1">You&apos;re on the list!</p>
             <p className="text-gray-400 text-sm">We&apos;ll be in touch with pre-sale details soon.</p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+          <form onSubmit={handleSubmit} className="space-y-3">
+            <div className="grid grid-cols-2 gap-3">
               {field('First Name', 'firstName', 'text', 'Jane')}
               {field('Last Name', 'lastName', 'text', 'Smith')}
             </div>
@@ -140,15 +139,15 @@ export default function WestSidePage() {
             </div>
 
             {error && (
-              <p className="text-red-400 text-sm text-center py-1">{error}</p>
+              <p className="text-red-400 text-xs text-center">{error}</p>
             )}
 
             <button
               type="submit"
               disabled={loading || isFull}
-              className="w-full bg-cyan-400 text-black font-bold py-4 rounded-xl hover:bg-cyan-300 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed transition-all text-base mt-2"
+              className="w-full bg-cyan-400 text-black font-bold py-4 rounded-xl hover:bg-cyan-300 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed transition-all text-base"
             >
-              {loading ? 'Submitting…' : 'Reserve My Spot →'}
+              {loading ? 'Submitting…' : 'Learn More'}
             </button>
           </form>
         )}
