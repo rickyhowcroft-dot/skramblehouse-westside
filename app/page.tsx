@@ -92,9 +92,8 @@ export default function WestSidePage() {
               West Side is Coming
             </p>
             <p className="text-sm text-gray-300 leading-relaxed">
-              You asked. We listened. Skramblehouse is building
-              a new house on the West Side — and we&apos;re saving
-              the first 100 spots for the people who made it happen.
+              You asked. We listened. Skramblehouse is planting
+              its flag on the West Side.
             </p>
           </div>
 
