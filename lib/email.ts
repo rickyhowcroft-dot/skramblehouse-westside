@@ -20,7 +20,7 @@ export async function sendSignupNotification(payload: SignupPayload) {
 
   await resend.emails.send({
     from: process.env.EMAIL_FROM ?? 'Skramblehouse <noreply@skramblehouse.com>',
-    to: process.env.NOTIFY_EMAIL,
+    to: (process.env.NOTIFY_EMAIL ?? '').split(',').map(e => e.trim()).filter(Boolean),
     subject: `🎉 Pre-Sale Signup #${spotNumber} — ${firstName} ${lastName}`,
     html: `
       <div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:24px">
