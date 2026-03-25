@@ -213,12 +213,9 @@ export default function InvestorsPage() {
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-2xl font-bold mb-4">Why Skramblehouse. Why Now.</h2>
           <p className="text-zinc-400 leading-relaxed">
-            Indoor golf is one of the fastest-growing entertainment categories in the country.
-            We&apos;ve built something people genuinely love — members, leagues, events, and a culture
-            that keeps people coming back. West Side is our biggest footprint yet, and the demand was
-            already there before we broke ground.{' '}
-            <span className="text-white font-semibold">52 of 100 memberships sold before opening day.</span>{' '}
-            The momentum is real. This is your chance to be part of it from the beginning.
+            West Side of Rochester is our next target location, and the demand is already there,
+            long before we have broken ground.{' '}
+            <span className="text-white font-semibold">52 of 100 memberships sold and counting.</span>
           </p>
         </div>
       </section>
