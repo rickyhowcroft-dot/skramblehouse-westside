@@ -70,7 +70,7 @@ export default function InvestorsPage() {
       </section>
 
       {/* ── Stats ────────────────────────────────────────────────────────── */}
-      <section className="px-6 pb-24">
+      <section className="px-6 pb-32">
         <div className="max-w-4xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-4">
           {STATS.map(s => (
             <div key={s.label} className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 flex flex-col items-center justify-center text-center gap-2">
@@ -82,10 +82,10 @@ export default function InvestorsPage() {
       </section>
 
       {/* ── Photos ───────────────────────────────────────────────────────── */}
-      <section className="px-6 pb-24">
+      <section className="px-6 pb-32">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-10">
-            <p className="text-zinc-500 text-xs uppercase tracking-widest mb-3">The Experience</p>
+          <div className="text-center mb-12">
+            <p className="text-zinc-500 text-sm uppercase tracking-widest mb-4">The Experience</p>
             <h2 className="text-3xl font-bold">Three Locations.<br />One More on the Way.</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
@@ -102,10 +102,10 @@ export default function InvestorsPage() {
       </section>
 
       {/* ── The Opportunity ──────────────────────────────────────────────── */}
-      <section className="px-6 pb-24">
+      <section className="px-6 pb-32">
         <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-10">
-            <p className="text-zinc-500 text-xs uppercase tracking-widest mb-3">The Opportunity</p>
+          <div className="text-center mb-12">
+            <p className="text-zinc-500 text-sm uppercase tracking-widest mb-4">The Opportunity</p>
             <h2 className="text-3xl font-bold">Simple Terms. Real Returns.</h2>
           </div>
 
@@ -144,10 +144,10 @@ export default function InvestorsPage() {
       </section>
 
       {/* ── Investment Tiers ─────────────────────────────────────────────── */}
-      <section className="px-6 pb-24">
+      <section className="px-6 pb-32">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-10">
-            <p className="text-zinc-500 text-xs uppercase tracking-widest mb-3">Investment Tiers</p>
+          <div className="text-center mb-12">
+            <p className="text-zinc-500 text-sm uppercase tracking-widest mb-4">Investment Tiers</p>
             <h2 className="text-3xl font-bold">Four Levels. All at 12%.</h2>
           </div>
 
@@ -189,9 +189,9 @@ export default function InvestorsPage() {
       </section>
 
       {/* ── Why Now ──────────────────────────────────────────────────────── */}
-      <section className="px-6 pb-24">
+      <section className="px-6 pb-32">
         <div className="max-w-2xl mx-auto text-center">
-          <p className="text-zinc-500 text-xs uppercase tracking-widest mb-3">Why Now</p>
+          <p className="text-zinc-500 text-sm uppercase tracking-widest mb-4">Why Now</p>
           <h2 className="text-3xl font-bold mb-8">Why Skramblehouse?<br />Why Now?</h2>
           <p className="text-zinc-400 text-base sm:text-lg leading-relaxed">
             West Side of Rochester is our next target location, and the demand is already there,
@@ -205,7 +205,7 @@ export default function InvestorsPage() {
       <section className="px-6 pb-28">
         <div className="max-w-xl mx-auto bg-zinc-900 border border-zinc-800 rounded-2xl p-8 sm:p-12">
           <div className="text-center mb-8">
-            <p className="text-zinc-500 text-xs uppercase tracking-widest mb-3">Get Involved</p>
+            <p className="text-zinc-500 text-sm uppercase tracking-widest mb-4">Get Involved</p>
             <h2 className="text-3xl font-bold mb-4">Interested?</h2>
             <p className="text-zinc-400 text-base leading-relaxed">
               Share your information and we&apos;ll reach out personally to walk you through the details.
