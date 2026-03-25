@@ -86,7 +86,7 @@ export default function InvestorsPage() {
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-10">
             <p className="text-zinc-500 text-xs uppercase tracking-widest mb-3">The Experience</p>
-            <h2 className="text-3xl font-bold">Three Locations. One More on the Way.</h2>
+            <h2 className="text-3xl font-bold">Three Locations.<br />One More on the Way.</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {PHOTOS.map(img => (
