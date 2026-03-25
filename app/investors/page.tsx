@@ -78,7 +78,9 @@ export default function InvestorsPage() {
           Own a Piece of<br className="hidden sm:block" /> What&apos;s Next.
         </h1>
         <p className="text-zinc-400 text-lg sm:text-xl max-w-2xl leading-relaxed">
-          Skramble is Rochester&apos;s fastest-growing indoor golf and entertainment brand.
+          Skramblehouse is Rochester&apos;s fastest-growing indoor golf and entertainment brand.
+        </p>
+        <p className="text-zinc-400 text-lg sm:text-xl max-w-2xl leading-relaxed mt-4">
           We&apos;re opening our 4th location — and giving a small group of people the chance to grow with us.
         </p>
       </section>
