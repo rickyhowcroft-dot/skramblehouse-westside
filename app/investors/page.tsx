@@ -263,7 +263,7 @@ export default function InvestorsPage() {
             </form>
           )}
 
-          <div className="mt-10 pt-8 border-t border-zinc-800 text-center space-y-3">
+          <div className="mt-16 pt-10 border-t border-zinc-800 text-center space-y-3">
             <p className="text-zinc-500 text-xs uppercase tracking-widest">Or reach out directly</p>
             <a href="mailto:Theskamblehouseofgolfroc@gmail.com" className="block text-white text-base font-medium hover:text-emerald-400 transition-colors">
               Theskamblehouseofgolfroc@gmail.com
