@@ -130,11 +130,14 @@ export default function InvestorsPage() {
           <h2 className="text-2xl font-bold text-center mb-2">The Opportunity</h2>
           <p className="text-zinc-500 text-center text-sm mb-8">Simple terms. Real returns. Proven business.</p>
 
-          <div className="space-y-5 text-zinc-300 leading-relaxed text-center">
+          <div className="space-y-6 text-zinc-300 leading-relaxed text-center">
+            <p className="text-white text-lg font-medium">
+              We&apos;re raising $400,000 to build out Skramblehouse West Side.
+            </p>
             <p>
-              We&apos;re raising <span className="text-white font-semibold">$400,000</span> to build out Skramblehouse West Side.
-              This is a <span className="text-white font-semibold">fixed-return private loan</span> at{' '}
-              <span className="text-emerald-400 font-semibold">12% annually</span> — structured to be simple, transparent, and investor-friendly.
+              This is a fixed-return private loan at{' '}
+              <span className="text-emerald-400 font-semibold">12% annually</span> —
+              structured to be simple, transparent, and investor-friendly.
             </p>
             <p>
               You&apos;re not buying equity. You&apos;re lending to a proven, operating business with real revenue,
