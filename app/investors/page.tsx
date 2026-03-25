@@ -138,11 +138,11 @@ export default function InvestorsPage() {
             </p>
             <p>
               You&apos;re not buying equity. You&apos;re lending to a proven, operating business with real revenue,
-              real members, and 52 of 100 presale memberships already sold before opening day.
+              real members, and <span className="text-white font-semibold">52 of 100 presale memberships already sold.</span>
             </p>
             <p>
               18 months of free rent locked in. Payments start July 1, 2026.
-              Pay it off early — no penalties, ever.
+              The loan can get paid off sooner with no penalty.
             </p>
           </div>
 
