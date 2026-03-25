@@ -226,6 +226,7 @@ export default function InvestorsPage() {
           <h2 className="text-3xl font-bold mb-3 text-center">Express Interest</h2>
           <p className="text-zinc-400 text-base text-center mb-10 leading-relaxed">
             Share your information and we&apos;ll reach out personally to walk you through the details.
+            <br /><br />
             No commitment — just a conversation.
           </p>
 
