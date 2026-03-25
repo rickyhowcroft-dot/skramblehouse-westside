@@ -192,7 +192,7 @@ export default function InvestorsPage() {
       <section className="px-6 pb-24">
         <div className="max-w-2xl mx-auto text-center">
           <p className="text-zinc-500 text-xs uppercase tracking-widest mb-3">Why Now</p>
-          <h2 className="text-3xl font-bold mb-8">Why Skramblehouse. Why Now.</h2>
+          <h2 className="text-3xl font-bold mb-8">Why Skramblehouse?<br />Why Now?</h2>
           <p className="text-zinc-400 text-base sm:text-lg leading-relaxed">
             West Side of Rochester is our next target location, and the demand is already there,
             long before we have broken ground.{' '}
