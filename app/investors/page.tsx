@@ -222,76 +222,73 @@ export default function InvestorsPage() {
 
       {/* ── Contact Form ─────────────────────────────────────────────────── */}
       <section className="px-6 pb-28">
-        <div className="max-w-lg mx-auto bg-zinc-900 border border-zinc-800 rounded-3xl p-8 sm:p-12">
-          <h2 className="text-2xl font-bold mb-2 text-center">Express Interest</h2>
-          <p className="text-zinc-400 text-sm text-center mb-8 leading-relaxed">
-            Drop your info and we&apos;ll reach out personally to walk you through the details.
+        <div className="max-w-lg mx-auto bg-zinc-900 border border-zinc-800 rounded-3xl p-10 sm:p-14">
+          <h2 className="text-3xl font-bold mb-3 text-center">Express Interest</h2>
+          <p className="text-zinc-400 text-base text-center mb-10 leading-relaxed">
+            Share your information and we&apos;ll reach out personally to walk you through the details.
             No commitment — just a conversation.
           </p>
 
           {submitted ? (
-            <div className="text-center py-6">
-              <p className="text-4xl mb-4">🏌️</p>
-              <p className="text-white font-bold text-lg mb-2">You&apos;re on our radar.</p>
-              <p className="text-zinc-400 text-sm">We&apos;ll be in touch shortly to walk you through everything.</p>
+            <div className="text-center py-8">
+              <p className="text-5xl mb-5">🏌️</p>
+              <p className="text-white font-bold text-xl mb-2">You&apos;re on our radar.</p>
+              <p className="text-zinc-400 text-base">We&apos;ll be in touch shortly to walk you through everything.</p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-4">
               {/* Honeypot */}
               <input type="text" name="website" value={form.website} onChange={e => setForm(f => ({ ...f, website: e.target.value }))} className="hidden" tabIndex={-1} autoComplete="off" />
 
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs text-zinc-400 uppercase tracking-wide mb-2">First Name</label>
-                  <input
-                    type="text"
-                    required
-                    value={form.firstName}
-                    onChange={e => setForm(f => ({ ...f, firstName: e.target.value }))}
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-4 text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-500 text-base"
-                    placeholder="First Name"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-zinc-400 uppercase tracking-wide mb-2">Last Name</label>
-                  <input
-                    type="text"
-                    required
-                    value={form.lastName}
-                    onChange={e => setForm(f => ({ ...f, lastName: e.target.value }))}
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-4 text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-500 text-base"
-                    placeholder="Last Name"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs text-zinc-400 uppercase tracking-wide mb-2">Email Address</label>
+              <div className="grid grid-cols-2 gap-4">
                 <input
-                  type="email"
+                  type="text"
                   required
-                  value={form.email}
-                  onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-4 text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-500 text-base"
-                  placeholder="Email Address"
+                  value={form.firstName}
+                  onChange={e => setForm(f => ({ ...f, firstName: e.target.value }))}
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-5 py-4 text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-500 text-base"
+                  placeholder="First Name"
+                />
+                <input
+                  type="text"
+                  required
+                  value={form.lastName}
+                  onChange={e => setForm(f => ({ ...f, lastName: e.target.value }))}
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-5 py-4 text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-500 text-base"
+                  placeholder="Last Name"
                 />
               </div>
 
-              {error && <p className="text-red-400 text-sm">{error}</p>}
+              <input
+                type="email"
+                required
+                value={form.email}
+                onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-5 py-4 text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-500 text-base"
+                placeholder="Email Address"
+              />
+
+              {error && <p className="text-red-400 text-sm text-center">{error}</p>}
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-black font-bold py-4 rounded-full text-sm uppercase tracking-wide transition-colors mt-2"
+                className="w-full bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-black font-bold py-4 rounded-full text-sm uppercase tracking-widest transition-colors mt-2"
               >
                 {loading ? 'Sending…' : 'Count Me In'}
               </button>
             </form>
           )}
 
-          <p className="text-zinc-600 text-xs text-center mt-6">
-            Or reach out directly — Theskamblehouseofgolfroc@gmail.com · (585) 690-3494
-          </p>
+          <div className="mt-10 pt-8 border-t border-zinc-800 text-center space-y-3">
+            <p className="text-zinc-400 text-sm uppercase tracking-widest">Or reach out directly</p>
+            <a href="mailto:Theskamblehouseofgolfroc@gmail.com" className="block text-white text-base font-medium hover:text-emerald-400 transition-colors">
+              Theskamblehouseofgolfroc@gmail.com
+            </a>
+            <a href="tel:+15856903494" className="block text-white text-base font-medium hover:text-emerald-400 transition-colors">
+              (585) 690-3494
+            </a>
+          </div>
         </div>
       </section>
 
