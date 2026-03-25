@@ -253,7 +253,7 @@ export default function InvestorsPage() {
                 type="submit" disabled={loading}
                 className="w-full bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-black font-bold py-5 rounded-full text-base uppercase tracking-widest transition-colors"
               >
-                {loading ? 'Sending…' : 'Count Me In'}
+                {loading ? 'Sending…' : 'Learn More'}
               </button>
             </form>
           )}
