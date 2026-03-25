@@ -3,65 +3,47 @@
 import { useState } from 'react'
 import Image from 'next/image'
 
+// ── Design tokens (applied consistently throughout) ──────────────────────────
+// bg:        zinc-950 (page) / zinc-900 (cards)
+// text:      white (headings) / zinc-400 (body) / zinc-500 (labels)
+// accent:    emerald-400 (numbers, highlights) / emerald-500 (buttons)
+// cards:     rounded-2xl border border-zinc-800
+// spacing:   py-24 per section, max-w-2xl/4xl/5xl content widths
+// inputs:    rounded-2xl px-5 py-5 text-lg
+
 const TIERS = [
-  {
-    amount: '$10,000',
-    interestOnly: '$100 / mo',
-    payment: '$240.38 / mo',
-    totalInterest: '$3,580',
-    highlight: false,
-    perk: null,
-  },
-  {
-    amount: '$25,000',
-    interestOnly: '$250 / mo',
-    payment: '$600.94 / mo',
-    totalInterest: '$8,951',
-    highlight: true,
-    perk: 'Free membership for the life of the loan',
-  },
-  {
-    amount: '$40,000',
-    interestOnly: '$400 / mo',
-    payment: '$961.50 / mo',
-    totalInterest: '$14,321',
-    highlight: false,
-    perk: 'Free membership for the life of the loan',
-  },
-  {
-    amount: '$50,000',
-    interestOnly: '$500 / mo',
-    payment: '$1,201.88 / mo',
-    totalInterest: '$17,901',
-    highlight: false,
-    perk: 'Free membership for the life of the loan',
-  },
+  { amount: '$10,000', interestOnly: '$100 / mo',     payment: '$240.38 / mo',   totalInterest: '$3,580',  highlight: false, perk: null },
+  { amount: '$25,000', interestOnly: '$250 / mo',     payment: '$600.94 / mo',   totalInterest: '$8,951',  highlight: true,  perk: 'Free membership for the life of the loan' },
+  { amount: '$40,000', interestOnly: '$400 / mo',     payment: '$961.50 / mo',   totalInterest: '$14,321', highlight: false, perk: 'Free membership for the life of the loan' },
+  { amount: '$50,000', interestOnly: '$500 / mo',     payment: '$1,201.88 / mo', totalInterest: '$17,901', highlight: false, perk: 'Free membership for the life of the loan' },
+]
+
+const STATS = [
+  { value: '3',     label: 'Locations Operating' },
+  { value: '52',    label: 'Presales Before Launch' },
+  { value: '18 mo', label: 'Free Rent Secured' },
+  { value: '12%',   label: 'Annual Return' },
+]
+
+const PHOTOS = [
+  { src: '/investors/facility.jpg',  caption: 'Simulator Bays + Putting Green' },
+  { src: '/investors/vibe.jpg',      caption: 'The Skramblehouse Community' },
+  { src: '/investors/floorplan.jpg', caption: 'West Side Floor Plan · 8,289 sq ft' },
 ]
 
 export default function InvestorsPage() {
-  const [form, setForm] = useState({ firstName: '', lastName: '', email: '', website: '' })
+  const [form, setForm]           = useState({ firstName: '', lastName: '', email: '', website: '' })
   const [submitted, setSubmitted] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
+  const [loading, setLoading]     = useState(false)
+  const [error, setError]         = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setError('')
-
-    const res = await fetch('/api/investor-contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form),
-    })
-
+    const res  = await fetch('/api/investor-contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) })
     const data = await res.json()
-    if (!res.ok) {
-      setError(data.error || 'Something went wrong. Please try again.')
-      setLoading(false)
-      return
-    }
-
+    if (!res.ok) { setError(data.error || 'Something went wrong. Please try again.'); setLoading(false); return }
     setSubmitted(true)
     setLoading(false)
   }
@@ -70,54 +52,49 @@ export default function InvestorsPage() {
     <main className="min-h-screen bg-zinc-950 text-white">
 
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section className="flex flex-col items-center justify-center text-center px-6 pt-32 pb-24">
-        <p className="text-emerald-400 uppercase tracking-widest text-xs font-semibold mb-5">
+      <section className="flex flex-col items-center text-center px-6 pt-28 pb-24">
+        <p className="text-emerald-400 text-xs font-semibold uppercase tracking-widest mb-6">
           Skramblehouse · West Side · Location 4
         </p>
-        <h1 className="text-4xl sm:text-6xl font-bold tracking-tight mb-6 leading-tight">
-          Own a Piece of<br className="hidden sm:block" /> What&apos;s Next.
+        <h1 className="text-4xl sm:text-6xl font-bold tracking-tight leading-tight mb-8">
+          Own a Piece of<br />What&apos;s Next.
         </h1>
-        <p className="text-zinc-400 text-lg sm:text-xl max-w-2xl leading-relaxed">
-          Skramblehouse is Rochester&apos;s fastest-growing indoor golf and entertainment brand.
-        </p>
-        <p className="text-zinc-400 text-lg sm:text-xl max-w-2xl leading-relaxed mt-4">
-          We&apos;re opening our 4th location — and giving a small group of people the chance to grow with us.
-        </p>
+        <div className="max-w-xl space-y-4">
+          <p className="text-zinc-400 text-lg sm:text-xl leading-relaxed">
+            Skramblehouse is Rochester&apos;s fastest-growing indoor golf and entertainment brand.
+          </p>
+          <p className="text-zinc-400 text-lg sm:text-xl leading-relaxed">
+            We&apos;re opening our 4th location — and giving a small group of people the chance to grow with us.
+          </p>
+        </div>
       </section>
 
-      {/* ── Traction Stats ────────────────────────────────────────────────── */}
+      {/* ── Stats ────────────────────────────────────────────────────────── */}
       <section className="px-6 pb-24">
         <div className="max-w-4xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {[
-            { value: '3', label: 'Locations Already Operating' },
-            { value: '52', label: 'Presales Before Launch' },
-            { value: '18 mo', label: 'Free Rent Secured' },
-            { value: '12%', label: 'Annual Rate of Return' },
-          ].map(stat => (
-            <div key={stat.label} className="bg-zinc-900 rounded-2xl p-6 text-center border border-zinc-800">
-              <p className="text-3xl sm:text-4xl font-bold text-emerald-400 mb-2">{stat.value}</p>
-              <p className="text-zinc-400 text-sm leading-snug font-medium">{stat.label}</p>
+          {STATS.map(s => (
+            <div key={s.label} className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 flex flex-col items-center justify-center text-center gap-2">
+              <span className="text-4xl font-bold text-emerald-400">{s.value}</span>
+              <span className="text-zinc-400 text-sm leading-snug">{s.label}</span>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ── Photo Gallery ─────────────────────────────────────────────────── */}
+      {/* ── Photos ───────────────────────────────────────────────────────── */}
       <section className="px-6 pb-24">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl font-bold text-center mb-2">The Experience</h2>
-          <p className="text-zinc-500 text-center text-sm mb-8">Three thriving locations. One more on the way.</p>
+          <div className="text-center mb-10">
+            <p className="text-zinc-500 text-xs uppercase tracking-widest mb-3">The Experience</p>
+            <h2 className="text-3xl font-bold">Three Locations. One More on the Way.</h2>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            {[
-              { src: '/investors/facility.jpg',  caption: 'Simulator Bays + Putting Green' },
-              { src: '/investors/vibe.jpg',       caption: 'The Skramblehouse Community' },
-              { src: '/investors/floorplan.jpg',  caption: 'West Side Floor Plan · 8,289 sq ft' },
-            ].map(img => (
+            {PHOTOS.map(img => (
               <div key={img.src} className="flex flex-col gap-3">
                 <div className="relative rounded-2xl overflow-hidden aspect-[4/3]">
                   <Image src={img.src} alt={img.caption} fill className="object-cover" />
                 </div>
-                <p className="text-zinc-400 text-sm text-center font-medium">{img.caption}</p>
+                <p className="text-zinc-400 text-sm text-center">{img.caption}</p>
               </div>
             ))}
           </div>
@@ -126,38 +103,40 @@ export default function InvestorsPage() {
 
       {/* ── The Opportunity ──────────────────────────────────────────────── */}
       <section className="px-6 pb-24">
-        <div className="max-w-3xl mx-auto bg-zinc-900 rounded-3xl border border-zinc-800 p-8 sm:p-12">
-          <h2 className="text-2xl font-bold text-center mb-2">The Opportunity</h2>
-          <p className="text-zinc-500 text-center text-sm mb-8">Simple terms. Real returns. Proven business.</p>
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-10">
+            <p className="text-zinc-500 text-xs uppercase tracking-widest mb-3">The Opportunity</p>
+            <h2 className="text-3xl font-bold">Simple Terms. Real Returns.</h2>
+          </div>
 
-          <div className="space-y-6 text-zinc-300 leading-relaxed text-center">
-            <p className="text-white text-lg font-medium">
+          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8 sm:p-10 space-y-6 text-center">
+            <p className="text-white text-lg font-medium leading-relaxed">
               We&apos;re raising $400,000 to build out Skramblehouse West Side.
             </p>
-            <p>
+            <p className="text-zinc-400 text-base leading-relaxed">
               This is a fixed-return private loan at{' '}
               <span className="text-emerald-400 font-semibold">12% annually</span> —
               structured to be simple, transparent, and investor-friendly.
             </p>
-            <p>
-              You&apos;re not buying equity. You&apos;re lending to a proven, operating business with real revenue,
-              real members, and <span className="text-white font-semibold">52 of 100 presale memberships already sold.</span>
+            <p className="text-zinc-400 text-base leading-relaxed">
+              You&apos;re not buying equity. You&apos;re lending to a proven, operating business
+              with real revenue, real members, and 52 of 100 presale memberships already sold.
             </p>
-            <p>
+            <p className="text-zinc-400 text-base leading-relaxed">
               18 months of free rent locked in. Payments start July 1, 2026.
               The loan can get paid off sooner with no penalty.
             </p>
           </div>
 
-          <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="bg-zinc-800/60 rounded-2xl p-6 border border-zinc-700 text-center">
-              <p className="text-emerald-400 font-semibold text-xs uppercase tracking-widest mb-3">Jul – Dec 2026</p>
-              <p className="text-white font-bold text-xl mb-2">Interest Only</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8 text-center">
+              <p className="text-emerald-400 text-xs font-semibold uppercase tracking-widest mb-3">Jul – Dec 2026</p>
+              <p className="text-white text-xl font-bold mb-2">Interest Only</p>
               <p className="text-zinc-400 text-sm leading-relaxed">6 months of interest-only payments while we build and launch.</p>
             </div>
-            <div className="bg-zinc-800/60 rounded-2xl p-6 border border-zinc-700 text-center">
-              <p className="text-emerald-400 font-semibold text-xs uppercase tracking-widest mb-3">Jan 2027 – Jun 2031</p>
-              <p className="text-white font-bold text-xl mb-2">Principal + Interest</p>
+            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8 text-center">
+              <p className="text-emerald-400 text-xs font-semibold uppercase tracking-widest mb-3">Jan 2027 – Jun 2031</p>
+              <p className="text-white text-xl font-bold mb-2">Principal + Interest</p>
               <p className="text-zinc-400 text-sm leading-relaxed">54 monthly payments. Early payoff welcome — zero penalty.</p>
             </div>
           </div>
@@ -167,17 +146,17 @@ export default function InvestorsPage() {
       {/* ── Investment Tiers ─────────────────────────────────────────────── */}
       <section className="px-6 pb-24">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl font-bold text-center mb-2">Investment Tiers</h2>
-          <p className="text-zinc-500 text-center text-sm mb-8">Four levels. All at 12% annual return.</p>
+          <div className="text-center mb-10">
+            <p className="text-zinc-500 text-xs uppercase tracking-widest mb-3">Investment Tiers</p>
+            <h2 className="text-3xl font-bold">Four Levels. All at 12%.</h2>
+          </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {TIERS.map(tier => (
               <div
                 key={tier.amount}
-                className={`rounded-2xl border p-6 flex flex-col items-center text-center gap-3 ${
-                  tier.highlight
-                    ? 'bg-emerald-950 border-emerald-600'
-                    : 'bg-zinc-900 border-zinc-800'
+                className={`rounded-2xl border p-8 flex flex-col items-center text-center gap-4 ${
+                  tier.highlight ? 'bg-emerald-950 border-emerald-600' : 'bg-zinc-900 border-zinc-800'
                 }`}
               >
                 {tier.highlight && (
@@ -185,25 +164,23 @@ export default function InvestorsPage() {
                 )}
                 <p className="text-4xl font-bold">{tier.amount}</p>
 
-                <div className="w-full space-y-3">
+                <div className="w-full space-y-4 text-center">
                   <div>
                     <p className="text-zinc-500 text-xs uppercase tracking-wide mb-1">First 6 Months</p>
-                    <p className="text-white font-semibold text-base">{tier.interestOnly}</p>
+                    <p className="text-white text-base font-semibold">{tier.interestOnly}</p>
                   </div>
                   <div>
                     <p className="text-zinc-500 text-xs uppercase tracking-wide mb-1">Months 7 – 60</p>
-                    <p className="text-white font-semibold text-base">{tier.payment}</p>
+                    <p className="text-white text-base font-semibold">{tier.payment}</p>
                   </div>
                   <div>
                     <p className="text-zinc-500 text-xs uppercase tracking-wide mb-1">Total Interest Earned</p>
-                    <p className="text-emerald-400 font-bold text-xl">{tier.totalInterest}</p>
+                    <p className="text-emerald-400 text-2xl font-bold">{tier.totalInterest}</p>
                   </div>
                 </div>
 
                 {tier.perk && (
-                  <div className="w-full mt-auto pt-3">
-                    <p className="text-emerald-300 text-xs font-medium">🏌️ {tier.perk}</p>
-                  </div>
+                  <p className="text-emerald-300 text-xs font-medium mt-auto">🏌️ {tier.perk}</p>
                 )}
               </div>
             ))}
@@ -213,9 +190,10 @@ export default function InvestorsPage() {
 
       {/* ── Why Now ──────────────────────────────────────────────────────── */}
       <section className="px-6 pb-24">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-2xl font-bold mb-4">Why Skramblehouse. Why Now.</h2>
-          <p className="text-zinc-400 leading-relaxed">
+        <div className="max-w-2xl mx-auto text-center">
+          <p className="text-zinc-500 text-xs uppercase tracking-widest mb-3">Why Now</p>
+          <h2 className="text-3xl font-bold mb-8">Why Skramblehouse. Why Now.</h2>
+          <p className="text-zinc-400 text-base sm:text-lg leading-relaxed">
             West Side of Rochester is our next target location, and the demand is already there,
             long before we have broken ground.{' '}
             <span className="text-white font-semibold">52 of 100 memberships sold and counting.</span>
@@ -223,61 +201,57 @@ export default function InvestorsPage() {
         </div>
       </section>
 
-      {/* ── Contact Form ─────────────────────────────────────────────────── */}
+      {/* ── Express Interest ─────────────────────────────────────────────── */}
       <section className="px-6 pb-28">
-        <div className="max-w-xl mx-auto bg-zinc-900 border border-zinc-800 rounded-3xl p-10 sm:p-16">
-          <h2 className="text-3xl font-bold mb-3 text-center">Express Interest</h2>
-          <p className="text-zinc-400 text-base text-center mb-10 leading-relaxed">
-            Share your information and we&apos;ll reach out personally to walk you through the details.
-            <br /><br />
-            No commitment — just a conversation.
-          </p>
+        <div className="max-w-xl mx-auto bg-zinc-900 border border-zinc-800 rounded-2xl p-8 sm:p-12">
+          <div className="text-center mb-8">
+            <p className="text-zinc-500 text-xs uppercase tracking-widest mb-3">Get Involved</p>
+            <h2 className="text-3xl font-bold mb-4">Express Interest</h2>
+            <p className="text-zinc-400 text-base leading-relaxed">
+              Share your information and we&apos;ll reach out personally to walk you through the details.
+            </p>
+            <p className="text-zinc-400 text-base mt-3">
+              No commitment — just a conversation.
+            </p>
+          </div>
 
           {submitted ? (
-            <div className="text-center py-8">
+            <div className="text-center py-10">
               <p className="text-5xl mb-5">🏌️</p>
-              <p className="text-white font-bold text-xl mb-2">You&apos;re on our radar.</p>
-              <p className="text-zinc-400 text-base">We&apos;ll be in touch shortly to walk you through everything.</p>
+              <p className="text-white text-xl font-bold mb-2">You&apos;re on our radar.</p>
+              <p className="text-zinc-400 text-base">We&apos;ll be in touch shortly.</p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-5">
-              {/* Honeypot */}
+            <form onSubmit={handleSubmit} className="space-y-4">
               <input type="text" name="website" value={form.website} onChange={e => setForm(f => ({ ...f, website: e.target.value }))} className="hidden" tabIndex={-1} autoComplete="off" />
 
               <div className="grid grid-cols-2 gap-4">
                 <input
-                  type="text"
-                  required
-                  value={form.firstName}
+                  type="text" required value={form.firstName}
                   onChange={e => setForm(f => ({ ...f, firstName: e.target.value }))}
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-5 text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-500 text-lg"
                   placeholder="First Name"
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-5 text-white text-lg placeholder-zinc-500 focus:outline-none focus:border-emerald-500"
                 />
                 <input
-                  type="text"
-                  required
-                  value={form.lastName}
+                  type="text" required value={form.lastName}
                   onChange={e => setForm(f => ({ ...f, lastName: e.target.value }))}
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-5 text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-500 text-lg"
                   placeholder="Last Name"
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-5 text-white text-lg placeholder-zinc-500 focus:outline-none focus:border-emerald-500"
                 />
               </div>
 
               <input
-                type="email"
-                required
-                value={form.email}
+                type="email" required value={form.email}
                 onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-                className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-5 text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-500 text-lg"
                 placeholder="Email Address"
+                className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-5 text-white text-lg placeholder-zinc-500 focus:outline-none focus:border-emerald-500"
               />
 
               {error && <p className="text-red-400 text-sm text-center">{error}</p>}
 
               <button
-                type="submit"
-                disabled={loading}
-                className="w-full bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-black font-bold py-5 rounded-full text-base uppercase tracking-widest transition-colors mt-2"
+                type="submit" disabled={loading}
+                className="w-full bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-black font-bold py-5 rounded-full text-base uppercase tracking-widest transition-colors"
               >
                 {loading ? 'Sending…' : 'Count Me In'}
               </button>
@@ -285,7 +259,7 @@ export default function InvestorsPage() {
           )}
 
           <div className="mt-10 pt-8 border-t border-zinc-800 text-center space-y-3">
-            <p className="text-zinc-400 text-sm uppercase tracking-widest">Or reach out directly</p>
+            <p className="text-zinc-500 text-xs uppercase tracking-widest">Or reach out directly</p>
             <a href="mailto:Theskamblehouseofgolfroc@gmail.com" className="block text-white text-base font-medium hover:text-emerald-400 transition-colors">
               Theskamblehouseofgolfroc@gmail.com
             </a>
@@ -297,9 +271,9 @@ export default function InvestorsPage() {
       </section>
 
       {/* ── Footer ───────────────────────────────────────────────────────── */}
-      <footer className="border-t border-zinc-800 px-6 py-8 text-center text-zinc-600 text-xs">
-        <p>© 2026 Skramblehouse. All rights reserved.</p>
-        <p className="mt-1">This page is for informational purposes and does not constitute a public securities offering.</p>
+      <footer className="border-t border-zinc-800 px-6 py-10 text-center space-y-1">
+        <p className="text-zinc-600 text-xs">© 2026 Skramblehouse. All rights reserved.</p>
+        <p className="text-zinc-700 text-xs">This page is for informational purposes and does not constitute a public securities offering.</p>
       </footer>
 
     </main>
