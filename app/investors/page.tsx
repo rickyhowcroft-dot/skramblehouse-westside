@@ -206,7 +206,7 @@ export default function InvestorsPage() {
         <div className="max-w-xl mx-auto bg-zinc-900 border border-zinc-800 rounded-2xl p-8 sm:p-12">
           <div className="text-center mb-8">
             <p className="text-zinc-500 text-xs uppercase tracking-widest mb-3">Get Involved</p>
-            <h2 className="text-3xl font-bold mb-4">Express Interest</h2>
+            <h2 className="text-3xl font-bold mb-4">Interested?</h2>
             <p className="text-zinc-400 text-base leading-relaxed">
               Share your information and we&apos;ll reach out personally to walk you through the details.
             </p>
