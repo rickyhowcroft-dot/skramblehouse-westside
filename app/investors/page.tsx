@@ -52,7 +52,12 @@ export default function InvestorsPage() {
     <main className="min-h-screen bg-zinc-950 text-white">
 
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section className="flex flex-col items-center text-center px-6 pt-28 pb-24">
+      <section className="flex flex-col items-center text-center px-6 pt-16 pb-24">
+        {/* Hero image */}
+        <div className="relative w-full max-w-3xl rounded-2xl overflow-hidden aspect-[16/9] mb-12">
+          <Image src="/investors/hero.jpg" alt="Skramblehouse facility" fill className="object-cover" priority />
+        </div>
+
         <p className="text-emerald-400 text-xs font-semibold uppercase tracking-widest mb-6">
           Skramblehouse · West Side · Location 4
         </p>
