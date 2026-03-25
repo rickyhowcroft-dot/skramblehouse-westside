@@ -119,6 +119,11 @@ export default function InvestorsPage() {
               We&apos;re raising $400,000 to build out Skramblehouse West Side.
             </p>
             <p className="text-zinc-400 text-base leading-relaxed">
+              This is a fixed-return private loan at{' '}
+              <span className="text-emerald-400 font-semibold">12% annually</span> —
+              simple, transparent, and investor-friendly.
+            </p>
+            <p className="text-zinc-400 text-base leading-relaxed">
               You&apos;re not buying equity. You&apos;re lending to a proven, operating business
               with real revenue, real members, and 52 of 100 presale memberships already sold.
             </p>
