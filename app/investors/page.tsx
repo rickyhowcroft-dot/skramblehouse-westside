@@ -182,7 +182,7 @@ export default function InvestorsPage() {
                 )}
                 <p className="text-4xl font-bold">{tier.amount}</p>
 
-                <div className="w-full border-t border-zinc-700/50 pt-4 space-y-3">
+                <div className="w-full space-y-3">
                   <div>
                     <p className="text-zinc-500 text-xs uppercase tracking-wide mb-1">First 6 Months</p>
                     <p className="text-white font-semibold text-base">{tier.interestOnly}</p>
@@ -198,7 +198,7 @@ export default function InvestorsPage() {
                 </div>
 
                 {tier.perk && (
-                  <div className="w-full mt-auto pt-3 border-t border-zinc-700/50">
+                  <div className="w-full mt-auto pt-3">
                     <p className="text-emerald-300 text-xs font-medium">🏌️ {tier.perk}</p>
                   </div>
                 )}
