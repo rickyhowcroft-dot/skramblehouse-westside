@@ -222,7 +222,7 @@ export default function InvestorsPage() {
 
       {/* ── Contact Form ─────────────────────────────────────────────────── */}
       <section className="px-6 pb-28">
-        <div className="max-w-lg mx-auto bg-zinc-900 border border-zinc-800 rounded-3xl p-10 sm:p-14">
+        <div className="max-w-xl mx-auto bg-zinc-900 border border-zinc-800 rounded-3xl p-10 sm:p-16">
           <h2 className="text-3xl font-bold mb-3 text-center">Express Interest</h2>
           <p className="text-zinc-400 text-base text-center mb-10 leading-relaxed">
             Share your information and we&apos;ll reach out personally to walk you through the details.
@@ -237,7 +237,7 @@ export default function InvestorsPage() {
               <p className="text-zinc-400 text-base">We&apos;ll be in touch shortly to walk you through everything.</p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-5">
               {/* Honeypot */}
               <input type="text" name="website" value={form.website} onChange={e => setForm(f => ({ ...f, website: e.target.value }))} className="hidden" tabIndex={-1} autoComplete="off" />
 
@@ -247,7 +247,7 @@ export default function InvestorsPage() {
                   required
                   value={form.firstName}
                   onChange={e => setForm(f => ({ ...f, firstName: e.target.value }))}
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-5 py-4 text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-500 text-base"
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-5 text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-500 text-lg"
                   placeholder="First Name"
                 />
                 <input
@@ -255,7 +255,7 @@ export default function InvestorsPage() {
                   required
                   value={form.lastName}
                   onChange={e => setForm(f => ({ ...f, lastName: e.target.value }))}
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-5 py-4 text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-500 text-base"
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-5 text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-500 text-lg"
                   placeholder="Last Name"
                 />
               </div>
@@ -265,7 +265,7 @@ export default function InvestorsPage() {
                 required
                 value={form.email}
                 onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-                className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-5 py-4 text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-500 text-base"
+                className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-5 text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-500 text-lg"
                 placeholder="Email Address"
               />
 
@@ -274,7 +274,7 @@ export default function InvestorsPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-black font-bold py-4 rounded-full text-sm uppercase tracking-widest transition-colors mt-2"
+                className="w-full bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-black font-bold py-5 rounded-full text-base uppercase tracking-widest transition-colors mt-2"
               >
                 {loading ? 'Sending…' : 'Count Me In'}
               </button>
