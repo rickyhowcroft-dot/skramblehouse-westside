@@ -70,7 +70,7 @@ export default function InvestorsPage() {
     <main className="min-h-screen bg-zinc-950 text-white">
 
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section className="flex flex-col items-center justify-center text-center px-6 pt-20 pb-16">
+      <section className="flex flex-col items-center justify-center text-center px-6 pt-32 pb-24">
         <p className="text-emerald-400 uppercase tracking-widest text-xs font-semibold mb-5">
           Skramblehouse · West Side · Location 4
         </p>
@@ -84,7 +84,7 @@ export default function InvestorsPage() {
       </section>
 
       {/* ── Traction Stats ────────────────────────────────────────────────── */}
-      <section className="px-6 pb-16">
+      <section className="px-6 pb-24">
         <div className="max-w-4xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-4">
           {[
             { value: '3', label: 'Locations Already Operating' },
@@ -101,7 +101,7 @@ export default function InvestorsPage() {
       </section>
 
       {/* ── Photo Gallery ─────────────────────────────────────────────────── */}
-      <section className="px-6 pb-16">
+      <section className="px-6 pb-24">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-2xl font-bold text-center mb-2">The Experience</h2>
           <p className="text-zinc-500 text-center text-sm mb-8">Three thriving locations. One more on the way.</p>
@@ -123,7 +123,7 @@ export default function InvestorsPage() {
       </section>
 
       {/* ── The Opportunity ──────────────────────────────────────────────── */}
-      <section className="px-6 pb-16">
+      <section className="px-6 pb-24">
         <div className="max-w-3xl mx-auto bg-zinc-900 rounded-3xl border border-zinc-800 p-8 sm:p-12">
           <h2 className="text-2xl font-bold mb-6">The Opportunity</h2>
           <div className="space-y-4 text-zinc-300 leading-relaxed">
@@ -161,7 +161,7 @@ export default function InvestorsPage() {
       </section>
 
       {/* ── Investment Tiers ─────────────────────────────────────────────── */}
-      <section className="px-6 pb-16">
+      <section className="px-6 pb-24">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-2xl font-bold text-center mb-2">Investment Tiers</h2>
           <p className="text-zinc-500 text-center text-sm mb-8">Four levels. All at 12% annual return.</p>
@@ -208,7 +208,7 @@ export default function InvestorsPage() {
       </section>
 
       {/* ── Why Now ──────────────────────────────────────────────────────── */}
-      <section className="px-6 pb-16">
+      <section className="px-6 pb-24">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-2xl font-bold mb-4">Why Skramble. Why Now.</h2>
           <p className="text-zinc-400 leading-relaxed">
@@ -223,8 +223,8 @@ export default function InvestorsPage() {
       </section>
 
       {/* ── Contact Form ─────────────────────────────────────────────────── */}
-      <section className="px-6 pb-24">
-        <div className="max-w-md mx-auto bg-zinc-900 border border-zinc-800 rounded-3xl p-8 sm:p-10">
+      <section className="px-6 pb-28">
+        <div className="max-w-lg mx-auto bg-zinc-900 border border-zinc-800 rounded-3xl p-8 sm:p-12">
           <h2 className="text-2xl font-bold mb-2 text-center">Express Interest</h2>
           <p className="text-zinc-400 text-sm text-center mb-8 leading-relaxed">
             Drop your info and we&apos;ll reach out personally to walk you through the details.
@@ -238,44 +238,44 @@ export default function InvestorsPage() {
               <p className="text-zinc-400 text-sm">We&apos;ll be in touch shortly to walk you through everything.</p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-5">
               {/* Honeypot */}
               <input type="text" name="website" value={form.website} onChange={e => setForm(f => ({ ...f, website: e.target.value }))} className="hidden" tabIndex={-1} autoComplete="off" />
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs text-zinc-400 uppercase tracking-wide mb-1.5">First Name</label>
+                  <label className="block text-xs text-zinc-400 uppercase tracking-wide mb-2">First Name</label>
                   <input
                     type="text"
                     required
                     value={form.firstName}
                     onChange={e => setForm(f => ({ ...f, firstName: e.target.value }))}
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:border-emerald-500 text-sm"
-                    placeholder="Dan"
+                    className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-4 text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-500 text-base"
+                    placeholder="First Name"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs text-zinc-400 uppercase tracking-wide mb-1.5">Last Name</label>
+                  <label className="block text-xs text-zinc-400 uppercase tracking-wide mb-2">Last Name</label>
                   <input
                     type="text"
                     required
                     value={form.lastName}
                     onChange={e => setForm(f => ({ ...f, lastName: e.target.value }))}
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:border-emerald-500 text-sm"
-                    placeholder="Hallimen"
+                    className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-4 text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-500 text-base"
+                    placeholder="Last Name"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs text-zinc-400 uppercase tracking-wide mb-1.5">Email Address</label>
+                <label className="block text-xs text-zinc-400 uppercase tracking-wide mb-2">Email Address</label>
                 <input
                   type="email"
                   required
                   value={form.email}
                   onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:border-emerald-500 text-sm"
-                  placeholder="you@email.com"
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-4 text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-500 text-base"
+                  placeholder="Email Address"
                 />
               </div>
 
