@@ -1,15 +1,15 @@
-'use client'
-
-import { useState, useEffect } from 'react'
+import type { Metadata } from 'next'
 import Image from 'next/image'
+import { supabaseAdmin } from '@/lib/supabase'
+import InvestorForm from './InvestorForm'
 
-// ── Design tokens (applied consistently throughout) ──────────────────────────
-// bg:        zinc-950 (page) / zinc-900 (cards)
-// text:      white (headings) / zinc-400 (body) / zinc-500 (labels)
-// accent:    emerald-400 (numbers, highlights) / emerald-500 (buttons)
-// cards:     rounded-2xl border border-zinc-800
-// spacing:   py-24 per section, max-w-2xl/4xl/5xl content widths
-// inputs:    rounded-2xl px-5 py-5 text-lg
+export const metadata: Metadata = {
+  title: 'Invest in Skramblehouse | West Side Location 4',
+  description: 'Join the movement. Skramblehouse is expanding to its 4th location and opening a limited investment opportunity.',
+}
+
+// Revalidate every 5 minutes so count stays fresh without a full rebuild
+export const revalidate = 300
 
 const TIERS = [
   { amount: '$10,000', interestOnly: '$100 / mo',     payment: '$240.38 / mo',   totalInterest: '$3,580',  highlight: false, perk: null },
@@ -18,76 +18,41 @@ const TIERS = [
   { amount: '$50,000', interestOnly: '$500 / mo',     payment: '$1,201.88 / mo', totalInterest: '$17,901', highlight: false, perk: 'Free membership for the life of the loan' },
 ]
 
-const STATS = [
-  { value: '3',     label: 'Locations Operating' },
-  { value: '52',    label: 'Presales Before Launch' },
-  { value: '18 mo', label: 'Free Rent Secured' },
-  { value: '12%',   label: 'Annual Return' },
-]
-
 const PHOTOS = [
   { src: '/investors/facility.jpg',  caption: 'Simulator Bays + Putting Green' },
   { src: '/investors/vibe.jpg',      caption: 'The Skramblehouse Community' },
   { src: '/investors/floorplan.jpg', caption: 'West Side Floor Plan · 8,289 sq ft' },
 ]
 
-export default function InvestorsPage() {
-  const [presaleCount, setPresaleCount] = useState<number | null>(null)
-  const [displayCount, setDisplayCount] = useState<number>(0)
-  const [form, setForm]           = useState({ firstName: '', lastName: '', email: '', website: '' })
-  const [submitted, setSubmitted] = useState(false)
-  const [loading, setLoading]     = useState(false)
-  const [error, setError]         = useState('')
-
-  // Fetch live presale count on mount
-  useEffect(() => {
-    fetch('/api/count')
-      .then(r => r.json())
-      .then(d => { if (typeof d.count === 'number') setPresaleCount(d.count) })
-      .catch(() => {})
-  }, [])
-
-  // Count-up animation when presaleCount arrives
-  useEffect(() => {
-    if (presaleCount === null) return
-    const duration = 1000
-    const steps = 40
-    const increment = presaleCount / steps
-    const interval = duration / steps
-    let current = 0
-    const timer = setInterval(() => {
-      current += increment
-      if (current >= presaleCount) {
-        setDisplayCount(presaleCount)
-        clearInterval(timer)
-      } else {
-        setDisplayCount(Math.floor(current))
-      }
-    }, interval)
-    return () => clearInterval(timer)
-  }, [presaleCount])
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    setError('')
-    const res  = await fetch('/api/investor-contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) })
-    const data = await res.json()
-    if (!res.ok) { setError(data.error || 'Something went wrong. Please try again.'); setLoading(false); return }
-    setSubmitted(true)
-    setLoading(false)
+async function getPresaleCount(): Promise<number> {
+  try {
+    const { count } = await supabaseAdmin
+      .from('presale_signups')
+      .select('*', { count: 'exact', head: true })
+    return count ?? 0
+  } catch {
+    return 0
   }
+}
+
+export default async function InvestorsPage() {
+  const presaleCount = await getPresaleCount()
+
+  const STATS = [
+    { value: '3',              label: 'Locations Operating' },
+    { value: String(presaleCount), label: 'Presales Before Launch' },
+    { value: '18 mo',          label: 'Free Rent Secured' },
+    { value: '12%',            label: 'Annual Return' },
+  ]
 
   return (
     <main className="min-h-screen bg-zinc-950 text-white">
 
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
       <section className="flex flex-col items-center text-center px-6 pt-16 pb-24">
-        {/* Hero image */}
         <div className="relative w-full max-w-3xl rounded-2xl overflow-hidden aspect-[16/9] mb-12">
           <Image src="/investors/hero.jpg" alt="Skramblehouse facility" fill className="object-cover" priority />
         </div>
-
         <p className="text-emerald-400 text-xs font-semibold uppercase tracking-widest mb-6">
           Skramblehouse · West Side · Location 4
         </p>
@@ -109,11 +74,7 @@ export default function InvestorsPage() {
         <div className="max-w-4xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-4">
           {STATS.map(s => (
             <div key={s.label} className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 flex flex-col items-center justify-center text-center gap-2">
-              <span className="text-4xl font-bold text-emerald-400">
-                {s.label === 'Presales Before Launch'
-                  ? (presaleCount === null ? '—' : displayCount)
-                  : s.value}
-              </span>
+              <span className="text-4xl font-bold text-emerald-400">{s.value}</span>
               <span className="text-zinc-400 text-sm leading-snug">{s.label}</span>
             </div>
           ))}
@@ -159,7 +120,7 @@ export default function InvestorsPage() {
             </p>
             <p className="text-zinc-400 text-base leading-relaxed">
               You&apos;re not buying equity. You&apos;re lending to a proven, operating business
-              with real revenue, real members, and {presaleCount === null ? '—' : displayCount} of 100 presale memberships already sold.
+              with real revenue, real members, and {presaleCount} of 100 presale memberships already sold.
             </p>
             <p className="text-zinc-400 text-base leading-relaxed">
               18 months of free rent locked in. Payments start July 1, 2026.
@@ -202,7 +163,6 @@ export default function InvestorsPage() {
                   <p className="text-emerald-400 text-xs font-semibold uppercase tracking-widest">Most Popular</p>
                 )}
                 <p className="text-4xl font-bold">{tier.amount}</p>
-
                 <div className="w-full space-y-4 text-center">
                   <div>
                     <p className="text-zinc-500 text-xs uppercase tracking-wide mb-1">First 6 Months</p>
@@ -217,7 +177,6 @@ export default function InvestorsPage() {
                     <p className="text-emerald-400 text-2xl font-bold">{tier.totalInterest}</p>
                   </div>
                 </div>
-
                 {tier.perk && (
                   <p className="text-emerald-300 text-xs font-medium mt-auto">🏌️ {tier.perk}</p>
                 )}
@@ -235,7 +194,7 @@ export default function InvestorsPage() {
           <p className="text-zinc-400 text-base sm:text-lg leading-relaxed">
             West Side of Rochester is our next target location, and the demand is already there,
             long before we have broken ground.{' '}
-            <span className="text-white font-semibold">{presaleCount === null ? '—' : displayCount} of 100 memberships sold and counting.</span>
+            <span className="text-white font-semibold">{presaleCount} of 100 memberships sold and counting.</span>
           </p>
         </div>
       </section>
@@ -254,51 +213,10 @@ export default function InvestorsPage() {
             </p>
           </div>
 
-          {submitted ? (
-            <div className="text-center py-10">
-              <p className="text-5xl mb-5">🏌️</p>
-              <p className="text-white text-xl font-bold mb-2">You&apos;re on our radar.</p>
-              <p className="text-zinc-400 text-base">We&apos;ll be in touch shortly.</p>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <input type="text" name="website" value={form.website} onChange={e => setForm(f => ({ ...f, website: e.target.value }))} className="hidden" tabIndex={-1} autoComplete="off" />
-
-              <div className="grid grid-cols-2 gap-4">
-                <input
-                  type="text" required value={form.firstName}
-                  onChange={e => setForm(f => ({ ...f, firstName: e.target.value }))}
-                  placeholder="First Name"
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-5 text-white text-lg placeholder-zinc-500 focus:outline-none focus:border-emerald-500"
-                />
-                <input
-                  type="text" required value={form.lastName}
-                  onChange={e => setForm(f => ({ ...f, lastName: e.target.value }))}
-                  placeholder="Last Name"
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-5 text-white text-lg placeholder-zinc-500 focus:outline-none focus:border-emerald-500"
-                />
-              </div>
-
-              <input
-                type="email" required value={form.email}
-                onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-                placeholder="Email Address"
-                className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-5 text-white text-lg placeholder-zinc-500 focus:outline-none focus:border-emerald-500"
-              />
-
-              {error && <p className="text-red-400 text-sm text-center">{error}</p>}
-
-              <button
-                type="submit" disabled={loading}
-                className="w-full bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-black font-bold py-5 rounded-full text-base uppercase tracking-widest transition-colors"
-              >
-                {loading ? 'Sending…' : 'Learn More'}
-              </button>
-            </form>
-          )}
+          <InvestorForm />
 
           <div className="mt-16 pt-10 border-t border-zinc-800 text-center space-y-3">
-            <p className="text-zinc-500 text-xs uppercase tracking-widest">Or reach out directly</p>
+            <p className="text-zinc-500 text-sm uppercase tracking-widest">Or reach out directly</p>
             <a href="mailto:Theskamblehouseofgolfroc@gmail.com" className="block text-white text-base font-medium hover:text-emerald-400 transition-colors">
               Theskamblehouseofgolfroc@gmail.com
             </a>
