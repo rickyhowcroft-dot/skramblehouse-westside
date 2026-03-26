@@ -32,7 +32,8 @@ const PHOTOS = [
 ]
 
 export default function InvestorsPage() {
-  const [presaleCount, setPresaleCount] = useState<number>(52)
+  const [presaleCount, setPresaleCount] = useState<number | null>(null)
+  const [displayCount, setDisplayCount] = useState<number>(0)
   const [form, setForm]           = useState({ firstName: '', lastName: '', email: '', website: '' })
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading]     = useState(false)
@@ -45,6 +46,26 @@ export default function InvestorsPage() {
       .then(d => { if (typeof d.count === 'number') setPresaleCount(d.count) })
       .catch(() => {})
   }, [])
+
+  // Count-up animation when presaleCount arrives
+  useEffect(() => {
+    if (presaleCount === null) return
+    const duration = 1000
+    const steps = 40
+    const increment = presaleCount / steps
+    const interval = duration / steps
+    let current = 0
+    const timer = setInterval(() => {
+      current += increment
+      if (current >= presaleCount) {
+        setDisplayCount(presaleCount)
+        clearInterval(timer)
+      } else {
+        setDisplayCount(Math.floor(current))
+      }
+    }, interval)
+    return () => clearInterval(timer)
+  }, [presaleCount])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -89,7 +110,9 @@ export default function InvestorsPage() {
           {STATS.map(s => (
             <div key={s.label} className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 flex flex-col items-center justify-center text-center gap-2">
               <span className="text-4xl font-bold text-emerald-400">
-                {s.label === 'Presales Before Launch' ? presaleCount : s.value}
+                {s.label === 'Presales Before Launch'
+                  ? (presaleCount === null ? '—' : displayCount)
+                  : s.value}
               </span>
               <span className="text-zinc-400 text-sm leading-snug">{s.label}</span>
             </div>
@@ -136,7 +159,7 @@ export default function InvestorsPage() {
             </p>
             <p className="text-zinc-400 text-base leading-relaxed">
               You&apos;re not buying equity. You&apos;re lending to a proven, operating business
-              with real revenue, real members, and {presaleCount} of 100 presale memberships already sold.
+              with real revenue, real members, and {presaleCount === null ? '—' : displayCount} of 100 presale memberships already sold.
             </p>
             <p className="text-zinc-400 text-base leading-relaxed">
               18 months of free rent locked in. Payments start July 1, 2026.
@@ -212,7 +235,7 @@ export default function InvestorsPage() {
           <p className="text-zinc-400 text-base sm:text-lg leading-relaxed">
             West Side of Rochester is our next target location, and the demand is already there,
             long before we have broken ground.{' '}
-            <span className="text-white font-semibold">{presaleCount} of 100 memberships sold and counting.</span>
+            <span className="text-white font-semibold">{presaleCount === null ? '—' : displayCount} of 100 memberships sold and counting.</span>
           </p>
         </div>
       </section>
