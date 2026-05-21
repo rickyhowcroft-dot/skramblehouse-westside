@@ -3,11 +3,21 @@
 import { useState } from 'react'
 import Image from 'next/image'
 
-const LOCATIONS      = ['Horsham', 'KOP', 'Rochester'] as const
-const MEMBERSHIP_TYPES = ['Full Year', '5 Month'] as const
+// ── Brand tokens ────────────────────────────────────────────────────────────
+const BLUE    = '#1D4ED8'   // Royal blue — matches Skramblehouse sign
+const BLUE_DK = '#1E40AF'   // Darker hover state
+const BLUE_LT = '#EFF6FF'   // Very light blue tint for subtle backgrounds
+const BLUE_MID = '#BFDBFE'  // Light blue border/divider
+const GRAY_1  = '#111827'   // Near-black for headlines
+const GRAY_2  = '#374151'   // Body text
+const GRAY_3  = '#6B7280'   // Muted / captions
+const GRAY_4  = '#E5E7EB'   // Borders
+const GRAY_5  = '#F9FAFB'   // Section backgrounds
 
-const OFFER_START = 'June 1, 2026'
-const OFFER_END   = 'August 31, 2026'
+const LOCATIONS       = ['Horsham', 'KOP', 'Rochester'] as const
+const MEMBERSHIP_TYPES = ['Full Year', '5 Month'] as const
+const OFFER_START     = 'June 1, 2026'
+const OFFER_END       = 'August 31, 2026'
 
 export default function MembershipPresalePage() {
   const [form, setForm] = useState({
@@ -25,252 +35,339 @@ export default function MembershipPresalePage() {
     e.preventDefault()
     setLoading(true)
     setError('')
-
-    const res = await fetch('/api/membership-signup', {
+    const res  = await fetch('/api/membership-signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form),
     })
-
     const data = await res.json()
-
-    if (!res.ok) {
-      setError(data.error || 'Something went wrong. Please try again.')
-      setLoading(false)
-      return
-    }
-
+    if (!res.ok) { setError(data.error || 'Something went wrong. Please try again.'); setLoading(false); return }
     setSubmitted(true)
     setLoading(false)
   }
 
   return (
-    <main className="bg-zinc-950 text-white min-h-screen">
-      <div className="max-w-2xl w-full mx-auto px-5 pt-6 pb-16">
+    <main style={{ backgroundColor: '#ffffff', color: GRAY_1, fontFamily: 'system-ui, -apple-system, sans-serif' }}>
 
-        {/* ── Hero ─────────────────────────────────────────────────────── */}
-        <div className="w-full rounded-2xl overflow-hidden shadow-2xl shadow-black/60 mb-8">
+      {/* ── Hero ─────────────────────────────────────────────────────────── */}
+      <div style={{ maxWidth: 720, margin: '0 auto', padding: '32px 20px 0' }}>
+        <div style={{ borderRadius: 20, overflow: 'hidden', boxShadow: '0 8px 40px rgba(0,0,0,0.14)' }}>
           <Image
             src="/hero.jpg"
             alt="Skramblehouse"
             width={1200}
             height={540}
             priority
-            className="w-full h-auto"
+            style={{ width: '100%', height: 'auto', display: 'block' }}
           />
         </div>
+      </div>
 
-        {/* ── Intro copy ────────────────────────────────────────────────── */}
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 px-6 py-5 mb-8">
-          <p className="text-zinc-200 text-sm sm:text-base leading-relaxed">
-            <span className="font-bold text-white">&#8220;Welcome to The Skramble Project.</span>{' '}
-            We&apos;re changing things up. Starting this summer, we are executing a strategic evolution
-            to transform our club into a premier, year-round destination. This project is about more
-            than just expanding our calendar&#8212;it&apos;s about elevating our programming, securing
-            our facility&apos;s future, and giving you unparalleled access 365 days a year.
-            The next era of our club starts now.&#8221;
+      {/* ── Intro quote ──────────────────────────────────────────────────── */}
+      <div style={{ maxWidth: 720, margin: '0 auto', padding: '40px 20px 0' }}>
+        <div style={{
+          borderLeft: `4px solid ${BLUE}`,
+          backgroundColor: BLUE_LT,
+          borderRadius: '0 16px 16px 0',
+          padding: '24px 28px',
+        }}>
+          <p style={{ color: GRAY_2, fontSize: 16, lineHeight: 1.75, margin: 0 }}>
+            <strong style={{ color: GRAY_1 }}>&ldquo;Welcome to The Skramble Project.</strong>{' '}
+            We&rsquo;re changing things up. Starting this summer, we are executing a strategic
+            evolution to transform our club into a premier, year-round destination. This project
+            is about more than just expanding our calendar&mdash;it&rsquo;s about elevating our
+            programming, securing our facility&rsquo;s future, and giving you unparalleled access
+            365 days a year. The next era of our club starts now.&rdquo;
           </p>
         </div>
+      </div>
 
-        {/* ── Header ────────────────────────────────────────────────────── */}
-        <div className="mb-8">
-          <p className="text-[11px] font-bold text-cyan-400 uppercase tracking-widest mb-2">
-            2026–2027 Season
-          </p>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-3">
-            Membership Pre-Sale
-          </h1>
-          <p className="text-zinc-300 leading-relaxed text-sm sm:text-base">
-            Lock in your membership at a discounted rate before the season begins.
-            This exclusive pre-sale offer is available for a limited time only.
-          </p>
+      {/* ── Page header ──────────────────────────────────────────────────── */}
+      <div style={{ maxWidth: 720, margin: '0 auto', padding: '48px 20px 0', textAlign: 'center' }}>
+        <div style={{
+          display: 'inline-block',
+          backgroundColor: BLUE_LT,
+          border: `1px solid ${BLUE_MID}`,
+          borderRadius: 999,
+          padding: '6px 18px',
+          marginBottom: 16,
+        }}>
+          <span style={{ color: BLUE, fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+            Limited Time Offer · {OFFER_START} – {OFFER_END}
+          </span>
         </div>
+        <h1 style={{ fontSize: 'clamp(26px, 5vw, 36px)', fontWeight: 800, letterSpacing: '-0.02em', margin: '0 0 16px', color: GRAY_1 }}>
+          2026–2027 Membership Pre-Sale
+        </h1>
+        <p style={{ color: GRAY_3, fontSize: 16, lineHeight: 1.7, maxWidth: 520, margin: '0 auto' }}>
+          Reserve your membership now and lock in a discounted rate before the season opens to the public.
+          No payment required to register&mdash;our team will follow up with details.
+        </p>
+      </div>
 
-        {/* ── Offer details ─────────────────────────────────────────────── */}
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 mb-8 space-y-4">
-          <h2 className="text-sm font-bold uppercase tracking-widest text-cyan-400">
-            Pre-Sale Details
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-            <Detail label="Offer Window" value={`${OFFER_START} – ${OFFER_END}`} />
-            <Detail label="Locations" value="Horsham · KOP · Rochester" />
-            <Detail label="Full Year Membership" value="12 months of access" />
-            <Detail label="5 Month Membership" value="Seasonal access" />
-          </div>
-          <p className="text-zinc-400 text-xs leading-relaxed pt-1 border-t border-zinc-800">
-            Pre-sale pricing is exclusively available to members who sign up during the offer window.
-            Our team will follow up with pricing details and next steps after you register.
-          </p>
+      {/* ── Offer details ─────────────────────────────────────────────────── */}
+      <div style={{ maxWidth: 720, margin: '0 auto', padding: '48px 20px 0' }}>
+        <SectionLabel>Offer Details</SectionLabel>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+          gap: 16,
+          marginTop: 20,
+        }}>
+          {[
+            { label: 'Offer Window',         value: `${OFFER_START} – ${OFFER_END}` },
+            { label: 'Locations',            value: 'Horsham · KOP · Rochester' },
+            { label: 'Full Year Membership', value: '12 months of unlimited access' },
+            { label: '5 Month Membership',   value: 'Seasonal access, May – September' },
+          ].map(({ label, value }) => (
+            <div key={label} style={{
+              backgroundColor: GRAY_5,
+              border: `1px solid ${GRAY_4}`,
+              borderRadius: 16,
+              padding: '20px 24px',
+            }}>
+              <p style={{ color: GRAY_3, fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', margin: '0 0 6px' }}>
+                {label}
+              </p>
+              <p style={{ color: GRAY_1, fontSize: 15, fontWeight: 600, margin: 0 }}>
+                {value}
+              </p>
+            </div>
+          ))}
         </div>
+      </div>
 
-        {/* ── Benefits ──────────────────────────────────────────────────── */}
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 mb-8">
-          <h2 className="text-sm font-bold uppercase tracking-widest text-cyan-400 mb-4">
-            What You Get
-          </h2>
-          <ul className="space-y-2.5 text-sm text-zinc-300">
+      {/* ── Benefits ──────────────────────────────────────────────────────── */}
+      <div style={{ maxWidth: 720, margin: '0 auto', padding: '48px 20px 0' }}>
+        <SectionLabel>What You Get</SectionLabel>
+        <div style={{
+          backgroundColor: '#fff',
+          border: `1px solid ${GRAY_4}`,
+          borderRadius: 20,
+          padding: '28px 32px',
+          marginTop: 20,
+          boxShadow: '0 2px 12px rgba(0,0,0,0.04)',
+        }}>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 16 }}>
             {[
               'Discounted rate locked in before public launch',
               'Priority access and early booking privileges',
-              'Full access to simulator bays at your chosen location',
-              'Flexible options — choose Full Year or 5 Month',
-              'Member-only events and leagues',
+              'Full simulator bay access at your chosen location',
+              'Flexible options — Full Year or 5 Month membership',
+              'Member-only events, leagues, and programming',
             ].map((item, i) => (
-              <li key={i} className="flex items-start gap-2.5">
-                <span className="mt-0.5 text-cyan-400 flex-shrink-0">✓</span>
-                <span>{item}</span>
+              <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
+                <span style={{
+                  width: 22, height: 22, borderRadius: '50%',
+                  backgroundColor: BLUE_LT,
+                  border: `1.5px solid ${BLUE_MID}`,
+                  color: BLUE,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: 12, fontWeight: 700, flexShrink: 0, marginTop: 1,
+                }}>✓</span>
+                <span style={{ color: GRAY_2, fontSize: 15, lineHeight: 1.55 }}>{item}</span>
               </li>
             ))}
           </ul>
         </div>
-
-        {/* ── Divider ───────────────────────────────────────────────────── */}
-        <div className="flex items-center gap-3 mb-8">
-          <div className="flex-1 border-t border-zinc-800" />
-          <span className="text-zinc-600 text-xs uppercase tracking-widest">Sign Up</span>
-          <div className="flex-1 border-t border-zinc-800" />
-        </div>
-
-        {/* ── Form / Success ─────────────────────────────────────────────── */}
-        {submitted ? (
-          <div className="text-center py-14 border border-cyan-500/30 rounded-2xl bg-cyan-500/5">
-            <p className="text-4xl mb-4">✅</p>
-            <p className="text-xl font-bold mb-2">You&apos;re on the list!</p>
-            <p className="text-zinc-400 text-sm leading-relaxed max-w-xs mx-auto">
-              Thanks for signing up. Our team will be in touch with pricing details and next steps.
-            </p>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-5">
-
-            {/* Name row */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Field label="First Name" required>
-                <input
-                  type="text" required maxLength={60}
-                  value={form.firstName} onChange={e => set('firstName', e.target.value)}
-                  className={inputCls}
-                  placeholder="Jane"
-                />
-              </Field>
-              <Field label="Last Name" required>
-                <input
-                  type="text" required maxLength={60}
-                  value={form.lastName} onChange={e => set('lastName', e.target.value)}
-                  className={inputCls}
-                  placeholder="Smith"
-                />
-              </Field>
-            </div>
-
-            {/* Email */}
-            <Field label="Email Address" required>
-              <input
-                type="email" required maxLength={254}
-                value={form.email} onChange={e => set('email', e.target.value)}
-                className={inputCls}
-                placeholder="jane@example.com"
-                autoComplete="email"
-              />
-            </Field>
-
-            {/* Phone */}
-            <Field label="Phone Number" required>
-              <input
-                type="tel" required
-                inputMode="numeric"
-                pattern="[\d\s\-\(\)\+\.]{7,20}"
-                value={form.phone} onChange={e => set('phone', e.target.value)}
-                className={inputCls}
-                placeholder="(555) 555-5555"
-                autoComplete="tel"
-              />
-            </Field>
-
-            {/* Location + Membership type row */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Field label="Location" required>
-                <select
-                  required
-                  value={form.location} onChange={e => set('location', e.target.value)}
-                  className={selectCls}
-                >
-                  <option value="" disabled>Select location…</option>
-                  {LOCATIONS.map(l => <option key={l} value={l}>{l}</option>)}
-                </select>
-              </Field>
-              <Field label="Membership Type" required>
-                <select
-                  required
-                  value={form.membershipType} onChange={e => set('membershipType', e.target.value)}
-                  className={selectCls}
-                >
-                  <option value="" disabled>Select type…</option>
-                  {MEMBERSHIP_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
-                </select>
-              </Field>
-            </div>
-
-            {/* Honeypot */}
-            <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }}>
-              <input name="website" type="text" tabIndex={-1} autoComplete="off"
-                value={form.website} onChange={e => set('website', e.target.value)} />
-            </div>
-
-            {error && (
-              <p className="text-red-400 text-sm text-center bg-red-400/10 border border-red-400/20 rounded-xl py-3 px-4">
-                {error}
-              </p>
-            )}
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-cyan-400 text-black font-extrabold py-4 rounded-xl hover:bg-cyan-300 active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed transition-all text-sm tracking-widest uppercase shadow-lg shadow-cyan-400/15 mt-2"
-            >
-              {loading ? 'Submitting…' : 'Reserve My Spot'}
-            </button>
-
-            <p className="text-center text-zinc-600 text-xs">
-              Offer valid {OFFER_START} – {OFFER_END}. No payment required to register.
-            </p>
-          </form>
-        )}
       </div>
+
+      {/* ── Divider ───────────────────────────────────────────────────────── */}
+      <div style={{ maxWidth: 720, margin: '56px auto 0', padding: '0 20px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <div style={{ flex: 1, height: 1, backgroundColor: GRAY_4 }} />
+          <span style={{ color: BLUE, fontWeight: 700, fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+            Reserve Your Spot
+          </span>
+          <div style={{ flex: 1, height: 1, backgroundColor: GRAY_4 }} />
+        </div>
+      </div>
+
+      {/* ── Form ──────────────────────────────────────────────────────────── */}
+      <div style={{ maxWidth: 720, margin: '0 auto', padding: '40px 20px 80px' }}>
+        <div style={{
+          backgroundColor: '#fff',
+          border: `1px solid ${GRAY_4}`,
+          borderRadius: 24,
+          padding: 'clamp(24px, 5vw, 48px)',
+          boxShadow: '0 4px 24px rgba(0,0,0,0.07)',
+        }}>
+          {submitted ? (
+            <div style={{ textAlign: 'center', padding: '48px 0' }}>
+              <div style={{
+                width: 64, height: 64, borderRadius: '50%',
+                backgroundColor: BLUE_LT, border: `2px solid ${BLUE_MID}`,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                margin: '0 auto 20px', fontSize: 28,
+              }}>✅</div>
+              <h2 style={{ fontSize: 22, fontWeight: 800, margin: '0 0 10px', color: GRAY_1 }}>
+                You&rsquo;re on the list!
+              </h2>
+              <p style={{ color: GRAY_3, fontSize: 15, lineHeight: 1.65, maxWidth: 320, margin: '0 auto' }}>
+                Thanks for signing up. Our team will be in touch with pricing details and next steps.
+              </p>
+            </div>
+          ) : (
+            <>
+              <div style={{ marginBottom: 32 }}>
+                <h2 style={{ fontSize: 22, fontWeight: 800, margin: '0 0 8px', color: GRAY_1 }}>
+                  Sign Up for Pre-Sale Access
+                </h2>
+                <p style={{ color: GRAY_3, fontSize: 14, margin: 0 }}>
+                  All fields required. No payment due at sign-up.
+                </p>
+              </div>
+
+              <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+
+                {/* Name */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }} className="name-grid">
+                  <FormField label="First Name">
+                    <input type="text" required maxLength={60} value={form.firstName}
+                      onChange={e => set('firstName', e.target.value)}
+                      placeholder="Jane" style={inputStyle} />
+                  </FormField>
+                  <FormField label="Last Name">
+                    <input type="text" required maxLength={60} value={form.lastName}
+                      onChange={e => set('lastName', e.target.value)}
+                      placeholder="Smith" style={inputStyle} />
+                  </FormField>
+                </div>
+
+                {/* Email */}
+                <FormField label="Email Address">
+                  <input type="email" required maxLength={254} value={form.email}
+                    onChange={e => set('email', e.target.value)}
+                    placeholder="jane@example.com" autoComplete="email" style={inputStyle} />
+                </FormField>
+
+                {/* Phone */}
+                <FormField label="Phone Number">
+                  <input type="tel" required inputMode="numeric"
+                    pattern="[\d\s\-\(\)\+\.]{7,20}"
+                    value={form.phone}
+                    onChange={e => set('phone', e.target.value)}
+                    placeholder="(555) 555-5555" autoComplete="tel" style={inputStyle} />
+                </FormField>
+
+                {/* Location + Type */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }} className="name-grid">
+                  <FormField label="Location">
+                    <select required value={form.location}
+                      onChange={e => set('location', e.target.value)}
+                      style={{ ...inputStyle, color: form.location ? GRAY_1 : GRAY_3 }}>
+                      <option value="" disabled>Select…</option>
+                      {LOCATIONS.map(l => <option key={l} value={l}>{l}</option>)}
+                    </select>
+                  </FormField>
+                  <FormField label="Membership Type">
+                    <select required value={form.membershipType}
+                      onChange={e => set('membershipType', e.target.value)}
+                      style={{ ...inputStyle, color: form.membershipType ? GRAY_1 : GRAY_3 }}>
+                      <option value="" disabled>Select…</option>
+                      {MEMBERSHIP_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
+                    </select>
+                  </FormField>
+                </div>
+
+                {/* Honeypot */}
+                <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, overflow: 'hidden' }}>
+                  <input name="website" type="text" tabIndex={-1} autoComplete="off"
+                    value={form.website} onChange={e => set('website', e.target.value)} />
+                </div>
+
+                {error && (
+                  <div style={{
+                    backgroundColor: '#FEF2F2', border: '1px solid #FECACA',
+                    borderRadius: 12, padding: '12px 16px',
+                    color: '#B91C1C', fontSize: 14, textAlign: 'center',
+                  }}>
+                    {error}
+                  </div>
+                )}
+
+                <button type="submit" disabled={loading} style={{
+                  width: '100%',
+                  backgroundColor: loading ? '#93C5FD' : BLUE,
+                  color: '#fff',
+                  fontWeight: 800,
+                  fontSize: 14,
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  padding: '16px 24px',
+                  borderRadius: 14,
+                  border: 'none',
+                  cursor: loading ? 'not-allowed' : 'pointer',
+                  transition: 'background-color 0.15s',
+                  marginTop: 4,
+                }}
+                  onMouseEnter={e => { if (!loading) (e.target as HTMLButtonElement).style.backgroundColor = BLUE_DK }}
+                  onMouseLeave={e => { if (!loading) (e.target as HTMLButtonElement).style.backgroundColor = BLUE }}
+                >
+                  {loading ? 'Submitting…' : 'Reserve My Spot →'}
+                </button>
+
+                <p style={{ color: GRAY_3, fontSize: 12, textAlign: 'center', margin: 0 }}>
+                  Offer valid {OFFER_START} – {OFFER_END}. No payment required to register.
+                </p>
+              </form>
+            </>
+          )}
+        </div>
+      </div>
+
+      {/* ── Responsive grid fix ───────────────────────────────────────────── */}
+      <style>{`
+        @media (max-width: 480px) {
+          .name-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
+
     </main>
   )
 }
 
-// ── Shared styles ──────────────────────────────────────────────────────────────
-const inputCls = [
-  'w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3.5',
-  'text-white text-sm placeholder:text-zinc-600',
-  'focus:outline-none focus:border-cyan-400/70 focus:bg-zinc-700/60 transition-colors',
-].join(' ')
+// ── Sub-components ─────────────────────────────────────────────────────────
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+      <div style={{ width: 4, height: 20, borderRadius: 2, backgroundColor: BLUE, flexShrink: 0 }} />
+      <span style={{ color: GRAY_1, fontSize: 13, fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase' }}>
+        {children}
+      </span>
+    </div>
+  )
+}
 
-const selectCls = [
-  'w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3.5',
-  'text-white text-sm appearance-none',
-  'focus:outline-none focus:border-cyan-400/70 focus:bg-zinc-700/60 transition-colors',
-].join(' ')
-
-// ── Sub-components ──────────────────────────────────────────────────────────────
-function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
+function FormField({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <label className="block text-[11px] font-bold text-zinc-400 uppercase tracking-widest mb-1.5">
-        {label}{required && <span className="text-cyan-400 ml-0.5">*</span>}
+      <label style={{
+        display: 'block',
+        fontSize: 11, fontWeight: 700,
+        letterSpacing: '0.08em',
+        textTransform: 'uppercase',
+        color: GRAY_3,
+        marginBottom: 8,
+      }}>
+        {label} <span style={{ color: BLUE }}>*</span>
       </label>
       {children}
     </div>
   )
 }
 
-function Detail({ label, value }: { label: string; value: string }) {
-  return (
-    <div>
-      <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 mb-0.5">{label}</p>
-      <p className="text-zinc-200 font-medium">{value}</p>
-    </div>
-  )
+const inputStyle: React.CSSProperties = {
+  width: '100%',
+  backgroundColor: GRAY_5,
+  border: `1.5px solid ${GRAY_4}`,
+  borderRadius: 12,
+  padding: '13px 16px',
+  fontSize: 15,
+  color: GRAY_1,
+  outline: 'none',
+  boxSizing: 'border-box',
+  appearance: 'none',
+  WebkitAppearance: 'none',
+  transition: 'border-color 0.15s',
 }
