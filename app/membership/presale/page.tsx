@@ -118,7 +118,7 @@ export default function MembershipPresalePage() {
             { label: 'Offer Window',         value: `${OFFER_START} – ${OFFER_END}` },
             { label: 'Locations',            value: 'Horsham · KOP · Rochester' },
             { label: 'Full Year Membership', value: '12 months of unlimited access' },
-            { label: '5 Month Membership',   value: 'Seasonal access, May – September' },
+            { label: '5 Month Membership',   value: 'December – April' },
           ].map(({ label, value }) => (
             <div key={label} style={{
               backgroundColor: GRAY_5,
