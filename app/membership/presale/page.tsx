@@ -85,19 +85,19 @@ export default function MembershipPresalePage() {
       {/* ── Page header ──────────────────────────────────────────────────── */}
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '48px 20px 0', textAlign: 'center' }}>
         <div style={{
-          display: 'inline-block',
           backgroundColor: BLUE_LT,
           border: `1px solid ${BLUE_MID}`,
           borderRadius: 999,
-          padding: '6px 18px',
-          marginBottom: 16,
+          padding: '10px 24px',
+          marginBottom: 20,
+          width: '100%',
         }}>
-          <span style={{ color: BLUE, fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-            Limited Time Offer · {OFFER_START} – {OFFER_END}
+          <span style={{ color: BLUE, fontSize: 'clamp(10px, 2.8vw, 12px)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+            Limited Time Offer: {OFFER_START} – {OFFER_END}
           </span>
         </div>
-        <h1 style={{ fontSize: 'clamp(26px, 5vw, 36px)', fontWeight: 800, letterSpacing: '-0.02em', margin: '0 0 16px', color: GRAY_1 }}>
-          2026–2027 Membership Pre-Sale
+        <h1 style={{ fontSize: 'clamp(24px, 5vw, 38px)', fontWeight: 800, letterSpacing: '-0.02em', margin: '0 0 16px', color: GRAY_1, wordBreak: 'keep-all' }}>
+          2026–2027 Membership Pre&#8209;Sale
         </h1>
         <p style={{ color: GRAY_3, fontSize: 16, lineHeight: 1.7, maxWidth: 520, margin: '0 auto' }}>
           Reserve your membership now and lock in a discounted rate before the season opens to the public.
