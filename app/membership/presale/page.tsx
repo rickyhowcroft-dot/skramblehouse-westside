@@ -88,12 +88,15 @@ export default function MembershipPresalePage() {
           backgroundColor: BLUE_LT,
           border: `1px solid ${BLUE_MID}`,
           borderRadius: 999,
-          padding: '10px 24px',
+          padding: '14px 24px',
           marginBottom: 20,
           width: '100%',
         }}>
-          <span style={{ color: BLUE, fontSize: 'clamp(10px, 2.8vw, 12px)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-            Limited Time Offer: {OFFER_START} – {OFFER_END}
+          <span style={{ color: BLUE, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: 11, display: 'block' }}>
+            Limited Time Offer
+          </span>
+          <span style={{ color: BLUE, fontWeight: 600, fontSize: 13, display: 'block', marginTop: 4, letterSpacing: '0.02em' }}>
+            {OFFER_START} – {OFFER_END}
           </span>
         </div>
         <h1 style={{ fontSize: 'clamp(24px, 5vw, 38px)', fontWeight: 800, letterSpacing: '-0.02em', margin: '0 0 16px', color: GRAY_1, wordBreak: 'keep-all' }}>
