@@ -60,6 +60,18 @@ export default function MembershipPresalePage() {
           />
         </div>
 
+        {/* ── Intro copy ────────────────────────────────────────────────── */}
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 px-6 py-5 mb-8">
+          <p className="text-zinc-200 text-sm sm:text-base leading-relaxed">
+            <span className="font-bold text-white">&#8220;Welcome to The Skramble Project.</span>{' '}
+            We&apos;re changing things up. Starting this summer, we are executing a strategic evolution
+            to transform our club into a premier, year-round destination. This project is about more
+            than just expanding our calendar&#8212;it&apos;s about elevating our programming, securing
+            our facility&apos;s future, and giving you unparalleled access 365 days a year.
+            The next era of our club starts now.&#8221;
+          </p>
+        </div>
+
         {/* ── Header ────────────────────────────────────────────────────── */}
         <div className="mb-8">
           <p className="text-[11px] font-bold text-cyan-400 uppercase tracking-widest mb-2">
