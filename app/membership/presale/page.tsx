@@ -101,7 +101,7 @@ export default function MembershipPresalePage() {
         </h1>
         <p style={{ color: GRAY_3, fontSize: 16, lineHeight: 1.7, maxWidth: 520, margin: '0 auto' }}>
           Reserve your membership now and lock in a discounted rate before the season opens to the public.
-          No payment required to register&mdash;our team will follow up with details.
+          Our team will follow up with next steps.
         </p>
       </div>
 
@@ -214,7 +214,7 @@ export default function MembershipPresalePage() {
                   Sign Up for Pre-Sale Access
                 </h2>
                 <p style={{ color: GRAY_3, fontSize: 14, margin: 0 }}>
-                  All fields required. No payment due at sign-up.
+                  All fields required.
                 </p>
               </div>
 
@@ -308,7 +308,7 @@ export default function MembershipPresalePage() {
                 </button>
 
                 <p style={{ color: GRAY_3, fontSize: 12, textAlign: 'center', margin: 0 }}>
-                  Offer valid {OFFER_START} – {OFFER_END}. No payment required to register.
+                  Offer valid {OFFER_START} – {OFFER_END}
                 </p>
               </form>
             </>
