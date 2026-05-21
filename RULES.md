@@ -45,6 +45,8 @@ Before touching any code:
 - **`metadata` + `'use client'` don't mix** — any page using client hooks needs a sibling `layout.tsx` for its SEO metadata.
 - **Vercel project ID**: `prj_b6rihMUdQ8VAamcwmHfJsriMpdA0`
 - **Supabase project**: shared `fnxyorriiytdskxpedir` — migrate `presale_signups` to a dedicated Skramblehouse project if needed long-term.
+- **Membership presale tables**: `membership_presale_signups` (signups, 6 fields) + `membership_presale_paid` (payment tracking, linked via `signup_id`); both have RLS enabled; no public policies.
+- **`MEMBERSHIP_ADMIN_KEY`**: server-only env var; required to access `/api/membership-admin` and `/membership/admin` page. Set via `printf 'value' | vercel env add MEMBERSHIP_ADMIN_KEY production`.
 - **DNS on Vercel nameservers**: all DNS (including Resend DKIM/MX/SPF) managed via Vercel. Don't change nameservers.
 - **Hero images**: `public/storefront.jpg` (homepage), `public/hero.jpg` (presale page). Replace via Vercel deployment only.
 
@@ -55,6 +57,6 @@ Before touching any code:
 - **Stack**: Next.js 16 on Vercel + Supabase (shared project) + Resend for email
 - **Deploy**: push `main` → GitHub Actions → `vercel deploy --prod`
 - **Repo**: `rickyhowcroft-dot/skramblehouse-westside`, `main` branch
-- **Live URLs**: `skramblehouse.com` (homepage), `skramblehouse.com/westside/presale` (presale form)
+- **Live URLs**: `skramblehouse.com` (homepage), `skramblehouse.com/westside/presale` (westside presale), `skramblehouse.com/membership/presale` (2026–27 membership presale — TBD final URL), `/membership/admin` (paid tracking admin)
 - **Email**: `noreply@skramblehouse.com` via Resend; notifies `Theskramblehouseofgolfroc@gmail.com` + `rickyhowcroft@gmail.com`
 - **Presale signups**: stored in `presale_signups` table; 10 signups as of 3/5-6/2026
