@@ -143,9 +143,10 @@ export default function MembershipPresalePage() {
           gap: 10,
         }}>
           <span style={{ fontSize: 16 }}>⏰</span>
-          <p style={{ margin: 0, color: '#92400E', fontSize: 13, fontWeight: 600 }}>
-            Early Wave runs <strong>June 1 – August 31</strong> only. Prices increase approximately 20% after September 1.
-          </p>
+          <div style={{ color: '#92400E', fontSize: 13, fontWeight: 600 }}>
+            <p style={{ margin: 0 }}>Early Wave runs <strong>June 1 – August 31</strong> only.</p>
+            <p style={{ margin: '4px 0 0' }}>Prices increase approximately 20% after September 1.</p>
+          </div>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20, marginTop: 24 }}>
@@ -431,17 +432,33 @@ function PricingCard({
             )}
           </div>
           {early.rows.map(({ item, price }) => (
-            <div key={item} style={{ marginBottom: 10 }}>
+            <div key={item} style={{ marginBottom: 12 }}>
               <p style={{ margin: 0, fontSize: 11, color: GRAY_3, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{item}</p>
-              <p style={{ margin: '1px 0 0', fontSize: 14, fontWeight: 700, color: BLUE }}>{price}</p>
+              <p style={{ margin: '2px 0 0', fontSize: 16, fontWeight: 800, color: BLUE }}>{price}</p>
             </div>
           ))}
           {early.perks && early.perks.length > 0 && (
-            <div style={{ marginTop: 12, paddingTop: 12, borderTop: `1px solid ${BLUE_MID}` }}>
+            <div style={{ marginTop: 14, paddingTop: 14, borderTop: `2px solid ${BLUE_MID}` }}>
+              <p style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase', color: BLUE }}>
+                Included
+              </p>
               {early.perks.map(perk => (
-                <p key={perk} style={{ margin: '0 0 4px', fontSize: 12, color: GRAY_2, display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <span style={{ color: BLUE, fontWeight: 700 }}>✓</span> {perk}
-                </p>
+                <div key={perk} style={{
+                  display: 'flex', alignItems: 'center', gap: 10,
+                  backgroundColor: BLUE_LT,
+                  border: `1px solid ${BLUE_MID}`,
+                  borderRadius: 8,
+                  padding: '8px 12px',
+                  marginBottom: 6,
+                }}>
+                  <span style={{
+                    width: 20, height: 20, borderRadius: '50%',
+                    backgroundColor: BLUE, color: '#fff',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontSize: 11, fontWeight: 800, flexShrink: 0,
+                  }}>✓</span>
+                  <span style={{ fontSize: 14, fontWeight: 700, color: GRAY_1 }}>{perk}</span>
+                </div>
               ))}
             </div>
           )}
