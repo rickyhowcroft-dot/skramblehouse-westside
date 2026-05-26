@@ -80,7 +80,7 @@ export default function GuestSigninForm({ location, heroImage }: Props) {
           Member Guest Sign-In
         </h1>
         <p style={{ color: GRAY_3, fontSize: 15, lineHeight: 1.65, maxWidth: 480, margin: '0 auto' }}>
-          Members receive up to 14 complimentary guest passes. Fill out both sections below to check in your guest.
+          Fill out both sections below to check in your guest.
         </p>
       </div>
 
