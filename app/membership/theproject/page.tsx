@@ -24,6 +24,7 @@ const PLAN_OPTIONS: Record<string, string[]> = {
     'Annual — $1,600',
     'Monthly — $165/mo (12 months)',
     'Family Add-On — $600',
+    'Double — $2,200',
   ],
   '5 Month': [
     'Full Payment — $1,100',
@@ -169,6 +170,7 @@ export default function MembershipPresalePage() {
                 { item: 'Annual',      price: '$1,600' },
                 { item: 'Monthly',     price: '$165/mo × 12 months' },
                 { item: 'Family Add-On', price: '$600' },
+                { item: 'Double',       price: '$2,200' },
               ],
               perks: ['14 Guest Fees included', '2 Lessons included', '$550 value'],
             }}
