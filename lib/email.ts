@@ -113,3 +113,40 @@ export async function sendInvestorInquiryNotification(payload: InvestorInquiryPa
     `,
   })
 }
+
+// ── Guest Cap Notification ────────────────────────────────────────────────────
+interface GuestCapPayload {
+  memberFirst: string
+  memberLast: string
+  memberEmail: string
+  location: string
+  totalGuests: number
+}
+
+export async function sendGuestCapNotification(payload: GuestCapPayload) {
+  if (!process.env.RESEND_API_KEY || !process.env.NOTIFY_EMAIL) {
+    console.warn('[email] RESEND_API_KEY or NOTIFY_EMAIL not set — skipping notification')
+    return
+  }
+  const { memberFirst, memberLast, memberEmail, location, totalGuests } = payload
+  const { Resend } = await import('resend')
+  const resend = new Resend(process.env.RESEND_API_KEY)
+  await resend.emails.send({
+    from: process.env.EMAIL_FROM ?? 'Skramblehouse <noreply@skramblehouse.com>',
+    to: (process.env.NOTIFY_EMAIL ?? '').split(',').map(e => e.trim()).filter(Boolean),
+    subject: `⚠️ Guest Cap Reached — ${memberFirst} ${memberLast} (${location})`,
+    html: `
+      <div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:24px">
+        <h2 style="margin:0 0 16px;color:#1D4ED8">Guest Cap Reached</h2>
+        <p style="margin:0 0 16px;color:#374151">A member has used all ${totalGuests} of their allotted guest passes.</p>
+        <table style="width:100%;border-collapse:collapse">
+          <tr><td style="padding:8px 0;color:#666;width:140px">Member</td><td style="padding:8px 0"><strong>${memberFirst} ${memberLast}</strong></td></tr>
+          <tr><td style="padding:8px 0;color:#666">Email</td><td style="padding:8px 0"><a href="mailto:${memberEmail}">${memberEmail}</a></td></tr>
+          <tr><td style="padding:8px 0;color:#666">Location</td><td style="padding:8px 0">${location}</td></tr>
+          <tr><td style="padding:8px 0;color:#666">Total Guests Used</td><td style="padding:8px 0"><strong>${totalGuests} / 14</strong></td></tr>
+        </table>
+        <p style="margin-top:24px;color:#999;font-size:12px">Skramblehouse Guest Sign-In</p>
+      </div>
+    `,
+  })
+}
