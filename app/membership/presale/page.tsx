@@ -127,70 +127,78 @@ export default function MembershipPresalePage() {
         </p>
       </div>
 
-      {/* ── Offer details ─────────────────────────────────────────────────── */}
+      {/* ── Pricing Comparison ───────────────────────────────────────────── */}
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '48px 20px 0' }}>
-        <SectionLabel>Offer Details</SectionLabel>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-          gap: 16,
-          marginTop: 20,
-        }}>
-          {[
-            { label: 'Offer Window',         value: `${OFFER_START} – ${OFFER_END}` },
-            { label: 'Locations',            value: 'Horsham · KOP · Rochester' },
-            { label: 'Full Year Membership', value: '12 months of unlimited access' },
-            { label: '5 Month Membership',   value: 'December – April' },
-          ].map(({ label, value }) => (
-            <div key={label} style={{
-              backgroundColor: GRAY_5,
-              border: `1px solid ${GRAY_4}`,
-              borderRadius: 16,
-              padding: '20px 24px',
-            }}>
-              <p style={{ color: GRAY_3, fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', margin: '0 0 6px' }}>
-                {label}
-              </p>
-              <p style={{ color: GRAY_1, fontSize: 15, fontWeight: 600, margin: 0 }}>
-                {value}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
+        <SectionLabel>Membership Pricing</SectionLabel>
 
-      {/* ── Benefits ──────────────────────────────────────────────────────── */}
-      <div style={{ maxWidth: 720, margin: '0 auto', padding: '48px 20px 0' }}>
-        <SectionLabel>What You Get</SectionLabel>
+        {/* Save 20% nudge */}
         <div style={{
-          backgroundColor: '#fff',
-          border: `1px solid ${GRAY_4}`,
-          borderRadius: 20,
-          padding: '28px 32px',
-          marginTop: 20,
-          boxShadow: '0 2px 12px rgba(0,0,0,0.04)',
+          marginTop: 16,
+          backgroundColor: '#FEF9C3',
+          border: '1px solid #FDE68A',
+          borderRadius: 12,
+          padding: '12px 18px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 10,
         }}>
-          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {[
-              'Discounted rate locked in before public launch',
-              'Priority access and early booking privileges',
-              'Full simulator bay access at your chosen location',
-              'Flexible options — Full Year or 5 Month membership',
-              'Member-only events, leagues, and programming',
-            ].map((item, i) => (
-              <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
-                <span style={{
-                  width: 22, height: 22, borderRadius: '50%',
-                  backgroundColor: BLUE_LT,
-                  border: `1.5px solid ${BLUE_MID}`,
-                  color: BLUE,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 12, fontWeight: 700, flexShrink: 0, marginTop: 1,
-                }}>✓</span>
-                <span style={{ color: GRAY_2, fontSize: 15, lineHeight: 1.55 }}>{item}</span>
-              </li>
-            ))}
-          </ul>
+          <span style={{ fontSize: 16 }}>⏰</span>
+          <p style={{ margin: 0, color: '#92400E', fontSize: 13, fontWeight: 600 }}>
+            Early Wave runs <strong>June 1 – August 31</strong> only. Prices increase approximately 20% after September 1.
+          </p>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 20, marginTop: 24 }}>
+
+          {/* ── Full Year ── */}
+          <PricingCard
+            name="Full Year Membership"
+            subtitle="12 months · through Sept 2027"
+            early={{
+              label: 'The Early Wave',
+              dates: 'Jun 1 – Aug 31',
+              rows: [
+                { item: 'Annual',      price: '$1,600' },
+                { item: 'Monthly',     price: '$150/mo × 12 months' },
+                { item: 'Family Add-On', price: '$600' },
+              ],
+              perks: ['14 Guest Fees included', '2 Lessons included', '$550 value'],
+            }}
+            after={{
+              label: 'After Sept 1',
+              rows: [
+                { item: 'Annual',      price: '$2,000' },
+                { item: 'Monthly',     price: '$185/mo × 12 months' },
+                { item: 'Family Add-On', price: '$800' },
+              ],
+            }}
+          />
+
+          {/* ── 5 Month Winter ── */}
+          <PricingCard
+            name="5 Month Winter Membership"
+            subtitle="December – April"
+            early={{
+              label: 'The Early Wave',
+              dates: 'Jun 1 – Aug 31',
+              rows: [
+                { item: 'Full Payment', price: '$1,100' },
+                { item: 'Monthly',      price: '$250/mo × 5 months' },
+                { item: 'Family Add-On', price: '$400' },
+                { item: 'Summer (4 mo)', price: '$600' },
+              ],
+              perks: ['Guests $25/person', '$50 – 30 min lesson'],
+            }}
+            after={{
+              label: 'After Sept 1',
+              rows: [
+                { item: 'Full Payment', price: '$1,300' },
+                { item: 'Monthly',      price: '$300/mo × 5 months' },
+                { item: 'Family Add-On', price: '$400' },
+              ],
+              perks: ['Guests $25/person', '$50 – 30 min lessons'],
+            }}
+          />
         </div>
       </div>
 
@@ -356,6 +364,8 @@ export default function MembershipPresalePage() {
       <style>{`
         @media (max-width: 480px) {
           .name-grid { grid-template-columns: 1fr !important; }
+          .pricing-grid { grid-template-columns: 1fr !important; }
+          .pricing-grid > div:first-child { border-right: none !important; border-bottom: 1px solid #BFDBFE; }
         }
       `}</style>
 
@@ -371,6 +381,106 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
       <span style={{ color: GRAY_1, fontSize: 13, fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase' }}>
         {children}
       </span>
+    </div>
+  )
+}
+
+// ── PricingCard ────────────────────────────────────────────────────────────
+interface PriceRow  { item: string; price: string }
+interface PriceSide { label: string; dates?: string; rows: PriceRow[]; perks?: string[] }
+function PricingCard({
+  name, subtitle, early, after,
+}: { name: string; subtitle: string; early: PriceSide; after: PriceSide }) {
+  return (
+    <div style={{
+      border: `1.5px solid ${BLUE_MID}`,
+      borderRadius: 20,
+      overflow: 'hidden',
+      boxShadow: '0 2px 12px rgba(0,0,0,0.05)',
+    }}>
+      {/* Card header */}
+      <div style={{ backgroundColor: BLUE_LT, padding: '14px 20px', borderBottom: `1px solid ${BLUE_MID}` }}>
+        <p style={{ margin: 0, fontWeight: 800, fontSize: 15, color: GRAY_1 }}>{name}</p>
+        <p style={{ margin: '2px 0 0', fontSize: 12, color: GRAY_3, fontWeight: 500 }}>{subtitle}</p>
+      </div>
+
+      {/* Two-column pricing */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }} className="pricing-grid">
+
+        {/* Early Wave — highlighted */}
+        <div style={{
+          backgroundColor: '#fff',
+          borderRight: `1px solid ${BLUE_MID}`,
+          padding: '18px 20px',
+        }}>
+          <div style={{ marginBottom: 14 }}>
+            <span style={{
+              display: 'inline-block',
+              backgroundColor: BLUE,
+              color: '#fff',
+              fontSize: 10,
+              fontWeight: 800,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              borderRadius: 6,
+              padding: '3px 8px',
+              marginBottom: 4,
+            }}>{early.label}</span>
+            {early.dates && (
+              <p style={{ margin: '2px 0 0', fontSize: 11, color: GRAY_3, fontWeight: 500 }}>{early.dates}</p>
+            )}
+          </div>
+          {early.rows.map(({ item, price }) => (
+            <div key={item} style={{ marginBottom: 10 }}>
+              <p style={{ margin: 0, fontSize: 11, color: GRAY_3, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{item}</p>
+              <p style={{ margin: '1px 0 0', fontSize: 14, fontWeight: 700, color: BLUE }}>{price}</p>
+            </div>
+          ))}
+          {early.perks && early.perks.length > 0 && (
+            <div style={{ marginTop: 12, paddingTop: 12, borderTop: `1px solid ${BLUE_MID}` }}>
+              {early.perks.map(perk => (
+                <p key={perk} style={{ margin: '0 0 4px', fontSize: 12, color: GRAY_2, display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <span style={{ color: BLUE, fontWeight: 700 }}>✓</span> {perk}
+                </p>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* After Party — dimmed */}
+        <div style={{ backgroundColor: GRAY_5, padding: '18px 20px' }}>
+          <div style={{ marginBottom: 14 }}>
+            <span style={{
+              display: 'inline-block',
+              backgroundColor: GRAY_4,
+              color: GRAY_3,
+              fontSize: 10,
+              fontWeight: 800,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              borderRadius: 6,
+              padding: '3px 8px',
+              marginBottom: 4,
+            }}>{after.label}</span>
+            <p style={{ margin: '2px 0 0', fontSize: 11, color: GRAY_3, fontWeight: 500 }}>~20% more</p>
+          </div>
+          {after.rows.map(({ item, price }) => (
+            <div key={item} style={{ marginBottom: 10 }}>
+              <p style={{ margin: 0, fontSize: 11, color: GRAY_3, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{item}</p>
+              <p style={{ margin: '1px 0 0', fontSize: 14, fontWeight: 700, color: GRAY_3 }}>{price}</p>
+            </div>
+          ))}
+          {after.perks && after.perks.length > 0 && (
+            <div style={{ marginTop: 12, paddingTop: 12, borderTop: `1px solid ${GRAY_4}` }}>
+              {after.perks.map(perk => (
+                <p key={perk} style={{ margin: '0 0 4px', fontSize: 12, color: GRAY_3, display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <span style={{ fontWeight: 700 }}>✓</span> {perk}
+                </p>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   )
 }
