@@ -34,6 +34,13 @@ const securityHeaders = [
 ]
 
 const nextConfig: NextConfig = {
+  redirects: async () => [
+    {
+      source: '/membership/presale',
+      destination: '/membership/theproject',
+      permanent: true,
+    },
+  ],
   headers: async () => [
     {
       source: '/(.*)',
