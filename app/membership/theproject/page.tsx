@@ -93,12 +93,14 @@ export default function MembershipPresalePage() {
           padding: '24px 28px',
         }}>
           <p style={{ color: GRAY_2, fontSize: 16, lineHeight: 1.75, margin: 0 }}>
-            <strong style={{ color: GRAY_1 }}>&ldquo;Welcome to The Skramble Project.</strong>{' '}
+            <strong style={{ color: GRAY_1 }}>Welcome to The Skramble Project.</strong>
+          </p>
+          <p style={{ color: GRAY_2, fontSize: 16, lineHeight: 1.75, margin: '12px 0 0' }}>
             We&rsquo;re changing things up. Starting this summer, we are executing a strategic
             evolution to transform our club into a premier, year-round destination. This project
             is about more than just expanding our calendar&mdash;it&rsquo;s about elevating our
             programming, securing our facility&rsquo;s future, and giving you unparalleled access
-            365 days a year. The next era of our club starts now.&rdquo;
+            365 days a year. The next era of our club starts now.
           </p>
         </div>
       </div>
