@@ -23,12 +23,11 @@ export async function POST(req: Request) {
   const guestFirst      = sanitize(body.guestFirst)
   const guestLast       = sanitize(body.guestLast)
   const guestEmail      = sanitize(body.guestEmail).toLowerCase()
-  const guestPhone      = sanitize(body.guestPhone)
 
   if (!VALID_LOCS.includes(location as typeof VALID_LOCS[number])) {
     return NextResponse.json({ error: 'Invalid location.' }, { status: 400 })
   }
-  if (!memberFirst || !memberLast || !memberEmail || !guestFirst || !guestLast || !guestEmail || !guestPhone) {
+  if (!memberFirst || !memberLast || !memberEmail || !guestFirst || !guestLast || !guestEmail) {
     return NextResponse.json({ error: 'All fields are required.' }, { status: 400 })
   }
   if (!EMAIL_RE.test(memberEmail)) {
@@ -37,10 +36,6 @@ export async function POST(req: Request) {
   if (!EMAIL_RE.test(guestEmail)) {
     return NextResponse.json({ error: 'Invalid guest email address.' }, { status: 400 })
   }
-  if (!PHONE_RE.test(guestPhone)) {
-    return NextResponse.json({ error: 'Invalid guest phone number.' }, { status: 400 })
-  }
-
   // Check current guest count for this member
   const { count, error: countErr } = await supabaseAdmin
     .from('guest_signins')
@@ -72,7 +67,6 @@ export async function POST(req: Request) {
       guest_first_name: guestFirst,
       guest_last_name: guestLast,
       guest_email: guestEmail,
-      guest_phone: guestPhone,
     })
 
   if (insertErr) {

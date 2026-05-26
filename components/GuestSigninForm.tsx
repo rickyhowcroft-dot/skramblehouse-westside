@@ -22,7 +22,7 @@ interface Props {
 export default function GuestSigninForm({ location, heroImage }: Props) {
   const [form, setForm] = useState({
     memberFirst: '', memberLast: '', memberEmail: '',
-    guestFirst: '',  guestLast: '',  guestEmail: '', guestPhone: '',
+    guestFirst: '',  guestLast: '',  guestEmail: '',
   })
   const [submitted,  setSubmitted]  = useState(false)
   const [loading,    setLoading]    = useState(false)
@@ -111,7 +111,7 @@ export default function GuestSigninForm({ location, heroImage }: Props) {
                 </p>
               )}
               <button
-                onClick={() => { setForm({ memberFirst:'',memberLast:'',memberEmail:'',guestFirst:'',guestLast:'',guestEmail:'',guestPhone:'' }); setSubmitted(false); setGuestsUsed(null) }}
+                onClick={() => { setForm({ memberFirst:'',memberLast:'',memberEmail:'',guestFirst:'',guestLast:'',guestEmail:'' }); setSubmitted(false); setGuestsUsed(null) }}
                 style={{ marginTop: 24, backgroundColor: BLUE, color: '#fff', fontWeight: 700, fontSize: 13, padding: '12px 28px', borderRadius: 12, border: 'none', cursor: 'pointer' }}
               >
                 Check In Another Guest
@@ -174,13 +174,6 @@ export default function GuestSigninForm({ location, heroImage }: Props) {
                       placeholder="alex@example.com" style={inputStyle} />
                   </FormField>
 
-                  <FormField label="Phone Number">
-                    <input type="tel" required inputMode="numeric"
-                      pattern="[\d\s\-\(\)\+\.]{7,20}"
-                      value={form.guestPhone}
-                      onChange={e => set('guestPhone', e.target.value)}
-                      placeholder="(555) 555-5555" autoComplete="tel" style={inputStyle} />
-                  </FormField>
                 </div>
               </div>
 
