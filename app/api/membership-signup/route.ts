@@ -43,8 +43,9 @@ export async function POST(req: Request) {
   const phone          = sanitize(body.phone)
   const location       = sanitize(body.location)
   const membershipType = sanitize(body.membershipType)
+  const planType       = sanitize(body.planType)
 
-  if (!firstName || !lastName || !email || !phone || !location || !membershipType) {
+  if (!firstName || !lastName || !email || !phone || !location || !membershipType || !planType) {
     return NextResponse.json({ error: 'All fields are required.' }, { status: 400 })
   }
   if (firstName.length > 60 || lastName.length > 60) {
@@ -80,7 +81,7 @@ export async function POST(req: Request) {
   // Insert
   const { error: insertErr } = await supabaseAdmin
     .from('membership_presale_signups')
-    .insert({ first_name: firstName, last_name: lastName, email, phone, location, membership_type: membershipType })
+    .insert({ first_name: firstName, last_name: lastName, email, phone, location, membership_type: membershipType, plan_type: planType })
 
   if (insertErr) {
     if (insertErr.code === '23505') {
@@ -99,7 +100,7 @@ export async function POST(req: Request) {
 
   // Email notification (non-blocking)
   sendMembershipSignupNotification({
-    firstName, lastName, email, phone, location, membershipType, signupNumber,
+    firstName, lastName, email, phone, location, membershipType, planType, signupNumber,
   }).catch(err => console.error('[membership-signup] email error', (err as Error).message))
 
   return NextResponse.json({ success: true, signupNumber })

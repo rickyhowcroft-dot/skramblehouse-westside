@@ -14,22 +14,41 @@ const GRAY_3  = '#6B7280'   // Muted / captions
 const GRAY_4  = '#E5E7EB'   // Borders
 const GRAY_5  = '#F9FAFB'   // Section backgrounds
 
-const LOCATIONS       = ['Horsham', 'KOP', 'Rochester'] as const
+const LOCATIONS        = ['Horsham', 'KOP', 'Rochester'] as const
 const MEMBERSHIP_TYPES = ['Full Year', '5 Month'] as const
+
+const PLAN_OPTIONS: Record<string, string[]> = {
+  'Full Year': [
+    'Annual — $1,600',
+    'Monthly — $150/mo (12 months)',
+    'Family Add-On — $600',
+  ],
+  '5 Month': [
+    'Full Payment — $1,100',
+    'Monthly — $250/mo (5 months)',
+    'Family Add-On — $400',
+    'Summer (4 Months) — $600',
+  ],
+}
 const OFFER_START     = 'June 1, 2026'
 const OFFER_END       = 'August 31, 2026'
 
 export default function MembershipPresalePage() {
   const [form, setForm] = useState({
     firstName: '', lastName: '', email: '', phone: '',
-    location: '', membershipType: '', website: '',
+    location: '', membershipType: '', planType: '', website: '',
   })
   const [submitted, setSubmitted] = useState(false)
   const [loading,   setLoading]   = useState(false)
   const [error,     setError]     = useState('')
 
   const set = (key: keyof typeof form, val: string) =>
-    setForm(p => ({ ...p, [key]: val }))
+    setForm(p => ({
+      ...p,
+      [key]: val,
+      // Reset plan selection whenever membership type changes
+      ...(key === 'membershipType' ? { planType: '' } : {}),
+    }))
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -272,6 +291,20 @@ export default function MembershipPresalePage() {
                     </select>
                   </FormField>
                 </div>
+
+                {/* Plan / Payment option — appears once membership type is chosen */}
+                {form.membershipType && (
+                  <FormField label="Plan / Payment Option">
+                    <select required value={form.planType}
+                      onChange={e => set('planType', e.target.value)}
+                      style={{ ...inputStyle, color: form.planType ? GRAY_1 : GRAY_3 }}>
+                      <option value="" disabled>Select a plan…</option>
+                      {(PLAN_OPTIONS[form.membershipType] ?? []).map(p => (
+                        <option key={p} value={p}>{p}</option>
+                      ))}
+                    </select>
+                  </FormField>
+                )}
 
                 {/* Honeypot */}
                 <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, overflow: 'hidden' }}>
