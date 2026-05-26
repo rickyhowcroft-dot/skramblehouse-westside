@@ -22,7 +22,7 @@ const PAYMENT_METHODS = ['Cash/Check', 'Card (3% service fee included)'] as cons
 const PLAN_OPTIONS: Record<string, string[]> = {
   'Full Year': [
     'Annual — $1,600',
-    'Monthly — $150/mo (12 months)',
+    'Monthly — $165/mo (12 months)',
     'Family Add-On — $600',
   ],
   '5 Month': [
@@ -167,7 +167,7 @@ export default function MembershipPresalePage() {
               dates: 'Jun 1 – Aug 31',
               rows: [
                 { item: 'Annual',      price: '$1,600' },
-                { item: 'Monthly',     price: '$150/mo × 12 months' },
+                { item: 'Monthly',     price: '$165/mo × 12 months' },
                 { item: 'Family Add-On', price: '$600' },
               ],
               perks: ['14 Guest Fees included', '2 Lessons included', '$550 value'],
