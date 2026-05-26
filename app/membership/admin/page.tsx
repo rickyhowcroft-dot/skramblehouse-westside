@@ -100,19 +100,20 @@ export default function MembershipAdminPage() {
   if (!authed) {
     return (
       <main className="bg-zinc-950 text-white min-h-screen flex items-center justify-center px-4">
-        <form onSubmit={handleAuth} className="w-full max-w-sm space-y-4">
+        <form onSubmit={handleAuth} className="w-full max-w-md space-y-4">
           <h1 className="text-xl font-bold text-center mb-6">Membership Admin</h1>
           <input
             type="password"
             placeholder="Admin key"
             value={key}
             onChange={e => setKey(e.target.value)}
-            className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-cyan-400/60"
+            className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 text-white text-base focus:outline-none focus:border-cyan-400/60"
+            autoComplete="current-password"
           />
           {authErr && <p className="text-red-400 text-xs text-center">{authErr}</p>}
           <button
             type="submit"
-            className="w-full bg-cyan-400 text-black font-bold py-3 rounded-xl text-sm uppercase tracking-widest hover:bg-cyan-300"
+            className="w-full bg-cyan-400 text-black font-bold py-4 rounded-2xl text-base uppercase tracking-widest hover:bg-cyan-300"
           >
             Enter
           </button>
