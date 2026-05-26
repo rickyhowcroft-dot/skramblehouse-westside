@@ -100,7 +100,10 @@ export default function MembershipPresalePage() {
             evolution to transform our club into a premier, year-round destination. This project
             is about more than just expanding our calendar&mdash;it&rsquo;s about elevating our
             programming, securing our facility&rsquo;s future, and giving you unparalleled access
-            365 days a year. The next era of our club starts now.
+            365 days a year.
+          </p>
+          <p style={{ color: GRAY_1, fontSize: 16, lineHeight: 1.75, margin: '12px 0 0', fontWeight: 700 }}>
+            The next era of our club starts now.
           </p>
         </div>
       </div>
