@@ -21,7 +21,7 @@ interface Props {
 
 export default function GuestSigninForm({ location, heroImage }: Props) {
   const [form, setForm] = useState({
-    memberFirst: '', memberLast: '', memberEmail: '',
+    memberFirst: '', memberLast: '',
     guestFirst: '',  guestLast: '',  guestEmail: '',
   })
   const [submitted,  setSubmitted]  = useState(false)
@@ -111,7 +111,7 @@ export default function GuestSigninForm({ location, heroImage }: Props) {
                 </p>
               )}
               <button
-                onClick={() => { setForm({ memberFirst:'',memberLast:'',memberEmail:'',guestFirst:'',guestLast:'',guestEmail:'' }); setSubmitted(false); setGuestsUsed(null) }}
+                onClick={() => { setForm({ memberFirst:'',memberLast:'',guestFirst:'',guestLast:'',guestEmail:'' }); setSubmitted(false); setGuestsUsed(null) }}
                 style={{ marginTop: 24, backgroundColor: BLUE, color: '#fff', fontWeight: 700, fontSize: 13, padding: '12px 28px', borderRadius: 12, border: 'none', cursor: 'pointer' }}
               >
                 Check In Another Guest
@@ -138,16 +138,6 @@ export default function GuestSigninForm({ location, heroImage }: Props) {
                     </FormField>
                   </div>
 
-                  <FormField label="Email Address">
-                    <input type="email" required maxLength={254} value={form.memberEmail}
-                      onChange={e => set('memberEmail', e.target.value)}
-                      placeholder="jane@example.com" autoComplete="email" style={inputStyle} />
-                    <p style={{ margin: '6px 0 0', fontSize: 12, color: '#D97706', fontWeight: 600, display: 'flex', alignItems: 'flex-start', gap: 6 }}>
-                      <span>⚠️</span>
-                      <span>Use the email address on file at Skramblehouse.</span>
-                    </p>
-                  </FormField>
-                </div>
               </div>
 
               {/* ── Guest section ───────────────────────────────────────── */}
