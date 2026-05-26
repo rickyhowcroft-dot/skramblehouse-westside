@@ -12,6 +12,7 @@ type Signup = {
   location: string
   membership_type: string
   plan_type: string | null
+  payment_method: string | null
   created_at: string
   paid: Paid | null
 }
@@ -173,7 +174,7 @@ export default function MembershipAdminPage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-zinc-800 bg-zinc-900">
-                    {['Name','Email','Phone','Location','Type','Plan','Signed Up','Status',''].map((h, i) => (
+                    {['Name','Email','Phone','Location','Type','Plan','Payment','Signed Up','Status',''].map((h, i) => (
                       <th key={i} className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-zinc-500">
                         {h}
                       </th>
@@ -190,6 +191,7 @@ export default function MembershipAdminPage() {
                       <td className="px-4 py-3 whitespace-nowrap">{s.location}</td>
                       <td className="px-4 py-3 text-zinc-400 whitespace-nowrap">{s.membership_type}</td>
                       <td className="px-4 py-3 text-zinc-400 whitespace-nowrap">{s.plan_type ?? '—'}</td>
+                      <td className="px-4 py-3 text-zinc-400 whitespace-nowrap">{s.payment_method ?? '—'}</td>
                       <td className="px-4 py-3 text-zinc-500 whitespace-nowrap">{fmtDate(s.created_at)}</td>
                       <td className="px-4 py-3">
                         {s.paid ? (
@@ -250,6 +252,7 @@ export default function MembershipAdminPage() {
                     <span>·</span>
                     <span>{s.membership_type}</span>
                     {s.plan_type && <><span>·</span><span className="text-zinc-400">{s.plan_type}</span></>}
+                    {s.payment_method && <><span>·</span><span className="text-zinc-400">{s.payment_method}</span></>}
                     <span>·</span>
                     <span>{fmtDate(s.created_at)}</span>
                   </div>

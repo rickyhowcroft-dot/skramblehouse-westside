@@ -42,10 +42,11 @@ export async function POST(req: Request) {
   const email          = sanitize(body.email).toLowerCase()
   const phone          = sanitize(body.phone)
   const location       = sanitize(body.location)
-  const membershipType = sanitize(body.membershipType)
-  const planType       = sanitize(body.planType)
+  const membershipType  = sanitize(body.membershipType)
+  const planType        = sanitize(body.planType)
+  const paymentMethod   = sanitize(body.paymentMethod)
 
-  if (!firstName || !lastName || !email || !phone || !location || !membershipType || !planType) {
+  if (!firstName || !lastName || !email || !phone || !location || !membershipType || !planType || !paymentMethod) {
     return NextResponse.json({ error: 'All fields are required.' }, { status: 400 })
   }
   if (firstName.length > 60 || lastName.length > 60) {
@@ -81,7 +82,7 @@ export async function POST(req: Request) {
   // Insert
   const { error: insertErr } = await supabaseAdmin
     .from('membership_presale_signups')
-    .insert({ first_name: firstName, last_name: lastName, email, phone, location, membership_type: membershipType, plan_type: planType })
+    .insert({ first_name: firstName, last_name: lastName, email, phone, location, membership_type: membershipType, plan_type: planType, payment_method: paymentMethod })
 
   if (insertErr) {
     if (insertErr.code === '23505') {
@@ -100,7 +101,7 @@ export async function POST(req: Request) {
 
   // Email notification (non-blocking)
   sendMembershipSignupNotification({
-    firstName, lastName, email, phone, location, membershipType, planType, signupNumber,
+    firstName, lastName, email, phone, location, membershipType, planType, paymentMethod, signupNumber,
   }).catch(err => console.error('[membership-signup] email error', (err as Error).message))
 
   return NextResponse.json({ success: true, signupNumber })

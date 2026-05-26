@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
 
   const { data: signups, error } = await supabaseAdmin
     .from('membership_presale_signups')
-    .select('id, first_name, last_name, email, phone, location, membership_type, plan_type, created_at')
+    .select('id, first_name, last_name, email, phone, location, membership_type, plan_type, payment_method, created_at')
     .order('created_at', { ascending: true })
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })

@@ -45,6 +45,7 @@ interface MembershipSignupPayload {
   location: string
   membershipType: string
   planType: string
+  paymentMethod: string
   signupNumber: number
 }
 
@@ -54,7 +55,7 @@ export async function sendMembershipSignupNotification(payload: MembershipSignup
     return
   }
 
-  const { firstName, lastName, email, phone, location, membershipType, planType, signupNumber } = payload
+  const { firstName, lastName, email, phone, location, membershipType, planType, paymentMethod, signupNumber } = payload
   const resend = new Resend(process.env.RESEND_API_KEY)
 
   await resend.emails.send({
@@ -72,6 +73,7 @@ export async function sendMembershipSignupNotification(payload: MembershipSignup
           <tr><td style="padding:8px 0;color:#666">Location</td><td style="padding:8px 0">${location}</td></tr>
           <tr><td style="padding:8px 0;color:#666">Membership Type</td><td style="padding:8px 0">${membershipType}</td></tr>
           <tr><td style="padding:8px 0;color:#666">Plan</td><td style="padding:8px 0"><strong>${planType}</strong></td></tr>
+          <tr><td style="padding:8px 0;color:#666">Payment Method</td><td style="padding:8px 0">${paymentMethod}</td></tr>
         </table>
         <p style="margin-top:24px;color:#999;font-size:12px">Skramblehouse 2026–2027 Membership Pre-Sale</p>
       </div>

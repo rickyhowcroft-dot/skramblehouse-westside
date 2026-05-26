@@ -17,6 +17,8 @@ const GRAY_5  = '#F9FAFB'   // Section backgrounds
 const LOCATIONS        = ['Horsham', 'KOP', 'Rochester'] as const
 const MEMBERSHIP_TYPES = ['Full Year', '5 Month'] as const
 
+const PAYMENT_METHODS = ['Cash/Check', 'Card (3% service fee included)'] as const
+
 const PLAN_OPTIONS: Record<string, string[]> = {
   'Full Year': [
     'Annual — $1,600',
@@ -36,7 +38,7 @@ const OFFER_END       = 'August 31, 2026'
 export default function MembershipPresalePage() {
   const [form, setForm] = useState({
     firstName: '', lastName: '', email: '', phone: '',
-    location: '', membershipType: '', planType: '', website: '',
+    location: '', membershipType: '', planType: '', paymentMethod: '', website: '',
   })
   const [submitted, setSubmitted] = useState(false)
   const [loading,   setLoading]   = useState(false)
@@ -46,8 +48,8 @@ export default function MembershipPresalePage() {
     setForm(p => ({
       ...p,
       [key]: val,
-      // Reset plan selection whenever membership type changes
-      ...(key === 'membershipType' ? { planType: '' } : {}),
+      // Reset plan + payment whenever membership type changes
+      ...(key === 'membershipType' ? { planType: '', paymentMethod: '' } : {}),
     }))
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -301,18 +303,30 @@ export default function MembershipPresalePage() {
                   </FormField>
                 </div>
 
-                {/* Plan / Payment option — appears once membership type is chosen */}
+                {/* Plan + Payment — appear once membership type is chosen */}
                 {form.membershipType && (
-                  <FormField label="Plan / Payment Option">
-                    <select required value={form.planType}
-                      onChange={e => set('planType', e.target.value)}
-                      style={{ ...inputStyle, color: form.planType ? GRAY_1 : GRAY_3 }}>
-                      <option value="" disabled>Select a plan…</option>
-                      {(PLAN_OPTIONS[form.membershipType] ?? []).map(p => (
-                        <option key={p} value={p}>{p}</option>
-                      ))}
-                    </select>
-                  </FormField>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }} className="name-grid">
+                    <FormField label="Plan / Payment Option">
+                      <select required value={form.planType}
+                        onChange={e => set('planType', e.target.value)}
+                        style={{ ...inputStyle, color: form.planType ? GRAY_1 : GRAY_3 }}>
+                        <option value="" disabled>Select a plan…</option>
+                        {(PLAN_OPTIONS[form.membershipType] ?? []).map(p => (
+                          <option key={p} value={p}>{p}</option>
+                        ))}
+                      </select>
+                    </FormField>
+                    <FormField label="Payment Method">
+                      <select required value={form.paymentMethod}
+                        onChange={e => set('paymentMethod', e.target.value)}
+                        style={{ ...inputStyle, color: form.paymentMethod ? GRAY_1 : GRAY_3 }}>
+                        <option value="" disabled>Select…</option>
+                        {PAYMENT_METHODS.map(m => (
+                          <option key={m} value={m}>{m}</option>
+                        ))}
+                      </select>
+                    </FormField>
+                  </div>
                 )}
 
                 {/* Honeypot */}
