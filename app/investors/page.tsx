@@ -8,7 +8,6 @@ export const metadata: Metadata = {
   description: 'Join the movement. Skramblehouse is expanding to its 4th location and opening a limited investment opportunity.',
 }
 
-// Revalidate every 5 minutes so count stays fresh without a full rebuild
 export const revalidate = 300
 
 const TIERS = [
@@ -35,31 +34,43 @@ async function getPresaleCount(): Promise<number> {
   }
 }
 
+/** Consistent section label + heading block */
+function SectionHeader({ eyebrow, heading }: { eyebrow: string; heading: React.ReactNode }) {
+  return (
+    <div className="text-center mb-12 md:mb-16">
+      <p className="text-emerald-400 text-xs font-semibold uppercase tracking-widest mb-4">
+        {eyebrow}
+      </p>
+      <h2 className="text-3xl sm:text-4xl font-bold leading-snug">{heading}</h2>
+    </div>
+  )
+}
+
 export default async function InvestorsPage() {
   const presaleCount = await getPresaleCount()
 
   const STATS = [
-    { value: '3',              label: 'Locations Operating' },
+    { value: '3',               label: 'Locations Operating' },
     { value: String(presaleCount), label: 'Presales Before Launch' },
-    { value: '18 mo',          label: 'Free Rent Secured' },
-    { value: '12%',            label: 'Annual Return' },
+    { value: '18 mo',           label: 'Free Rent Secured' },
+    { value: '12%',             label: 'Annual Return' },
   ]
 
   return (
     <main className="min-h-screen bg-zinc-950 text-white">
 
-      {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section className="flex flex-col items-center text-center px-6 pt-16 pb-24">
-        <div className="relative w-full max-w-3xl rounded-2xl overflow-hidden aspect-[16/9] mb-12">
+      {/* ── Hero ───────────────────────────────────────────────────────── */}
+      <section className="flex flex-col items-center text-center px-6 sm:px-10 lg:px-16 pt-16 pb-24 max-w-screen-xl mx-auto">
+        <div className="relative w-full max-w-4xl rounded-2xl overflow-hidden aspect-[16/9] mb-14">
           <Image src="/investors/hero.jpg" alt="Skramblehouse facility" fill className="object-cover" priority />
         </div>
-        <p className="text-emerald-400 text-xs font-semibold uppercase tracking-widest mb-6">
+        <p className="text-emerald-400 text-xs font-semibold uppercase tracking-widest mb-5">
           Skramblehouse · West Side · Location 4
         </p>
         <h1 className="text-4xl sm:text-6xl font-bold tracking-tight leading-tight mb-8">
           Own a Piece of<br />What&apos;s Next.
         </h1>
-        <div className="max-w-xl space-y-4">
+        <div className="max-w-2xl space-y-4">
           <p className="text-zinc-400 text-lg sm:text-xl leading-relaxed">
             Skramblehouse is Rochester&apos;s fastest-growing indoor golf and entertainment brand.
           </p>
@@ -69,25 +80,24 @@ export default async function InvestorsPage() {
         </div>
       </section>
 
-      {/* ── Stats ────────────────────────────────────────────────────────── */}
-      <section className="px-6 pb-32">
-        <div className="max-w-4xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {STATS.map(s => (
-            <div key={s.label} className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 flex flex-col items-center justify-center text-center gap-2">
-              <span className="text-4xl font-bold text-emerald-400">{s.value}</span>
-              <span className="text-zinc-400 text-sm leading-snug">{s.label}</span>
-            </div>
-          ))}
+      {/* ── Stats ──────────────────────────────────────────────────────── */}
+      <section className="px-6 sm:px-10 lg:px-16 pb-28">
+        <div className="max-w-screen-xl mx-auto">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 lg:gap-6">
+            {STATS.map(s => (
+              <div key={s.label} className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 lg:p-8 flex flex-col items-center justify-center text-center gap-3">
+                <span className="text-4xl lg:text-5xl font-bold text-emerald-400">{s.value}</span>
+                <span className="text-zinc-400 text-sm leading-snug">{s.label}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* ── Photos ───────────────────────────────────────────────────────── */}
-      <section className="px-6 pb-32">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <p className="text-zinc-500 text-sm uppercase tracking-widest mb-4">The Experience</p>
-            <h2 className="text-3xl font-bold">Three Locations.<br />One More on the Way.</h2>
-          </div>
+      {/* ── Photos ─────────────────────────────────────────────────────── */}
+      <section className="px-6 sm:px-10 lg:px-16 pb-28">
+        <div className="max-w-screen-xl mx-auto">
+          <SectionHeader eyebrow="The Experience" heading={<>Three Locations.<br />One More on the Way.</>} />
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {PHOTOS.map(img => (
               <div key={img.src} className="flex flex-col gap-3">
@@ -101,15 +111,12 @@ export default async function InvestorsPage() {
         </div>
       </section>
 
-      {/* ── The Opportunity ──────────────────────────────────────────────── */}
-      <section className="px-6 pb-32">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-12">
-            <p className="text-zinc-500 text-sm uppercase tracking-widest mb-4">The Opportunity</p>
-            <h2 className="text-3xl font-bold">Simple Terms. Real Returns.</h2>
-          </div>
+      {/* ── The Opportunity ────────────────────────────────────────────── */}
+      <section className="px-6 sm:px-10 lg:px-16 pb-28">
+        <div className="max-w-screen-lg mx-auto">
+          <SectionHeader eyebrow="The Opportunity" heading="Simple Terms. Real Returns." />
 
-          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8 sm:p-10 space-y-6 text-center">
+          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8 sm:p-12 space-y-6 text-center mb-6">
             <p className="text-white text-lg font-medium leading-relaxed">
               We&apos;re raising $400,000 to build out Skramblehouse West Side.
             </p>
@@ -128,34 +135,31 @@ export default async function InvestorsPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8 text-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8 lg:p-10 text-center">
               <p className="text-emerald-400 text-xs font-semibold uppercase tracking-widest mb-3">Jul – Dec 2026</p>
-              <p className="text-white text-xl font-bold mb-2">Interest Only</p>
+              <p className="text-white text-xl font-bold mb-3">Interest Only</p>
               <p className="text-zinc-400 text-sm leading-relaxed">6 months of interest-only payments while we build and launch.</p>
             </div>
-            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8 text-center">
+            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8 lg:p-10 text-center">
               <p className="text-emerald-400 text-xs font-semibold uppercase tracking-widest mb-3">Jan 2027 – Jun 2031</p>
-              <p className="text-white text-xl font-bold mb-2">Principal + Interest</p>
+              <p className="text-white text-xl font-bold mb-3">Principal + Interest</p>
               <p className="text-zinc-400 text-sm leading-relaxed">54 monthly payments. Early payoff welcome — zero penalty.</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Investment Tiers ─────────────────────────────────────────────── */}
-      <section className="px-6 pb-32">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <p className="text-zinc-500 text-sm uppercase tracking-widest mb-4">Investment Tiers</p>
-            <h2 className="text-3xl font-bold">Four Levels. All at 12%.</h2>
-          </div>
+      {/* ── Investment Tiers ───────────────────────────────────────────── */}
+      <section className="px-6 sm:px-10 lg:px-16 pb-28">
+        <div className="max-w-screen-xl mx-auto">
+          <SectionHeader eyebrow="Investment Tiers" heading="Four Levels. All at 12%." />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
             {TIERS.map(tier => (
               <div
                 key={tier.amount}
-                className={`rounded-2xl border p-8 flex flex-col items-center text-center gap-4 ${
+                className={`rounded-2xl border p-8 lg:p-10 flex flex-col items-center text-center gap-5 ${
                   tier.highlight ? 'bg-emerald-950 border-emerald-600' : 'bg-zinc-900 border-zinc-800'
                 }`}
               >
@@ -163,22 +167,22 @@ export default async function InvestorsPage() {
                   <p className="text-emerald-400 text-xs font-semibold uppercase tracking-widest">Most Popular</p>
                 )}
                 <p className="text-4xl font-bold">{tier.amount}</p>
-                <div className="w-full space-y-4 text-center">
+                <div className="w-full space-y-5 text-center">
                   <div>
-                    <p className="text-zinc-500 text-xs uppercase tracking-wide mb-1">First 6 Months</p>
+                    <p className="text-zinc-500 text-xs uppercase tracking-wide mb-2">First 6 Months</p>
                     <p className="text-white text-base font-semibold">{tier.interestOnly}</p>
                   </div>
                   <div>
-                    <p className="text-zinc-500 text-xs uppercase tracking-wide mb-1">Months 7 – 60</p>
+                    <p className="text-zinc-500 text-xs uppercase tracking-wide mb-2">Months 7 – 60</p>
                     <p className="text-white text-base font-semibold">{tier.payment}</p>
                   </div>
                   <div>
-                    <p className="text-zinc-500 text-xs uppercase tracking-wide mb-1">Total Interest Earned</p>
+                    <p className="text-zinc-500 text-xs uppercase tracking-wide mb-2">Total Interest Earned</p>
                     <p className="text-emerald-400 text-2xl font-bold">{tier.totalInterest}</p>
                   </div>
                 </div>
                 {tier.perk && (
-                  <p className="text-emerald-300 text-xs font-medium mt-auto">🏌️ {tier.perk}</p>
+                  <p className="text-emerald-300 text-xs font-medium mt-auto pt-2">🏌️ {tier.perk}</p>
                 )}
               </div>
             ))}
@@ -186,12 +190,11 @@ export default async function InvestorsPage() {
         </div>
       </section>
 
-      {/* ── Why Now ──────────────────────────────────────────────────────── */}
-      <section className="px-6 pb-32">
+      {/* ── Why Now ────────────────────────────────────────────────────── */}
+      <section className="px-6 sm:px-10 lg:px-16 pb-28">
         <div className="max-w-2xl mx-auto text-center">
-          <p className="text-zinc-500 text-sm uppercase tracking-widest mb-4">Why Now</p>
-          <h2 className="text-3xl font-bold mb-8">Why Skramblehouse?<br />Why Now?</h2>
-          <p className="text-zinc-400 text-base sm:text-lg leading-relaxed">
+          <SectionHeader eyebrow="Why Now" heading={<>Why Skramblehouse?<br />Why Now?</>} />
+          <p className="text-zinc-400 text-base sm:text-lg leading-relaxed -mt-4">
             West Side of Rochester is our next target location, and the demand is already there,
             long before we have broken ground.{' '}
             <span className="text-white font-semibold">{presaleCount} of 100 memberships sold and counting.</span>
@@ -199,12 +202,12 @@ export default async function InvestorsPage() {
         </div>
       </section>
 
-      {/* ── Express Interest ─────────────────────────────────────────────── */}
-      <section className="px-6 pb-28">
-        <div className="max-w-xl mx-auto bg-zinc-900 border border-zinc-800 rounded-2xl p-8 sm:p-12">
-          <div className="text-center mb-8">
-            <p className="text-zinc-500 text-sm uppercase tracking-widest mb-4">Get Involved</p>
-            <h2 className="text-3xl font-bold mb-4">Interested?</h2>
+      {/* ── Express Interest ───────────────────────────────────────────── */}
+      <section className="px-6 sm:px-10 lg:px-16 pb-28">
+        <div className="max-w-xl lg:max-w-2xl mx-auto bg-zinc-900 border border-zinc-800 rounded-2xl p-8 sm:p-12 lg:p-16">
+          <div className="text-center mb-10">
+            <p className="text-emerald-400 text-xs font-semibold uppercase tracking-widest mb-4">Get Involved</p>
+            <h2 className="text-3xl font-bold mb-5">Interested?</h2>
             <p className="text-zinc-400 text-base leading-relaxed">
               Share your information and we&apos;ll reach out personally to walk you through the details.
             </p>
@@ -216,7 +219,7 @@ export default async function InvestorsPage() {
           <InvestorForm />
 
           <div className="mt-16 pt-10 border-t border-zinc-800 text-center space-y-3">
-            <p className="text-zinc-500 text-sm uppercase tracking-widest">Or reach out directly</p>
+            <p className="text-zinc-500 text-sm uppercase tracking-widest mb-5">Or reach out directly</p>
             <a href="mailto:Theskamblehouseofgolfroc@gmail.com" className="block text-white text-base font-medium hover:text-emerald-400 transition-colors">
               Theskamblehouseofgolfroc@gmail.com
             </a>
@@ -227,8 +230,8 @@ export default async function InvestorsPage() {
         </div>
       </section>
 
-      {/* ── Footer ───────────────────────────────────────────────────────── */}
-      <footer className="border-t border-zinc-800 px-6 py-10 text-center space-y-1">
+      {/* ── Footer ─────────────────────────────────────────────────────── */}
+      <footer className="border-t border-zinc-800 px-6 py-10 text-center space-y-2">
         <p className="text-zinc-600 text-xs">© 2026 Skramblehouse. All rights reserved.</p>
         <p className="text-zinc-700 text-xs">This page is for informational purposes and does not constitute a public securities offering.</p>
       </footer>

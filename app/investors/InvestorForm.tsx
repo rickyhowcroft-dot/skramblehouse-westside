@@ -30,36 +30,45 @@ export default function InvestorForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-5">
       <input type="text" name="website" value={form.website} onChange={e => setForm(f => ({ ...f, website: e.target.value }))} className="hidden" tabIndex={-1} autoComplete="off" />
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-5">
+        <div className="flex flex-col gap-2">
+          <label className="text-zinc-400 text-xs uppercase tracking-widest font-semibold">First Name</label>
+          <input
+            type="text" required value={form.firstName}
+            onChange={e => setForm(f => ({ ...f, firstName: e.target.value }))}
+            placeholder="First"
+            className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-4 text-white text-base placeholder-zinc-600 focus:outline-none focus:border-emerald-500 transition-colors"
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <label className="text-zinc-400 text-xs uppercase tracking-widest font-semibold">Last Name</label>
+          <input
+            type="text" required value={form.lastName}
+            onChange={e => setForm(f => ({ ...f, lastName: e.target.value }))}
+            placeholder="Last"
+            className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-4 text-white text-base placeholder-zinc-600 focus:outline-none focus:border-emerald-500 transition-colors"
+          />
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <label className="text-zinc-400 text-xs uppercase tracking-widest font-semibold">Email Address</label>
         <input
-          type="text" required value={form.firstName}
-          onChange={e => setForm(f => ({ ...f, firstName: e.target.value }))}
-          placeholder="First Name"
-          className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-5 text-white text-lg placeholder-zinc-500 focus:outline-none focus:border-emerald-500"
-        />
-        <input
-          type="text" required value={form.lastName}
-          onChange={e => setForm(f => ({ ...f, lastName: e.target.value }))}
-          placeholder="Last Name"
-          className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-5 text-white text-lg placeholder-zinc-500 focus:outline-none focus:border-emerald-500"
+          type="email" required value={form.email}
+          onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+          placeholder="you@example.com"
+          className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-4 text-white text-base placeholder-zinc-600 focus:outline-none focus:border-emerald-500 transition-colors"
         />
       </div>
 
-      <input
-        type="email" required value={form.email}
-        onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-        placeholder="Email Address"
-        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-5 text-white text-lg placeholder-zinc-500 focus:outline-none focus:border-emerald-500"
-      />
-
-      {error && <p className="text-red-400 text-sm text-center">{error}</p>}
+      {error && <p className="text-red-400 text-sm text-center pt-1">{error}</p>}
 
       <button
         type="submit" disabled={loading}
-        className="w-full bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-black font-bold py-5 rounded-full text-base uppercase tracking-widest transition-colors"
+        className="w-full bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-black font-bold py-5 rounded-full text-base uppercase tracking-widest transition-colors mt-2"
       >
         {loading ? 'Sending…' : 'Learn More'}
       </button>
