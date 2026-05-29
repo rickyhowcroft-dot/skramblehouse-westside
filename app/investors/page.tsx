@@ -203,7 +203,7 @@ export default async function InvestorsPage() {
       </section>
 
       {/* ── Express Interest ───────────────────────────────────────────── */}
-      <section className="px-6 sm:px-10 lg:px-16 pb-28">
+      <section className="px-6 sm:px-10 lg:px-16 py-20 sm:py-28">
         <div className="max-w-xl lg:max-w-2xl mx-auto bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden">
 
           {/* Card header */}
@@ -219,12 +219,12 @@ export default async function InvestorsPage() {
           </div>
 
           {/* Form body */}
-          <div className="px-8 sm:px-12 lg:px-16 py-10">
+          <div className="px-8 sm:px-12 lg:px-16 py-12 sm:py-14">
             <InvestorForm />
           </div>
 
           {/* Direct contact footer */}
-          <div className="px-8 sm:px-12 lg:px-16 py-10 border-t border-zinc-800 text-center space-y-3">
+          <div className="px-8 sm:px-12 lg:px-16 py-12 border-t border-zinc-800 text-center space-y-3">
             <p className="text-zinc-500 text-sm uppercase tracking-widest mb-6">Or reach out directly</p>
             <a href="mailto:Theskamblehouseofgolfroc@gmail.com" className="block text-white text-base font-medium hover:text-emerald-400 transition-colors">
               Theskamblehouseofgolfroc@gmail.com
