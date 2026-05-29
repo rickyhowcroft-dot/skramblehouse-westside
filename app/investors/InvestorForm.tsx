@@ -30,7 +30,7 @@ export default function InvestorForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit} className="space-y-6">
       <input type="text" name="website" value={form.website} onChange={e => setForm(f => ({ ...f, website: e.target.value }))} className="hidden" tabIndex={-1} autoComplete="off" />
 
       <div className="grid grid-cols-2 gap-5">
@@ -68,7 +68,7 @@ export default function InvestorForm() {
 
       <button
         type="submit" disabled={loading}
-        className="w-full bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-black font-bold py-5 rounded-full text-base uppercase tracking-widest transition-colors mt-2"
+        className="w-full bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-black font-bold py-5 rounded-full text-base uppercase tracking-widest transition-colors mt-4"
       >
         {loading ? 'Sending…' : 'Learn More'}
       </button>

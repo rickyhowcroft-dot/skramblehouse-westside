@@ -204,22 +204,28 @@ export default async function InvestorsPage() {
 
       {/* ── Express Interest ───────────────────────────────────────────── */}
       <section className="px-6 sm:px-10 lg:px-16 pb-28">
-        <div className="max-w-xl lg:max-w-2xl mx-auto bg-zinc-900 border border-zinc-800 rounded-2xl p-8 sm:p-12 lg:p-16">
-          <div className="text-center mb-10">
-            <p className="text-emerald-400 text-xs font-semibold uppercase tracking-widest mb-4">Get Involved</p>
-            <h2 className="text-3xl font-bold mb-5">Interested?</h2>
+        <div className="max-w-xl lg:max-w-2xl mx-auto bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden">
+
+          {/* Card header */}
+          <div className="px-8 sm:px-12 lg:px-16 pt-12 pb-10 text-center border-b border-zinc-800">
+            <p className="text-emerald-400 text-xs font-semibold uppercase tracking-widest mb-5">Get Involved</p>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-6">Interested?</h2>
             <p className="text-zinc-400 text-base leading-relaxed">
               Share your information and we&apos;ll reach out personally to walk you through the details.
             </p>
-            <p className="text-zinc-400 text-base mt-3">
+            <p className="text-zinc-500 text-sm mt-3">
               No commitment — just a conversation.
             </p>
           </div>
 
-          <InvestorForm />
+          {/* Form body */}
+          <div className="px-8 sm:px-12 lg:px-16 py-10">
+            <InvestorForm />
+          </div>
 
-          <div className="mt-16 pt-10 border-t border-zinc-800 text-center space-y-3">
-            <p className="text-zinc-500 text-sm uppercase tracking-widest mb-5">Or reach out directly</p>
+          {/* Direct contact footer */}
+          <div className="px-8 sm:px-12 lg:px-16 py-10 border-t border-zinc-800 text-center space-y-3">
+            <p className="text-zinc-500 text-sm uppercase tracking-widest mb-6">Or reach out directly</p>
             <a href="mailto:Theskamblehouseofgolfroc@gmail.com" className="block text-white text-base font-medium hover:text-emerald-400 transition-colors">
               Theskamblehouseofgolfroc@gmail.com
             </a>
@@ -227,6 +233,7 @@ export default async function InvestorsPage() {
               (585) 690-3494
             </a>
           </div>
+
         </div>
       </section>
 
