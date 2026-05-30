@@ -17,7 +17,7 @@ const GRAY_5  = '#F9FAFB'   // Section backgrounds
 const LOCATIONS        = ['Horsham', 'KOP', 'Rochester'] as const
 const MEMBERSHIP_TYPES = ['Full Year', '5 Month'] as const
 
-const PAYMENT_METHODS = ['Cash/Check', 'Card (3% service fee included)'] as const
+const PAYMENT_METHODS = ['Cash/Check', 'Card (+ 3% service fee)'] as const
 
 const PLAN_OPTIONS: Record<string, string[]> = {
   'Full Year': [
