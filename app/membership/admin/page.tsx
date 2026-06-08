@@ -45,6 +45,8 @@ export default function MembershipAdminPage() {
   const [payType,  setPayType]  = useState('')
   const [payNotes, setPayNotes] = useState('')
   const [saving,   setSaving]   = useState(false)
+  const [exporting, setExporting] = useState(false)
+  const [exportMsg, setExportMsg] = useState('')
   // Per-location filter state
   const [locFilters, setLocFilters] = useState<Record<string, 'all'|'paid'|'unpaid'>>({
     Horsham: 'all', KOP: 'all', Rochester: 'all',
@@ -101,6 +103,32 @@ export default function MembershipAdminPage() {
 
   const fmtDate = (iso: string) =>
     new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+
+  const handleExport = async () => {
+    setExporting(true)
+    setExportMsg('')
+    try {
+      const res = await fetch('/api/membership-admin/export', {
+        method: 'POST',
+        headers: { 'x-admin-key': key },
+      })
+      if (!res.ok) { setExportMsg('Export failed.'); return }
+      // Trigger browser download
+      const blob = await res.blob()
+      const url  = URL.createObjectURL(blob)
+      const a    = document.createElement('a')
+      const cd   = res.headers.get('content-disposition') ?? ''
+      const match = cd.match(/filename="(.+?)"/)
+      a.href     = url
+      a.download = match ? match[1] : 'skramblehouse-presale.csv'
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      URL.revokeObjectURL(url)
+      setExportMsg('✓ CSV downloaded + email sent')
+      setTimeout(() => setExportMsg(''), 4000)
+    } catch { setExportMsg('Export failed.') } finally { setExporting(false) }
+  }
 
   const totalPaid   = signups.filter(s => s.paid).length
   const totalSignups = signups.length
@@ -159,10 +187,31 @@ export default function MembershipAdminPage() {
             <h1 style={{ fontSize: 24, fontWeight: 800, margin: '0 0 4px' }}>Membership Pre-Sale</h1>
             <p style={{ color: GRAY_3, fontSize: 14, margin: 0 }}>The Skramble Project · 2026–2027</p>
           </div>
-          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-            <CountChip label="Total" count={totalSignups} color="blue" />
-            <CountChip label="Paid" count={totalPaid} color="green" />
-            <CountChip label="Pending" count={totalSignups - totalPaid} color="amber" />
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 10 }}>
+            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+              <CountChip label="Total" count={totalSignups} color="blue" />
+              <CountChip label="Paid" count={totalPaid} color="green" />
+              <CountChip label="Pending" count={totalSignups - totalPaid} color="amber" />
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              {exportMsg && <span style={{ fontSize: 13, color: exportMsg.startsWith('✓') ? GREEN : '#B91C1C', fontWeight: 600 }}>{exportMsg}</span>}
+              <button
+                onClick={handleExport}
+                disabled={exporting || loading}
+                style={{
+                  backgroundColor: exporting ? GRAY_4 : BLUE_DK,
+                  color: exporting ? GRAY_3 : '#fff',
+                  fontWeight: 700, fontSize: 13,
+                  padding: '10px 18px', borderRadius: 10,
+                  border: 'none', cursor: exporting ? 'default' : 'pointer',
+                  display: 'flex', alignItems: 'center', gap: 6,
+                  transition: 'background 0.15s',
+                }}
+              >
+                <span style={{ fontSize: 16 }}>⬇</span>
+                {exporting ? 'Exporting…' : 'Export CSV'}
+              </button>
+            </div>
           </div>
         </div>
 
