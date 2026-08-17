@@ -31,8 +31,10 @@ const PLAN_OPTIONS: Record<string, string[]> = {
     'Family Add-On — $400',
   ],
   'Junior': [
-    'Annual — TBD',
-    'Monthly — TBD',
+    'Annual — $1,600',
+    'Monthly — $165/mo (12 months)',
+    'Family Add-On — $600',
+    'Double — $2,200',
   ],
 }
 
@@ -279,20 +281,24 @@ export default function RocPresalePage() {
           {/* ── Junior ── */}
           <PricingCard
             name="Junior Membership"
-            subtitle="For junior golfers"
+            subtitle="12 months · through Sept 2027"
             early={{
               label: 'The Early Wave',
               dates: 'Jun 1 – Oct 31',
               rows: [
-                { item: 'Annual',   price: 'TBD' },
-                { item: 'Monthly',  price: 'TBD' },
+                { item: 'Annual',        price: '$1,600' },
+                { item: 'Monthly',       price: '$165/mo × 12 months' },
+                { item: 'Family Add-On', price: '$600' },
+                { item: 'Double',        price: '$2,200' },
               ],
-              perks: [],
+              perks: ['14 Guest Fees included', '2 Lessons included', '$550 value'],
             }}
             after={{
               label: 'After Oct 31',
               rows: [
-                { item: 'Annual',   price: 'TBD' },
+                { item: 'Annual',        price: '$2,000' },
+                { item: 'Monthly',       price: '$185/mo × 12 months' },
+                { item: 'Family Add-On', price: '$800' },
               ],
             }}
           />
