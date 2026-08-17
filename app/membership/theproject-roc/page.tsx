@@ -1,21 +1,20 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 
 // ── Brand tokens ────────────────────────────────────────────────────────────
-const BLUE    = '#1D4ED8'   // Royal blue — matches Skramblehouse sign
-const BLUE_DK = '#1E40AF'   // Darker hover state
-const BLUE_LT = '#EFF6FF'   // Very light blue tint for subtle backgrounds
-const BLUE_MID = '#BFDBFE'  // Light blue border/divider
-const GRAY_1  = '#111827'   // Near-black for headlines
-const GRAY_2  = '#374151'   // Body text
-const GRAY_3  = '#6B7280'   // Muted / captions
-const GRAY_4  = '#E5E7EB'   // Borders
-const GRAY_5  = '#F9FAFB'   // Section backgrounds
+const BLUE    = '#1D4ED8'
+const BLUE_DK = '#1E40AF'
+const BLUE_LT = '#EFF6FF'
+const BLUE_MID = '#BFDBFE'
+const GRAY_1  = '#111827'
+const GRAY_2  = '#374151'
+const GRAY_3  = '#6B7280'
+const GRAY_4  = '#E5E7EB'
+const GRAY_5  = '#F9FAFB'
 
-const LOCATIONS        = ['Horsham', 'KOP'] as const
-const MEMBERSHIP_TYPES = ['Full Year', '5 Month'] as const
+const MEMBERSHIP_TYPES = ['Full Year', '5 Month', 'Junior'] as const
 
 const PAYMENT_METHODS = ['Cash/Check', 'Card (+ 3% service fee)'] as const
 
@@ -30,26 +29,59 @@ const PLAN_OPTIONS: Record<string, string[]> = {
     'Full Payment — $1,100',
     'Monthly — $250/mo (5 months)',
     'Family Add-On — $400',
-    'Summer (4 Months) — $600',
+  ],
+  'Junior': [
+    'Annual — TBD',
+    'Monthly — TBD',
   ],
 }
-const OFFER_START     = 'June 1, 2026'
-const OFFER_END       = 'August 31, 2026'
 
-export default function MembershipPresalePage() {
-  const [form, setForm] = useState({
+const OFFER_START = 'June 1, 2026'
+const OFFER_END   = 'October 31, 2026'
+
+// ── Ticker config: membership type → max pre-sale cap ───────────────────────
+interface TierData {
+  type: string
+  count: number
+  max: number
+  remaining: number
+  isFull: boolean
+}
+
+const TICKER_CONFIG = [
+  { type: 'Full Year', label: 'Full Year Memberships' },
+  { type: '5 Month',  label: 'Winter (5 Month) Memberships' },
+  { type: 'Junior',   label: 'Junior Memberships' },
+]
+
+export default function RocPresalePage() {
+  const [tiers, setTiers]     = useState<TierData[] | null>(null)
+  const [form, setForm]       = useState({
     firstName: '', lastName: '', email: '', phone: '',
-    location: '', membershipType: '', planType: '', paymentMethod: '', website: '',
+    membershipType: '', planType: '', paymentMethod: '', website: '',
   })
   const [submitted, setSubmitted] = useState(false)
   const [loading,   setLoading]   = useState(false)
   const [error,     setError]     = useState('')
 
+  // ── Live ticker polling ──────────────────────────────────────────────────
+  const fetchCounts = () => {
+    fetch('/api/membership-count-roc')
+      .then(r => r.json())
+      .then(d => setTiers(d.tiers ?? null))
+      .catch(() => setTiers(null))
+  }
+
+  useEffect(() => {
+    fetchCounts()
+    const id = setInterval(fetchCounts, 30_000) // refresh every 30 s
+    return () => clearInterval(id)
+  }, [])
+
   const set = (key: keyof typeof form, val: string) =>
     setForm(p => ({
       ...p,
       [key]: val,
-      // Reset plan + payment whenever membership type changes
       ...(key === 'membershipType' ? { planType: '', paymentMethod: '' } : {}),
     }))
 
@@ -60,13 +92,19 @@ export default function MembershipPresalePage() {
     const res  = await fetch('/api/membership-signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form),
+      // Location is always Rochester for this page
+      body: JSON.stringify({ ...form, location: 'Rochester' }),
     })
     const data = await res.json()
     if (!res.ok) { setError(data.error || 'Something went wrong. Please try again.'); setLoading(false); return }
     setSubmitted(true)
     setLoading(false)
+    fetchCounts() // refresh ticker after signup
   }
+
+  // Determine if the selected membership type is full
+  const selectedTier = tiers?.find(t => t.type === form.membershipType)
+  const selectedFull = selectedTier?.isFull ?? false
 
   return (
     <main style={{ backgroundColor: '#ffffff', color: GRAY_1, fontFamily: 'system-ui, -apple-system, sans-serif' }}>
@@ -85,8 +123,27 @@ export default function MembershipPresalePage() {
         </div>
       </div>
 
+      {/* ── Location badge ───────────────────────────────────────────────── */}
+      <div style={{ maxWidth: 720, margin: '0 auto', padding: '24px 20px 0', textAlign: 'center' }}>
+        <span style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 8,
+          backgroundColor: BLUE,
+          color: '#fff',
+          fontWeight: 800,
+          fontSize: 12,
+          letterSpacing: '0.1em',
+          textTransform: 'uppercase',
+          padding: '8px 20px',
+          borderRadius: 999,
+        }}>
+          📍 Rochester
+        </span>
+      </div>
+
       {/* ── Intro quote ──────────────────────────────────────────────────── */}
-      <div style={{ maxWidth: 720, margin: '0 auto', padding: '40px 20px 0' }}>
+      <div style={{ maxWidth: 720, margin: '0 auto', padding: '32px 20px 0' }}>
         <div style={{
           borderLeft: `4px solid ${BLUE}`,
           backgroundColor: BLUE_LT,
@@ -94,7 +151,7 @@ export default function MembershipPresalePage() {
           padding: '24px 28px',
         }}>
           <p style={{ color: GRAY_2, fontSize: 16, lineHeight: 1.75, margin: 0 }}>
-            <strong style={{ color: GRAY_1 }}>Welcome to The Skramble Project.</strong>
+            <strong style={{ color: GRAY_1 }}>Welcome to The Skramble Project — Rochester.</strong>
           </p>
           <p style={{ color: GRAY_2, fontSize: 16, lineHeight: 1.75, margin: '12px 0 0' }}>
             We&rsquo;re changing things up. Starting this summer, we are executing a strategic
@@ -130,16 +187,25 @@ export default function MembershipPresalePage() {
           2026–2027 Membership Pre&#8209;Sale
         </h1>
         <p style={{ color: GRAY_3, fontSize: 16, lineHeight: 1.7, maxWidth: 520, margin: '0 auto' }}>
-          Reserve your membership now and lock in a discounted rate before the season opens to the public.
-          Our team will follow up with next steps.
+          Reserve your Rochester membership now and lock in a discounted rate before the season opens to the public.
         </p>
+      </div>
+
+      {/* ── Live Ticker ──────────────────────────────────────────────────── */}
+      <div style={{ maxWidth: 720, margin: '0 auto', padding: '40px 20px 0' }}>
+        <SectionLabel>Live Pre-Sale Availability — Rochester</SectionLabel>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginTop: 20 }}>
+          {TICKER_CONFIG.map(({ type, label }) => {
+            const tier = tiers?.find(t => t.type === type)
+            return <AvailabilityTicker key={type} label={label} tier={tier ?? null} />
+          })}
+        </div>
       </div>
 
       {/* ── Pricing Comparison ───────────────────────────────────────────── */}
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '48px 20px 0' }}>
         <SectionLabel>Membership Pricing</SectionLabel>
 
-        {/* Save 20% nudge */}
         <div style={{
           marginTop: 16,
           backgroundColor: '#FEF9C3',
@@ -152,8 +218,8 @@ export default function MembershipPresalePage() {
         }}>
           <span style={{ fontSize: 16 }}>⏰</span>
           <div style={{ color: '#92400E', fontSize: 13, fontWeight: 600 }}>
-            <p style={{ margin: 0 }}>Early Wave runs <strong>June 1 – August 31</strong> only.</p>
-            <p style={{ margin: '4px 0 0' }}>Prices increase approximately 20% after September 1.</p>
+            <p style={{ margin: 0 }}>Early Wave runs <strong>through October 31, 2026</strong> only.</p>
+            <p style={{ margin: '4px 0 0' }}>Prices increase after the pre-sale closes.</p>
           </div>
         </div>
 
@@ -165,20 +231,20 @@ export default function MembershipPresalePage() {
             subtitle="12 months · through Sept 2027"
             early={{
               label: 'The Early Wave',
-              dates: 'Jun 1 – Aug 31',
+              dates: 'Jun 1 – Oct 31',
               rows: [
-                { item: 'Annual',      price: '$1,600' },
-                { item: 'Monthly',     price: '$165/mo × 12 months' },
+                { item: 'Annual',        price: '$1,600' },
+                { item: 'Monthly',       price: '$165/mo × 12 months' },
                 { item: 'Family Add-On', price: '$600' },
-                { item: 'Double',       price: '$2,200' },
+                { item: 'Double',        price: '$2,200' },
               ],
               perks: ['14 Guest Fees included', '2 Lessons included', '$550 value'],
             }}
             after={{
-              label: 'After Sept 1',
+              label: 'After Oct 31',
               rows: [
-                { item: 'Annual',      price: '$2,000' },
-                { item: 'Monthly',     price: '$185/mo × 12 months' },
+                { item: 'Annual',        price: '$2,000' },
+                { item: 'Monthly',       price: '$185/mo × 12 months' },
                 { item: 'Family Add-On', price: '$800' },
               ],
             }}
@@ -190,23 +256,43 @@ export default function MembershipPresalePage() {
             subtitle="December – April"
             early={{
               label: 'The Early Wave',
-              dates: 'Jun 1 – Aug 31',
+              dates: 'Jun 1 – Oct 31',
               rows: [
-                { item: 'Full Payment', price: '$1,100' },
-                { item: 'Monthly',      price: '$250/mo × 5 months' },
+                { item: 'Full Payment',  price: '$1,100' },
+                { item: 'Monthly',       price: '$250/mo × 5 months' },
                 { item: 'Family Add-On', price: '$400' },
-                { item: 'Summer (4 mo)', price: '$600' },
               ],
               perks: ['Guests $25/person', '$50 – 30 min lesson'],
             }}
             after={{
-              label: 'After Sept 1',
+              label: 'After Oct 31',
               rows: [
-                { item: 'Full Payment', price: '$1,300' },
-                { item: 'Monthly',      price: '$300/mo × 5 months' },
+                { item: 'Full Payment',  price: '$1,300' },
+                { item: 'Monthly',       price: '$300/mo × 5 months' },
                 { item: 'Family Add-On', price: '$400' },
               ],
               perks: ['Guests $25/person', '$50 – 30 min lessons'],
+            }}
+          />
+
+          {/* ── Junior ── */}
+          <PricingCard
+            name="Junior Membership"
+            subtitle="For junior golfers"
+            early={{
+              label: 'The Early Wave',
+              dates: 'Jun 1 – Oct 31',
+              rows: [
+                { item: 'Annual',   price: 'TBD' },
+                { item: 'Monthly',  price: 'TBD' },
+              ],
+              perks: [],
+            }}
+            after={{
+              label: 'After Oct 31',
+              rows: [
+                { item: 'Annual',   price: 'TBD' },
+              ],
             }}
           />
         </div>
@@ -244,15 +330,30 @@ export default function MembershipPresalePage() {
                 You&rsquo;re on the list!
               </h2>
               <p style={{ color: GRAY_3, fontSize: 15, lineHeight: 1.65, maxWidth: 320, margin: '0 auto' }}>
-                Thanks for signing up. Our team will be in touch with pricing details and next steps.
+                Thanks for signing up for the Rochester pre-sale. Our team will be in touch with next steps.
               </p>
             </div>
           ) : (
             <>
               <div style={{ marginBottom: 32 }}>
                 <h2 style={{ fontSize: 22, fontWeight: 800, margin: '0 0 8px', color: GRAY_1 }}>
-                  Sign Up for Pre-Sale Access
+                  Sign Up — Rochester Pre-Sale
                 </h2>
+                {/* Static location badge */}
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  backgroundColor: BLUE_LT,
+                  border: `1px solid ${BLUE_MID}`,
+                  borderRadius: 8,
+                  padding: '5px 12px',
+                  marginTop: 8,
+                  marginBottom: 8,
+                }}>
+                  <span style={{ fontSize: 13 }}>📍</span>
+                  <span style={{ color: BLUE, fontWeight: 700, fontSize: 13 }}>Rochester</span>
+                </div>
                 <p style={{ color: GRAY_3, fontSize: 14, margin: 0 }}>
                   All fields required.
                 </p>
@@ -290,28 +391,26 @@ export default function MembershipPresalePage() {
                     placeholder="(555) 555-5555" autoComplete="tel" style={inputStyle} />
                 </FormField>
 
-                {/* Location + Type */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }} className="name-grid">
-                  <FormField label="Location">
-                    <select required value={form.location}
-                      onChange={e => set('location', e.target.value)}
-                      style={{ ...inputStyle, color: form.location ? GRAY_1 : GRAY_3 }}>
-                      <option value="" disabled>Select…</option>
-                      {LOCATIONS.map(l => <option key={l} value={l}>{l}</option>)}
-                    </select>
-                  </FormField>
-                  <FormField label="Membership Type">
-                    <select required value={form.membershipType}
-                      onChange={e => set('membershipType', e.target.value)}
-                      style={{ ...inputStyle, color: form.membershipType ? GRAY_1 : GRAY_3 }}>
-                      <option value="" disabled>Select…</option>
-                      {MEMBERSHIP_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
-                    </select>
-                  </FormField>
-                </div>
+                {/* Membership Type */}
+                <FormField label="Membership Type">
+                  <select required value={form.membershipType}
+                    onChange={e => set('membershipType', e.target.value)}
+                    style={{ ...inputStyle, color: form.membershipType ? GRAY_1 : GRAY_3 }}>
+                    <option value="" disabled>Select…</option>
+                    {MEMBERSHIP_TYPES.map(t => {
+                      const tier = tiers?.find(ti => ti.type === t)
+                      const isFull = tier?.isFull ?? false
+                      return (
+                        <option key={t} value={t} disabled={isFull}>
+                          {t}{isFull ? ' — SOLD OUT' : ''}
+                        </option>
+                      )
+                    })}
+                  </select>
+                </FormField>
 
-                {/* Plan + Payment — appear once membership type is chosen */}
-                {form.membershipType && (
+                {/* Plan + Payment */}
+                {form.membershipType && !selectedFull && (
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }} className="name-grid">
                     <FormField label="Plan / Payment Option">
                       <select required value={form.planType}
@@ -336,6 +435,17 @@ export default function MembershipPresalePage() {
                   </div>
                 )}
 
+                {/* Sold-out warning for selected type */}
+                {selectedFull && (
+                  <div style={{
+                    backgroundColor: '#FEF2F2', border: '1px solid #FECACA',
+                    borderRadius: 12, padding: '12px 16px',
+                    color: '#B91C1C', fontSize: 14, textAlign: 'center',
+                  }}>
+                    This membership tier is sold out for the pre-sale.
+                  </div>
+                )}
+
                 {/* Honeypot */}
                 <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, overflow: 'hidden' }}>
                   <input name="website" type="text" tabIndex={-1} autoComplete="off"
@@ -352,9 +462,9 @@ export default function MembershipPresalePage() {
                   </div>
                 )}
 
-                <button type="submit" disabled={loading} style={{
+                <button type="submit" disabled={loading || selectedFull} style={{
                   width: '100%',
-                  backgroundColor: loading ? '#93C5FD' : BLUE,
+                  backgroundColor: (loading || selectedFull) ? '#93C5FD' : BLUE,
                   color: '#fff',
                   fontWeight: 800,
                   fontSize: 14,
@@ -363,12 +473,12 @@ export default function MembershipPresalePage() {
                   padding: '16px 24px',
                   borderRadius: 14,
                   border: 'none',
-                  cursor: loading ? 'not-allowed' : 'pointer',
+                  cursor: (loading || selectedFull) ? 'not-allowed' : 'pointer',
                   transition: 'background-color 0.15s',
                   marginTop: 4,
                 }}
-                  onMouseEnter={e => { if (!loading) (e.target as HTMLButtonElement).style.backgroundColor = BLUE_DK }}
-                  onMouseLeave={e => { if (!loading) (e.target as HTMLButtonElement).style.backgroundColor = BLUE }}
+                  onMouseEnter={e => { if (!loading && !selectedFull) (e.target as HTMLButtonElement).style.backgroundColor = BLUE_DK }}
+                  onMouseLeave={e => { if (!loading && !selectedFull) (e.target as HTMLButtonElement).style.backgroundColor = BLUE }}
                 >
                   {loading ? 'Submitting…' : 'Reserve My Spot →'}
                 </button>
@@ -395,6 +505,89 @@ export default function MembershipPresalePage() {
   )
 }
 
+// ── AvailabilityTicker ─────────────────────────────────────────────────────
+function AvailabilityTicker({ label, tier }: { label: string; tier: TierData | null }) {
+  const isLoading = tier === null
+  const pct       = tier ? Math.min(100, Math.round((tier.count / tier.max) * 100)) : 0
+  const isFull    = tier?.isFull ?? false
+
+  return (
+    <div style={{
+      backgroundColor: isFull ? '#FEF2F2' : BLUE_LT,
+      border: `1px solid ${isFull ? '#FECACA' : BLUE_MID}`,
+      borderRadius: 14,
+      padding: '16px 20px',
+    }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+        {/* Label + pulsing dot */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          {isLoading ? (
+            <div style={{ width: 8, height: 8, borderRadius: '50%', backgroundColor: GRAY_4 }} />
+          ) : isFull ? (
+            <div style={{ width: 8, height: 8, borderRadius: '50%', backgroundColor: '#EF4444' }} />
+          ) : (
+            <PulsingDot />
+          )}
+          <span style={{ fontWeight: 700, fontSize: 13, color: GRAY_1 }}>{label}</span>
+        </div>
+        {/* Count badge */}
+        {isLoading ? (
+          <div style={{ width: 60, height: 20, borderRadius: 6, backgroundColor: GRAY_4 }} />
+        ) : (
+          <span style={{
+            fontWeight: 800,
+            fontSize: 13,
+            color: isFull ? '#B91C1C' : BLUE,
+            tabularNums: true,
+          } as React.CSSProperties}>
+            {isFull ? 'SOLD OUT' : `${tier!.count} / ${tier!.max}`}
+          </span>
+        )}
+      </div>
+
+      {/* Progress bar */}
+      <div style={{
+        height: 8,
+        borderRadius: 4,
+        backgroundColor: isFull ? '#FECACA' : BLUE_MID,
+        overflow: 'hidden',
+      }}>
+        <div style={{
+          height: '100%',
+          width: isLoading ? '0%' : `${pct}%`,
+          borderRadius: 4,
+          backgroundColor: isFull ? '#EF4444' : BLUE,
+          transition: 'width 0.6s ease',
+        }} />
+      </div>
+
+      {!isLoading && !isFull && (
+        <p style={{ margin: '8px 0 0', fontSize: 12, color: GRAY_3 }}>
+          <strong style={{ color: GRAY_2 }}>{tier!.remaining}</strong> spot{tier!.remaining !== 1 ? 's' : ''} remaining
+        </p>
+      )}
+    </div>
+  )
+}
+
+// Pulsing dot (CSS animation via style tag)
+function PulsingDot() {
+  return (
+    <>
+      <div className="roc-pulse-dot" style={{
+        width: 8, height: 8, borderRadius: '50%', backgroundColor: BLUE, flexShrink: 0,
+      }} />
+      <style>{`
+        @keyframes roc-pulse {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50%       { opacity: 0.4; transform: scale(1.4); }
+        }
+        .roc-pulse-dot { animation: roc-pulse 2s ease-in-out infinite; }
+      `}</style>
+    </>
+  )
+}
+
 // ── Sub-components ─────────────────────────────────────────────────────────
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
@@ -407,7 +600,6 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   )
 }
 
-// ── PricingCard ────────────────────────────────────────────────────────────
 interface PriceRow  { item: string; price: string }
 interface PriceSide { label: string; dates?: string; rows: PriceRow[]; perks?: string[] }
 function PricingCard({
@@ -420,33 +612,18 @@ function PricingCard({
       overflow: 'hidden',
       boxShadow: '0 2px 12px rgba(0,0,0,0.05)',
     }}>
-      {/* Card header */}
       <div style={{ backgroundColor: BLUE_LT, padding: '14px 20px', borderBottom: `1px solid ${BLUE_MID}` }}>
         <p style={{ margin: 0, fontWeight: 800, fontSize: 15, color: GRAY_1 }}>{name}</p>
         <p style={{ margin: '2px 0 0', fontSize: 12, color: GRAY_3, fontWeight: 500 }}>{subtitle}</p>
       </div>
 
-      {/* Two-column pricing */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }} className="pricing-grid">
-
-        {/* Early Wave — highlighted */}
-        <div style={{
-          backgroundColor: '#fff',
-          borderRight: `1px solid ${BLUE_MID}`,
-          padding: '18px 20px',
-        }}>
+        <div style={{ backgroundColor: '#fff', borderRight: `1px solid ${BLUE_MID}`, padding: '18px 20px' }}>
           <div style={{ marginBottom: 14 }}>
             <span style={{
-              display: 'inline-block',
-              backgroundColor: BLUE,
-              color: '#fff',
-              fontSize: 10,
-              fontWeight: 800,
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              borderRadius: 6,
-              padding: '3px 8px',
-              marginBottom: 4,
+              display: 'inline-block', backgroundColor: BLUE, color: '#fff',
+              fontSize: 10, fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase',
+              borderRadius: 6, padding: '3px 8px', marginBottom: 4,
             }}>{early.label}</span>
             {early.dates && (
               <p style={{ margin: '2px 0 0', fontSize: 11, color: GRAY_3, fontWeight: 500 }}>{early.dates}</p>
@@ -466,11 +643,8 @@ function PricingCard({
               {early.perks.map(perk => (
                 <div key={perk} style={{
                   display: 'flex', alignItems: 'center', gap: 10,
-                  backgroundColor: BLUE_LT,
-                  border: `1px solid ${BLUE_MID}`,
-                  borderRadius: 8,
-                  padding: '8px 12px',
-                  marginBottom: 6,
+                  backgroundColor: BLUE_LT, border: `1px solid ${BLUE_MID}`,
+                  borderRadius: 8, padding: '8px 12px', marginBottom: 6,
                 }}>
                   <span style={{
                     width: 20, height: 20, borderRadius: '50%',
@@ -485,20 +659,12 @@ function PricingCard({
           )}
         </div>
 
-        {/* After Party — dimmed */}
         <div style={{ backgroundColor: GRAY_5, padding: '18px 20px' }}>
           <div style={{ marginBottom: 14 }}>
             <span style={{
-              display: 'inline-block',
-              backgroundColor: GRAY_4,
-              color: GRAY_3,
-              fontSize: 10,
-              fontWeight: 800,
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              borderRadius: 6,
-              padding: '3px 8px',
-              marginBottom: 4,
+              display: 'inline-block', backgroundColor: GRAY_4, color: GRAY_3,
+              fontSize: 10, fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase',
+              borderRadius: 6, padding: '3px 8px', marginBottom: 4,
             }}>{after.label}</span>
             <p style={{ margin: '2px 0 0', fontSize: 11, color: GRAY_3, fontWeight: 500 }}>~20% more</p>
           </div>
@@ -527,12 +693,9 @@ function FormField({ label, children }: { label: string; children: React.ReactNo
   return (
     <div>
       <label style={{
-        display: 'block',
-        fontSize: 11, fontWeight: 700,
-        letterSpacing: '0.08em',
-        textTransform: 'uppercase',
-        color: GRAY_3,
-        marginBottom: 8,
+        display: 'block', fontSize: 11, fontWeight: 700,
+        letterSpacing: '0.08em', textTransform: 'uppercase',
+        color: GRAY_3, marginBottom: 8,
       }}>
         {label} <span style={{ color: BLUE }}>*</span>
       </label>

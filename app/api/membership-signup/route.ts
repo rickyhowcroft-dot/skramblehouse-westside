@@ -3,7 +3,7 @@ import { supabaseAdmin } from '@/lib/supabase'
 import { sendMembershipSignupNotification } from '@/lib/email'
 
 const VALID_LOCATIONS = ['Horsham', 'KOP', 'Rochester'] as const
-const VALID_TYPES     = ['Full Year', '5 Month'] as const
+const VALID_TYPES     = ['Full Year', '5 Month', 'Junior'] as const
 const EMAIL_RE        = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 const PHONE_RE        = /^[\d\s\-\(\)\+\.]{7,20}$/
 
