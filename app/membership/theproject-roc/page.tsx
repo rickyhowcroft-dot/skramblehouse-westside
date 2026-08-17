@@ -115,8 +115,8 @@ export default function RocPresalePage() {
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '32px 20px 0' }}>
         <div style={{ borderRadius: 20, overflow: 'hidden', boxShadow: '0 8px 40px rgba(0,0,0,0.14)' }}>
           <Image
-            src="/hero.jpg"
-            alt="Skramblehouse"
+            src="/rochester-hero.jpg"
+            alt="Skramblehouse Rochester"
             width={1200}
             height={540}
             priority
