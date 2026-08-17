@@ -39,7 +39,7 @@ const PLAN_OPTIONS: Record<string, string[]> = {
 }
 
 const OFFER_START = 'June 1, 2026'
-const OFFER_END   = 'October 31, 2026'
+const OFFER_END   = 'October 1, 2026'
 
 // ── Ticker config: membership type → max pre-sale cap ───────────────────────
 interface TierData {
@@ -136,11 +136,11 @@ export default function RocPresalePage() {
           <p style={{ color: GRAY_2, fontSize: 16, lineHeight: 1.75, margin: 0 }}>
             As we deepen our roots in the Rochester market, your feedback is directly shaping
             how we operate. We&rsquo;ve
-            extended the pre-sale through October 31st to better match the seasonality here, and
+            extended the pre-sale through October 1st to better match the seasonality here, and
             we&rsquo;re giving you full visibility into exactly how many spots remain.
           </p>
           <p style={{ color: GRAY_2, fontSize: 16, lineHeight: 1.75, margin: '12px 0 0' }}>
-            If spots fill before October 31st, the pre-sale closes early and updated pricing goes
+            If spots fill before October 1st, the pre-sale closes early and updated pricing goes
             into effect &mdash; no surprises, no fine print.
           </p>
           <p style={{ color: GRAY_1, fontSize: 16, lineHeight: 1.75, margin: '12px 0 0', fontWeight: 700 }}>
@@ -202,7 +202,7 @@ export default function RocPresalePage() {
         }}>
           <span style={{ fontSize: 16 }}>⏰</span>
           <div style={{ color: '#92400E', fontSize: 13, fontWeight: 600 }}>
-            <p style={{ margin: 0 }}>Early Wave runs <strong>through October 31, 2026</strong> only.</p>
+            <p style={{ margin: 0 }}>Early Wave runs <strong>through October 1, 2026</strong> only.</p>
             <p style={{ margin: '4px 0 0' }}>Prices increase after the pre-sale closes.</p>
           </div>
         </div>
@@ -215,7 +215,7 @@ export default function RocPresalePage() {
             subtitle="12 months · through Sept 2027"
             early={{
               label: 'The Early Wave',
-              dates: 'Jun 1 – Oct 31',
+              dates: 'Jun 1 – Oct 1',
               rows: [
                 { item: 'Annual',        price: '$1,600' },
                 { item: 'Monthly',       price: '$165/mo × 12 months' },
@@ -225,7 +225,7 @@ export default function RocPresalePage() {
               perks: ['14 Guest Fees included', '2 Lessons included', '$550 value'],
             }}
             after={{
-              label: 'After Oct 31',
+              label: 'After Oct 1',
               rows: [
                 { item: 'Annual',        price: '$2,000' },
                 { item: 'Monthly',       price: '$185/mo × 12 months' },
@@ -240,7 +240,7 @@ export default function RocPresalePage() {
             subtitle="December – April"
             early={{
               label: 'The Early Wave',
-              dates: 'Jun 1 – Oct 31',
+              dates: 'Jun 1 – Oct 1',
               rows: [
                 { item: 'Full Payment',  price: '$1,100' },
                 { item: 'Monthly',       price: '$250/mo × 5 months' },
@@ -249,7 +249,7 @@ export default function RocPresalePage() {
               perks: ['Guests $25/person', '$50 – 30 min lesson'],
             }}
             after={{
-              label: 'After Oct 31',
+              label: 'After Oct 1',
               rows: [
                 { item: 'Full Payment',  price: '$1,300' },
                 { item: 'Monthly',       price: '$300/mo × 5 months' },
@@ -265,7 +265,7 @@ export default function RocPresalePage() {
             subtitle="12 months · through Sept 2027"
             early={{
               label: 'The Early Wave',
-              dates: 'Jun 1 – Oct 31',
+              dates: 'Jun 1 – Oct 1',
               rows: [
                 { item: 'Annual',        price: '$1,600' },
                 { item: 'Monthly',       price: '$165/mo × 12 months' },
@@ -275,7 +275,7 @@ export default function RocPresalePage() {
               perks: ['14 Guest Fees included', '2 Lessons included', '$550 value'],
             }}
             after={{
-              label: 'After Oct 31',
+              label: 'After Oct 1',
               rows: [
                 { item: 'Annual',        price: '$2,000' },
                 { item: 'Monthly',       price: '$185/mo × 12 months' },
