@@ -125,25 +125,6 @@ export default function RocPresalePage() {
         </div>
       </div>
 
-      {/* ── Location badge ───────────────────────────────────────────────── */}
-      <div style={{ maxWidth: 720, margin: '0 auto', padding: '24px 20px 0', textAlign: 'center' }}>
-        <span style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: 8,
-          backgroundColor: BLUE,
-          color: '#fff',
-          fontWeight: 800,
-          fontSize: 12,
-          letterSpacing: '0.1em',
-          textTransform: 'uppercase',
-          padding: '8px 20px',
-          borderRadius: 999,
-        }}>
-          📍 Rochester
-        </span>
-      </div>
-
       {/* ── Intro quote ──────────────────────────────────────────────────── */}
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '32px 20px 0' }}>
         <div style={{
