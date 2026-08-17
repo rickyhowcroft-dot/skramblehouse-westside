@@ -134,8 +134,8 @@ export default function RocPresalePage() {
           padding: '24px 28px',
         }}>
           <p style={{ color: GRAY_2, fontSize: 16, lineHeight: 1.75, margin: 0 }}>
-            We&rsquo;re evolving &mdash; and that&rsquo;s by design. As we deepen our roots in
-            the Rochester market, your feedback is directly shaping how we operate. We&rsquo;ve
+            As we deepen our roots in the Rochester market, your feedback is directly shaping
+            how we operate. We&rsquo;ve
             extended the pre-sale through October 31st to better match the seasonality here, and
             we&rsquo;re giving you full visibility into exactly how many spots remain.
           </p>
