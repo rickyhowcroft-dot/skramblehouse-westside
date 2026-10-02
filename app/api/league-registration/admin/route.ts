@@ -3,7 +3,7 @@ import { supabaseAdmin } from '@/lib/supabase'
 
 function isAdmin(req: NextRequest) {
   const key = req.headers.get('x-admin-key') ?? ''
-  const env = process.env.MEMBERSHIP_ADMIN_KEY?.trim() ?? ''
+  const env = process.env.LEAGUE_ADMIN_KEY?.trim() ?? ''
   return env.length > 0 && key === env
 }
 
