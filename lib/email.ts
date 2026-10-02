@@ -129,17 +129,20 @@ interface LeagueRegistrationPayload {
 }
 
 export async function sendLeagueRegistrationNotification(payload: LeagueRegistrationPayload) {
-  if (!process.env.RESEND_API_KEY || !process.env.NOTIFY_EMAIL) {
-    console.warn('[email] RESEND_API_KEY or NOTIFY_EMAIL not set — skipping league registration notification')
+  if (!process.env.RESEND_API_KEY) {
+    console.warn('[email] RESEND_API_KEY not set — skipping league registration notification')
     return
   }
 
   const { firstName, lastName, email, phone, ghin, estimatedHcp, leagueNights, timeSlot, sessions } = payload
   const resend = new Resend(process.env.RESEND_API_KEY)
+  // Use LEAGUE_NOTIFY_EMAIL if set, otherwise fall back to NOTIFY_EMAIL
+  const recipients = (process.env.LEAGUE_NOTIFY_EMAIL ?? process.env.NOTIFY_EMAIL ?? '')
+    .split(',').map(e => e.trim()).filter(Boolean)
 
   await resend.emails.send({
     from: process.env.EMAIL_FROM ?? 'Skramblehouse <noreply@skramblehouse.com>',
-    to: (process.env.NOTIFY_EMAIL ?? '').split(',').map(e => e.trim()).filter(Boolean),
+    to: recipients,
     subject: `⛳ League Registration — ${firstName} ${lastName}`,
     html: `
       <div style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:24px">
