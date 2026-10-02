@@ -88,7 +88,7 @@ export default function LeagueRegistrationPage() {
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '24px 16px 0' }}>
         <div style={{ borderRadius: 18, overflow: 'hidden', boxShadow: '0 8px 40px rgba(0,0,0,0.14)' }}>
           <Image
-            src="/hero.jpg"
+            src="/rochester-hero.jpg"
             alt="Skramblehouse League Registration"
             width={1200}
             height={540}
