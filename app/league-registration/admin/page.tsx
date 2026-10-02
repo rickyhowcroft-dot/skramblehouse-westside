@@ -126,7 +126,7 @@ export default function LeagueAdminPage() {
   // ── Login ─────────────────────────────────────────────────────────────────
   if (!authed) {
     return (
-      <main style={{ backgroundColor: '#fff', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24, fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+      <main style={{ backgroundColor: '#fff', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
         <form onSubmit={handleAuth} style={{ width: '100%', maxWidth: 440 }}>
           <div style={{ textAlign: 'center', marginBottom: 32 }}>
             <div style={{ width: 52, height: 52, borderRadius: '50%', backgroundColor: CYAN_LT, border: `2px solid ${CYAN_BD}`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', fontSize: 24 }}>⛳</div>
@@ -155,7 +155,7 @@ export default function LeagueAdminPage() {
 
   // ── Dashboard ─────────────────────────────────────────────────────────────
   return (
-    <main style={{ backgroundColor: '#fff', minHeight: '100vh', fontFamily: 'system-ui, -apple-system, sans-serif', color: GRAY_1 }}>
+    <main style={{ backgroundColor: '#fff', minHeight: '100vh', color: GRAY_1 }}>
       <div style={{ maxWidth: 860, margin: '0 auto', padding: '32px 20px 80px' }}>
 
         {/* Header */}

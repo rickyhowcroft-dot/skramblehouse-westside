@@ -52,6 +52,13 @@ Before touching any code:
 
 ---
 
+## 🎨 Font & Style Standards
+
+- **Font**: `Plus_Jakarta_Sans` loaded in `app/layout.tsx` (weights 400–800, `display: swap`). **Never** add `fontFamily` inline to page/component styles — let it inherit from `<body>` via `globals.css`.
+- **globals.css** sets `font-family: inherit` on `*` so all elements pick up the root font automatically.
+- **New pages**: white background (`#fff`), blue primary (`#1D4ED8`), token file at top of each page file. No `system-ui` or explicit font overrides.
+- **Mobile-first**: stack to single column on mobile, side-by-side at ≥520px.
+
 ## 🏗️ Architecture Reminders
 
 - **Stack**: Next.js 16 on Vercel + Supabase (shared project) + Resend for email

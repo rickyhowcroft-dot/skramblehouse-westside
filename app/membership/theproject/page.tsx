@@ -69,7 +69,7 @@ export default function MembershipPresalePage() {
   }
 
   return (
-    <main style={{ backgroundColor: '#ffffff', color: GRAY_1, fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+    <main style={{ backgroundColor: '#ffffff', color: GRAY_1 }}>
 
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '32px 20px 0' }}>

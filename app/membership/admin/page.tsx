@@ -136,7 +136,7 @@ export default function MembershipAdminPage() {
   // ── Login screen ───────────────────────────────────────────────────────────
   if (!authed) {
     return (
-      <main style={{ backgroundColor: '#fff', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+      <main style={{ backgroundColor: '#fff', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
         <form onSubmit={handleAuth} style={{ width: '100%', maxWidth: 440 }}>
           <div style={{ textAlign: 'center', marginBottom: 32 }}>
             <div style={{ width: 52, height: 52, borderRadius: '50%', backgroundColor: BLUE_LT, border: `2px solid ${BLUE_MID}`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', fontSize: 22 }}>🏌️</div>
@@ -178,7 +178,7 @@ export default function MembershipAdminPage() {
 
   // ── Authenticated view ─────────────────────────────────────────────────────
   return (
-    <main style={{ backgroundColor: '#fff', minHeight: '100vh', fontFamily: 'system-ui, -apple-system, sans-serif', color: GRAY_1 }}>
+    <main style={{ backgroundColor: '#fff', minHeight: '100vh', color: GRAY_1 }}>
       <div style={{ maxWidth: 800, margin: '0 auto', padding: '32px 20px 80px' }}>
 
         {/* Page header */}
