@@ -114,6 +114,53 @@ export async function sendInvestorInquiryNotification(payload: InvestorInquiryPa
   })
 }
 
+// ── League Registration Notification ────────────────────────────────────────
+interface LeagueRegistrationPayload {
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  ghin: string | null
+  estimatedHcp: string | null
+  leagueNights: string[]
+  timeSlot: string
+  sessions: string[]
+  registrationId: string
+}
+
+export async function sendLeagueRegistrationNotification(payload: LeagueRegistrationPayload) {
+  if (!process.env.RESEND_API_KEY || !process.env.NOTIFY_EMAIL) {
+    console.warn('[email] RESEND_API_KEY or NOTIFY_EMAIL not set — skipping league registration notification')
+    return
+  }
+
+  const { firstName, lastName, email, phone, ghin, estimatedHcp, leagueNights, timeSlot, sessions } = payload
+  const resend = new Resend(process.env.RESEND_API_KEY)
+
+  await resend.emails.send({
+    from: process.env.EMAIL_FROM ?? 'Skramblehouse <noreply@skramblehouse.com>',
+    to: (process.env.NOTIFY_EMAIL ?? '').split(',').map(e => e.trim()).filter(Boolean),
+    subject: `⛳ League Registration — ${firstName} ${lastName}`,
+    html: `
+      <div style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:24px">
+        <h2 style="margin:0 0 4px">New League Registration</h2>
+        <p style="margin:0 0 20px;color:#666;font-size:14px">skramblehouse.com/league-registration</p>
+        <table style="width:100%;border-collapse:collapse">
+          <tr><td style="padding:8px 0;color:#666;width:180px;vertical-align:top">Name</td><td style="padding:8px 0;font-weight:600">${firstName} ${lastName}</td></tr>
+          <tr><td style="padding:8px 0;color:#666;vertical-align:top">Email</td><td style="padding:8px 0"><a href="mailto:${email}">${email}</a></td></tr>
+          <tr><td style="padding:8px 0;color:#666;vertical-align:top">Phone</td><td style="padding:8px 0">${phone}</td></tr>
+          <tr><td style="padding:8px 0;color:#666;vertical-align:top">GHIN #</td><td style="padding:8px 0">${ghin ?? '—'}</td></tr>
+          <tr><td style="padding:8px 0;color:#666;vertical-align:top">Est. Handicap</td><td style="padding:8px 0">${estimatedHcp ?? '—'}</td></tr>
+          <tr><td style="padding:8px 0;color:#666;vertical-align:top">League Nights</td><td style="padding:8px 0;font-weight:600">${leagueNights.join('<br/>')}</td></tr>
+          <tr><td style="padding:8px 0;color:#666;vertical-align:top">Time Slot</td><td style="padding:8px 0;font-weight:600">${timeSlot}</td></tr>
+          <tr><td style="padding:8px 0;color:#666;vertical-align:top">Sessions</td><td style="padding:8px 0;font-weight:600">${sessions.join('<br/>')}</td></tr>
+        </table>
+        <p style="margin-top:24px;color:#999;font-size:12px">Skramblehouse League Registration</p>
+      </div>
+    `,
+  })
+}
+
 // ── Guest Cap Notification ────────────────────────────────────────────────────
 interface GuestCapPayload {
   memberFirst: string
