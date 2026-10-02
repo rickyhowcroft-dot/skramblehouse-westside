@@ -191,7 +191,7 @@ export default function LeagueRegistrationPage() {
                 </div>
 
                 {/* ── League Night ── */}
-                <GroupLabel label="League Night" note="select all that apply" required />
+                <GroupLabel label="League Night" note="select all you wish to play" required />
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: -6 }}>
                   {LEAGUE_NIGHTS.map(n => (
                     <CheckRow key={n.id}
@@ -226,7 +226,7 @@ export default function LeagueRegistrationPage() {
                 </div>
 
                 {/* ── Sessions ── */}
-                <GroupLabel label="Session" note="select all that apply" required />
+                <GroupLabel label="Session" note="select all you wish to play" required />
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: -6 }}>
                   {SESSIONS.map(s => (
                     <CheckRow key={s.id}
