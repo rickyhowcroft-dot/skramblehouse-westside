@@ -141,8 +141,8 @@ export default function EarlybirdPage() {
           Skramblehouse West Side<br />Early Bird Special
         </h1>
         <p style={{ color: GRAY_3, fontSize: 16, lineHeight: 1.75, maxWidth: 520, margin: '0 auto' }}>
-          Awaiting the opening of our <strong style={{ color: GRAY_1 }}>Westside location</strong>? Lock in your spot now and
-          get immediate access to our Rochester location while you wait.
+          Awaiting the opening of our <strong style={{ color: GRAY_1 }}>Westside location</strong>?<br />
+          Lock in your spot now and get immediate access to our Rochester location while you wait.
         </p>
       </div>
 
