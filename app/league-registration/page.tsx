@@ -98,7 +98,8 @@ export default function LeagueRegistrationPage() {
           Tuesday Night<br />Simulator League
         </h1>
         <p style={{ color: GRAY_3, fontSize: 16, lineHeight: 1.7, maxWidth: 480, margin: '0 auto' }}>
-          7 weeks of indoor sim golf — a different format every week.<br />
+          7 weeks of indoor sim golf.<br />
+          A different format every week.<br />
           Playoff week runs 6–10pm for all registrants.
         </p>
       </div>
