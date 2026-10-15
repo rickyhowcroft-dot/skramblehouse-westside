@@ -373,7 +373,8 @@ export default function EarlybirdPage() {
                 </button>
 
                 <p style={{ fontSize: 12, color: GRAY_3, textAlign: 'center', margin: '4px 0 0', lineHeight: 1.5 }}>
-                  We&rsquo;ll reach out with payment info. Your spot is reserved once payment is received.
+                  We&rsquo;ll reach out with payment info.<br />
+                  Your spot is reserved once payment is received.
                 </p>
 
               </form>
