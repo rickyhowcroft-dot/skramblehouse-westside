@@ -164,6 +164,42 @@ export async function sendLeagueRegistrationNotification(payload: LeagueRegistra
   })
 }
 
+// ── Philly Signup Notification ─────────────────────────────────────────────
+interface PhillySignupPayload {
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  location: string
+}
+
+export async function sendPhillySignupNotification(payload: PhillySignupPayload) {
+  if (!process.env.RESEND_API_KEY || !process.env.NOTIFY_EMAIL) {
+    console.warn('[email] RESEND_API_KEY or NOTIFY_EMAIL not set — skipping philly notification')
+    return
+  }
+  const { firstName, lastName, email, phone, location } = payload
+  const resend = new Resend(process.env.RESEND_API_KEY)
+  await resend.emails.send({
+    from: process.env.EMAIL_FROM ?? 'Skramblehouse <noreply@skramblehouse.com>',
+    to: (process.env.NOTIFY_EMAIL ?? '').split(',').map(e => e.trim()).filter(Boolean),
+    subject: `🏌️ Philly Sign-Up (${location}) — ${firstName} ${lastName}`,
+    html: `
+      <div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:24px">
+        <h2 style="margin:0 0 4px">New Philly Sign-Up</h2>
+        <p style="margin:0 0 20px;color:#666;font-size:14px">skramblehouse.com/philly — 10% Off November</p>
+        <table style="width:100%;border-collapse:collapse">
+          <tr><td style="padding:8px 0;color:#666;width:120px">Location</td><td style="padding:8px 0;font-weight:700">${location}</td></tr>
+          <tr><td style="padding:8px 0;color:#666">Name</td><td style="padding:8px 0;font-weight:600">${firstName} ${lastName}</td></tr>
+          <tr><td style="padding:8px 0;color:#666">Email</td><td style="padding:8px 0"><a href="mailto:${email}">${email}</a></td></tr>
+          <tr><td style="padding:8px 0;color:#666">Phone</td><td style="padding:8px 0">${phone}</td></tr>
+        </table>
+        <p style="margin-top:24px;color:#999;font-size:12px">Skramblehouse Philly — 10% Off New Member Special (Nov 1–30)</p>
+      </div>
+    `,
+  })
+}
+
 // ── Early Bird Signup Notification ─────────────────────────────────────────
 interface EarlybirdSignupPayload {
   firstName: string
