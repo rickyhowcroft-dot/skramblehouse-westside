@@ -114,31 +114,15 @@ export default function PhillyPage() {
 
       {/* ── Header ────────────────────────────────────────────────────────── */}
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '40px 20px 0', textAlign: 'center' }}>
-        <div style={{
-          backgroundColor: GREEN_LT,
-          border: `1px solid ${GREEN_BD}`,
-          borderRadius: 999,
-          padding: '14px 24px',
-          marginBottom: 20,
-          display: 'inline-block',
-        }}>
-          <span style={{ color: GREEN, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: 11, display: 'block' }}>
-            Limited Time — New Members Only
-          </span>
-          <span style={{ color: GREEN, fontWeight: 600, fontSize: 13, display: 'block', marginTop: 4 }}>
-            {OFFER_START} – {OFFER_END}
-          </span>
-        </div>
-
         <h1 style={{
           fontSize: 'clamp(26px, 6vw, 42px)',
           fontWeight: 800,
           letterSpacing: '-0.02em',
           color: GRAY_1,
           margin: '0 0 16px',
-          lineHeight: 1.12,
+          lineHeight: 1.2,
         }}>
-          {DISCOUNT}% Off — New Member Special<br />Horsham &amp; KOP
+          {DISCOUNT}% Off — New Member<br />Special:<br />Horsham &amp; KOP
         </h1>
 
         <p style={{ color: GRAY_3, fontSize: 16, lineHeight: 1.75, maxWidth: 520, margin: '0 auto' }}>
@@ -147,29 +131,7 @@ export default function PhillyPage() {
         </p>
       </div>
 
-      {/* ── Offer callout ─────────────────────────────────────────────────── */}
-      <div style={{ maxWidth: 720, margin: '32px auto 0', padding: '0 20px' }}>
-        <div style={{
-          backgroundColor: GREEN_LT,
-          border: `1.5px solid ${GREEN_BD}`,
-          borderRadius: 16,
-          padding: '18px 24px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 14,
-        }}>
-          <span style={{ fontSize: 28, flexShrink: 0 }}>🎉</span>
-          <div>
-            <p style={{ margin: 0, fontWeight: 800, fontSize: 15, color: GRAY_1 }}>
-              {DISCOUNT}% off all new memberships this November
-            </p>
-            <p style={{ margin: '4px 0 0', fontSize: 13, color: GRAY_2, lineHeight: 1.5 }}>
-              Valid for new members only at our Horsham and KOP locations.<br />
-              Offer expires November 30, 2026 — don&rsquo;t miss it.
-            </p>
-          </div>
-        </div>
-      </div>
+
 
       {/* ── Pricing cards ─────────────────────────────────────────────────── */}
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '48px 20px 0' }}>
