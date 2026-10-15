@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
   const rows: Signup[] = data ?? []
 
   const headers = ['#', 'First Name', 'Last Name', 'Email', 'Phone', 'Signed Up At']
-  const escape  = (v: string | null | undefined) => {
+  const escape  = (v: string | number | null | undefined) => {
     const s = String(v ?? '')
     return s.includes(',') || s.includes('"') || s.includes('\n') ? `"${s.replace(/"/g, '""')}"` : s
   }
