@@ -298,7 +298,7 @@ export default function EarlybirdPage() {
               <div style={{ marginBottom: 28 }}>
                 <h2 style={{ fontSize: 20, fontWeight: 800, margin: '0 0 6px', color: GRAY_1 }}>Reserve Your Spot</h2>
                 <p style={{ color: GRAY_3, fontSize: 13, margin: 0 }}>
-                  Fields marked <span style={{ color: BLUE, fontWeight: 700 }}>*</span> are required.
+                  Fields marked <span style={{ color: BLUE, fontWeight: 700 }}>*</span> are required.<br />
                   We&rsquo;ll follow up with payment details.
                 </p>
               </div>
