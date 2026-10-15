@@ -126,8 +126,8 @@ export default function PhillyPage() {
         </h1>
 
         <p style={{ color: GRAY_3, fontSize: 16, lineHeight: 1.75, maxWidth: 520, margin: '0 auto' }}>
-          New to Skramblehouse? Join us this November and save {DISCOUNT}% on any membership.<br />
-          Sign up below and our team will follow up with next steps.
+          New to Skramblehouse? Get {DISCOUNT}% off any membership this November.<br />
+          Sign up and our team will follow up with next steps.
         </p>
       </div>
 
