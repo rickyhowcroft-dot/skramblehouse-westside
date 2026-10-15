@@ -32,17 +32,14 @@ type Registration = {
 }
 
 const SESSION_LABELS: Record<string, string> = {
-  session1: 'Session 1 – Fall',
-  session2: 'Session 2 – Winter',
-  session3: 'Session 3 – Spring',
+  session1: 'Session 1 (Nov 10 – Dec 22)',
 }
 const NIGHT_LABELS: Record<string, string> = {
-  tuesday:   'Tuesday',
-  wednesday: 'Wednesday',
+  tuesday: 'Tuesday',
 }
 
-const NIGHTS   = ['all', 'tuesday', 'wednesday'] as const
-const SESSIONS = ['all', 'session1', 'session2', 'session3'] as const
+const NIGHTS   = ['all', 'tuesday'] as const
+const SESSIONS = ['all', 'session1'] as const
 
 type NightFilter   = typeof NIGHTS[number]
 type SessionFilter = typeof SESSIONS[number]
@@ -131,7 +128,7 @@ export default function LeagueAdminPage() {
           <div style={{ textAlign: 'center', marginBottom: 32 }}>
             <div style={{ width: 52, height: 52, borderRadius: '50%', backgroundColor: CYAN_LT, border: `2px solid ${CYAN_BD}`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', fontSize: 24 }}>⛳</div>
             <h1 style={{ fontSize: 22, fontWeight: 800, color: GRAY_1, margin: '0 0 6px' }}>League Admin</h1>
-            <p style={{ color: GRAY_3, fontSize: 14, margin: 0 }}>Skramblehouse League Registrations</p>
+            <p style={{ color: GRAY_3, fontSize: 14, margin: 0 }}>Skramblehouse Tuesday Night League</p>
           </div>
           <input
             type="password"
@@ -162,7 +159,7 @@ export default function LeagueAdminPage() {
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, marginBottom: 32 }}>
           <div>
             <h1 style={{ fontSize: 24, fontWeight: 800, margin: '0 0 4px' }}>League Registrations</h1>
-            <p style={{ color: GRAY_3, fontSize: 14, margin: 0 }}>Skramblehouse · skramblehouse.com/league-registration</p>
+            <p style={{ color: GRAY_3, fontSize: 14, margin: 0 }}>Skramblehouse Tuesday Night League · Session 1: Nov 10 – Dec 22</p>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 10 }}>
             <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
@@ -214,7 +211,7 @@ export default function LeagueAdminPage() {
                   onClick={() => setSessFil(s)}
                   style={{ padding: '6px 14px', borderRadius: 999, fontSize: 12, fontWeight: 700, border: sessFil === s ? 'none' : `1px solid ${BLUE_MID}`, backgroundColor: sessFil === s ? BLUE : 'transparent', color: sessFil === s ? '#fff' : GRAY_3, cursor: 'pointer' }}
                 >
-                  {s === 'all' ? 'All Sessions' : SESSION_LABELS[s]}
+                  {s === 'all' ? 'All Sessions' : SESSION_LABELS[s] ?? s}
                 </button>
               ))}
             </div>

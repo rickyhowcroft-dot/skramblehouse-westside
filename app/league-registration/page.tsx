@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 
-// ── Brand tokens (matches /theproject-roc) ──────────────────────────────────
+// ── Brand tokens ──────────────────────────────────────────────────────────────
 const BLUE    = '#1D4ED8'
 const BLUE_DK = '#1E40AF'
 const BLUE_LT = '#EFF6FF'
@@ -13,22 +13,15 @@ const GRAY_3  = '#6B7280'
 const GRAY_4  = '#E5E7EB'
 const GRAY_5  = '#F9FAFB'
 
-// ── Constants ────────────────────────────────────────────────────────────────
-const LEAGUE_NIGHTS = [
-  { id: 'tuesday',   label: 'Tuesday',   sub: 'Different format each week' },
-  { id: 'wednesday', label: 'Wednesday', sub: '2-man match play' },
-]
-
+// ── Constants ─────────────────────────────────────────────────────────────────
 const TIME_SLOTS = [
-  { id: '4pm',  label: '4pm' },
-  { id: '6pm',  label: '6pm' },
-  { id: '8pm',  label: '8pm' },
+  { id: '4pm', label: '4pm' },
+  { id: '6pm', label: '6pm' },
+  { id: '8pm', label: '8pm' },
 ]
 
 const SESSIONS = [
-  { id: 'session1', label: 'Session 1 — Fall',   dates: 'Oct 27 – Dec 16' },
-  { id: 'session2', label: 'Session 2 — Winter', dates: 'Jan 5 – Feb 17' },
-  { id: 'session3', label: 'Session 3 — Spring', dates: 'Feb 23 – Apr 7' },
+  { id: 'session1', label: 'Session 1', dates: 'Nov 10 – Dec 22' },
 ]
 
 type Form = {
@@ -47,7 +40,8 @@ type Form = {
 const EMPTY: Form = {
   firstName: '', lastName: '', email: '', phone: '',
   ghin: '', estimatedHcp: '',
-  leagueNights: [], timeSlot: '', sessions: [],
+  leagueNights: ['tuesday'], // Tuesday only — always set
+  timeSlot: '', sessions: [],
   website: '',
 }
 
@@ -57,18 +51,11 @@ export default function LeagueRegistrationPage() {
   const [loading, setLoading]     = useState(false)
   const [error, setError]         = useState('')
 
-  const toggleArr = (key: 'leagueNights' | 'sessions', val: string) =>
-    setForm(p => ({
-      ...p,
-      [key]: p[key].includes(val) ? p[key].filter(v => v !== val) : [...p[key], val],
-    }))
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
-    if (form.leagueNights.length === 0) return setError('Please select at least one league night.')
-    if (!form.timeSlot)                 return setError('Please select a time slot.')
-    if (form.sessions.length === 0)     return setError('Please select at least one session.')
+    if (!form.timeSlot)          return setError('Please select a time slot.')
+    if (form.sessions.length === 0) return setError('Please select a session.')
     setLoading(true)
     const res  = await fetch('/api/league-registration', {
       method: 'POST',
@@ -89,7 +76,7 @@ export default function LeagueRegistrationPage() {
         <div style={{ borderRadius: 18, overflow: 'hidden', boxShadow: '0 8px 40px rgba(0,0,0,0.14)' }}>
           <Image
             src="/rochester-hero.jpg"
-            alt="Skramblehouse League Registration"
+            alt="Skramblehouse Tuesday Night League"
             width={1200}
             height={540}
             priority
@@ -108,11 +95,88 @@ export default function LeagueRegistrationPage() {
           margin: '0 0 12px',
           lineHeight: 1.15,
         }}>
-          Skramblehouse<br />League Registration
+          Tuesday Night<br />Simulator League
         </h1>
         <p style={{ color: GRAY_3, fontSize: 16, lineHeight: 1.7, maxWidth: 480, margin: '0 auto' }}>
-          Sign up for Tuesday and/or Wednesday night leagues. Playoff week runs 6–10pm for all registrants.
+          7 weeks of indoor sim golf — a different format every week.<br />
+          Playoff week runs 6–10pm for all registrants.
         </p>
+      </div>
+
+      {/* ── Promo image ──────────────────────────────────────────────────── */}
+      <div style={{ maxWidth: 480, margin: '32px auto 0', padding: '0 16px' }}>
+        <div style={{ borderRadius: 18, overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.12)' }}>
+          <Image
+            src="/tuesday-league-promo.jpg"
+            alt="Tuesday Night Simulator League — Skramblehouse"
+            width={900}
+            height={900}
+            style={{ width: '100%', height: 'auto', display: 'block' }}
+          />
+        </div>
+      </div>
+
+      {/* ── Pricing cards ────────────────────────────────────────────────── */}
+      <div style={{ maxWidth: 720, margin: '32px auto 0', padding: '0 16px' }}>
+        <div style={{ display: 'flex', gap: 14 }} className="pricing-row">
+
+          <div style={{
+            flex: 1,
+            backgroundColor: BLUE_LT,
+            border: `1.5px solid ${BLUE_MID}`,
+            borderRadius: 18,
+            padding: '22px 20px',
+            textAlign: 'center',
+          }}>
+            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', color: BLUE, margin: '0 0 6px' }}>
+              Members
+            </p>
+            <p style={{ fontSize: 36, fontWeight: 900, color: BLUE, margin: '0 0 2px', lineHeight: 1 }}>$250</p>
+            <p style={{ fontSize: 13, color: GRAY_3, margin: 0 }}>per person</p>
+          </div>
+
+          <div style={{
+            flex: 1,
+            backgroundColor: GRAY_5,
+            border: `1.5px solid ${GRAY_4}`,
+            borderRadius: 18,
+            padding: '22px 20px',
+            textAlign: 'center',
+          }}>
+            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', color: GRAY_3, margin: '0 0 6px' }}>
+              Non-Members
+            </p>
+            <p style={{ fontSize: 36, fontWeight: 900, color: GRAY_1, margin: '0 0 2px', lineHeight: 1 }}>$400</p>
+            <p style={{ fontSize: 13, color: GRAY_3, margin: 0 }}>per person</p>
+          </div>
+
+        </div>
+      </div>
+
+      {/* ── Details strip ────────────────────────────────────────────────── */}
+      <div style={{ maxWidth: 720, margin: '20px auto 0', padding: '0 16px' }}>
+        <div style={{
+          backgroundColor: GRAY_5,
+          border: `1px solid ${GRAY_4}`,
+          borderRadius: 14,
+          padding: '16px 20px',
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '10px 28px',
+        }}>
+          {[
+            { icon: '👥', text: '2-person teams' },
+            { icon: '⛳', text: '9 holes weekly' },
+            { icon: '📅', text: '7 weeks · Nov 10 – Dec 22' },
+            { icon: '🏆', text: '18-hole playoff · cash prizes' },
+            { icon: '🎯', text: 'Skramble · Best Ball · Alternate Shot' },
+          ].map(({ icon, text }) => (
+            <div key={text} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span style={{ fontSize: 15 }}>{icon}</span>
+              <span style={{ fontSize: 13, color: GRAY_3, fontWeight: 500 }}>{text}</span>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* ── Divider ──────────────────────────────────────────────────────── */}
@@ -137,7 +201,6 @@ export default function LeagueRegistrationPage() {
         }}>
 
           {submitted ? (
-            /* ── Success ── */
             <div style={{ textAlign: 'center', padding: '48px 0' }}>
               <div style={{
                 width: 64, height: 64, borderRadius: '50%',
@@ -190,19 +253,8 @@ export default function LeagueRegistrationPage() {
                   </Field>
                 </div>
 
-                {/* ── League Night ── */}
-                <GroupLabel label="League Night" note="select all you wish to play" required />
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: -6 }}>
-                  {LEAGUE_NIGHTS.map(n => (
-                    <CheckRow key={n.id}
-                      checked={form.leagueNights.includes(n.id)}
-                      label={n.label} sub={n.sub}
-                      onClick={() => toggleArr('leagueNights', n.id)} />
-                  ))}
-                </div>
-
                 {/* ── Time Slot ── */}
-                <GroupLabel label="Time Slot Each Week" note="playoff week 6–10pm for all" required />
+                <GroupLabel label="Preferred Tee Time" note="playoff week 6–10pm for all" required />
                 <div style={{ display: 'flex', gap: 10, marginTop: -6 }}>
                   {TIME_SLOTS.map(s => {
                     const on = form.timeSlot === s.id
@@ -225,14 +277,19 @@ export default function LeagueRegistrationPage() {
                   })}
                 </div>
 
-                {/* ── Sessions ── */}
-                <GroupLabel label="Session" note="select all you wish to play" required />
+                {/* ── Session ── */}
+                <GroupLabel label="Session" required />
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: -6 }}>
                   {SESSIONS.map(s => (
                     <CheckRow key={s.id}
                       checked={form.sessions.includes(s.id)}
                       label={s.label} sub={s.dates}
-                      onClick={() => toggleArr('sessions', s.id)} />
+                      onClick={() => setForm(p => ({
+                        ...p,
+                        sessions: p.sessions.includes(s.id)
+                          ? p.sessions.filter(v => v !== s.id)
+                          : [...p.sessions, s.id],
+                      }))} />
                   ))}
                 </div>
 
@@ -242,7 +299,6 @@ export default function LeagueRegistrationPage() {
                     value={form.website} onChange={e => setForm(p => ({ ...p, website: e.target.value }))} />
                 </div>
 
-                {/* ── Error ── */}
                 {error && (
                   <div style={{
                     backgroundColor: '#FEF2F2', border: '1px solid #FECACA',
@@ -253,7 +309,6 @@ export default function LeagueRegistrationPage() {
                   </div>
                 )}
 
-                {/* ── Submit ── */}
                 <button type="submit" disabled={loading}
                   style={{
                     width: '100%',
@@ -284,18 +339,12 @@ export default function LeagueRegistrationPage() {
       </div>
 
       <style>{`
-        /* ── Scoped styles ── */
-
-        /* Mobile-first: everything full width */
         .two-col { display: flex; flex-direction: column; gap: 14px; }
-
-        /* ≥ 520px: side-by-side */
         @media (min-width: 520px) {
           .two-col { flex-direction: row; }
           .two-col > * { flex: 1; }
         }
-
-        /* Input base */
+        .pricing-row { flex-direction: row; }
         main input, main select, main textarea {
           display: block;
           width: 100%;
@@ -326,18 +375,11 @@ export default function LeagueRegistrationPage() {
 // ── Sub-components ────────────────────────────────────────────────────────────
 
 function Field({ label, children, optional, hint }: {
-  label: string
-  children: React.ReactNode
-  optional?: boolean
-  hint?: string
+  label: string; children: React.ReactNode; optional?: boolean; hint?: string
 }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
-      <label style={{
-        fontSize: 11, fontWeight: 700,
-        letterSpacing: '0.08em', textTransform: 'uppercase',
-        color: GRAY_3,
-      }}>
+      <label style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: GRAY_3 }}>
         {label}{' '}
         {optional
           ? <span style={{ color: GRAY_3, fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>
@@ -369,10 +411,7 @@ function GroupLabel({ label, note, required }: { label: string; note?: string; r
 }
 
 function CheckRow({ checked, label, sub, onClick }: {
-  checked: boolean
-  label: string
-  sub: string
-  onClick: () => void
+  checked: boolean; label: string; sub: string; onClick: () => void
 }) {
   return (
     <button type="button" onClick={onClick}
@@ -385,7 +424,6 @@ function CheckRow({ checked, label, sub, onClick }: {
         cursor: 'pointer', transition: 'all 0.15s',
         fontFamily: 'inherit',
       }}>
-      {/* Checkbox */}
       <span style={{
         width: 22, height: 22, borderRadius: 6, flexShrink: 0,
         backgroundColor: checked ? BLUE : '#fff',
@@ -395,7 +433,6 @@ function CheckRow({ checked, label, sub, onClick }: {
       }}>
         {checked && <span style={{ color: '#fff', fontSize: 13, fontWeight: 900, lineHeight: 1 }}>✓</span>}
       </span>
-      {/* Text */}
       <span>
         <span style={{ fontWeight: 700, fontSize: 15, color: GRAY_1, display: 'block' }}>{label}</span>
         <span style={{ fontSize: 12, color: GRAY_3, marginTop: 2, display: 'block' }}>{sub}</span>

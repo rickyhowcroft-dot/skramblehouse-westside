@@ -4,18 +4,15 @@ import { sendLeagueRegistrationNotification } from '@/lib/email'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 
-const VALID_NIGHTS  = new Set(['tuesday', 'wednesday'])
+const VALID_NIGHTS  = new Set(['tuesday'])
 const VALID_SLOTS   = new Set(['4pm', '6pm', '8pm'])
-const VALID_SESSIONS = new Set(['session1', 'session2', 'session3'])
+const VALID_SESSIONS = new Set(['session1'])
 
 const SESSION_LABELS: Record<string, string> = {
-  session1: 'Session 1 – Fall (Oct 27 – Dec 16)',
-  session2: 'Session 2 – Winter (Jan 5 – Feb 17)',
-  session3: 'Session 3 – Spring (Feb 23 – Apr 7)',
+  session1: 'Session 1 (Nov 10 – Dec 22)',
 }
 const NIGHT_LABELS: Record<string, string> = {
-  tuesday:   'Tuesday (Different format each week)',
-  wednesday: 'Wednesday (2-man match play)',
+  tuesday: 'Tuesday Night Simulator League',
 }
 
 function sanitize(val: unknown): string {
