@@ -96,7 +96,7 @@ export default function RocExperiencePage() {
           Try Skramblehouse<br />Rochester — FREE
         </h1>
         <p style={{ color: GRAY_3, fontSize: 16, lineHeight: 1.75, maxWidth: 500, margin: '0 auto' }}>
-          Sign-up and get <strong style={{ color: GRAY_1 }}>FREE 72 hour access</strong> to our Rochester facility,
+          Sign-up and get <strong style={{ color: GRAY_1 }}>FREE - 72 hour access</strong> to our Rochester facility,
           located in Perinton Square Mall.
         </p>
         <p style={{ color: GRAY_3, fontSize: 16, lineHeight: 1.75, maxWidth: 500, margin: '12px auto 0' }}>
@@ -137,7 +137,7 @@ export default function RocExperiencePage() {
                 You&rsquo;re in!
               </h2>
               <p style={{ color: GRAY_3, fontSize: 15, lineHeight: 1.65, maxWidth: 320, margin: '0 auto' }}>
-                We&rsquo;ll be in touch soon with your FREE 72-hour access details.
+                We&rsquo;ll be in touch soon with your FREE - 72-hour access details.
               </p>
             </div>
           ) : (
