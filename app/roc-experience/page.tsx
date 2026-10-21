@@ -179,7 +179,6 @@ export default function RocExperiencePage() {
                 {/* ── Interests ── */}
                 <div style={{ paddingTop: 6 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-                    <div style={{ width: 4, height: 20, borderRadius: 2, backgroundColor: BLUE, flexShrink: 0 }} />
                     <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: GRAY_1 }}>
                       Why are you interested in Skramblehouse?
                     </span>
