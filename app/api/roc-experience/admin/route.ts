@@ -20,7 +20,7 @@ type Signup = {
 const INTEREST_LABELS: Record<string, string> = {
   coaching: 'Get better / Coaching',
   leagues:  'Leagues / Events',
-  access:   '24/7/365 Access',
+  access:   '24/7 - 365 day access',
   fun:      'Have Fun',
 }
 

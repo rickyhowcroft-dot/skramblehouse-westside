@@ -17,7 +17,7 @@ const GRAY_5  = '#F9FAFB'
 const INTERESTS = [
   { id: 'coaching',  label: 'Get better / Coaching' },
   { id: 'leagues',   label: 'Leagues / Events' },
-  { id: 'access',    label: '24/7/365 Access' },
+  { id: 'access',    label: '24/7 - 365 day access' },
   { id: 'fun',       label: 'Have Fun' },
 ]
 
