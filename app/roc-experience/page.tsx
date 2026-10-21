@@ -184,7 +184,7 @@ export default function RocExperiencePage() {
                       Why are you interested in Skramblehouse?
                     </span>
                     <span style={{ fontSize: 12, color: GRAY_3, fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>
-                      — optional
+                      optional
                     </span>
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
