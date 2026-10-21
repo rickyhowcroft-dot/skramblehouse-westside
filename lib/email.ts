@@ -272,3 +272,49 @@ export async function sendGuestCapNotification(payload: GuestCapPayload) {
     `,
   })
 }
+
+interface RocExperiencePayload {
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  interests: string[]
+  signupId: string
+}
+
+const ROC_INTEREST_LABELS: Record<string, string> = {
+  coaching: 'Get better / Coaching',
+  leagues:  'Leagues / Events',
+  access:   '24/7/365 Access',
+  fun:      'Have Fun',
+}
+
+export async function sendRocExperienceNotification(payload: RocExperiencePayload) {
+  if (!process.env.RESEND_API_KEY || !process.env.NOTIFY_EMAIL) {
+    console.warn('[email] RESEND_API_KEY or NOTIFY_EMAIL not set — skipping notification')
+    return
+  }
+  const { firstName, lastName, email, phone, interests, signupId } = payload
+  const { Resend } = await import('resend')
+  const resend = new Resend(process.env.RESEND_API_KEY)
+  const interestsList = interests.map(i => ROC_INTEREST_LABELS[i] ?? i).join(', ') || 'None selected'
+  await resend.emails.send({
+    from: process.env.EMAIL_FROM ?? 'Skramblehouse <noreply@skramblehouse.com>',
+    to: (process.env.NOTIFY_EMAIL ?? '').split(',').map(e => e.trim()).filter(Boolean),
+    subject: `⛳ ROC Experience Signup — ${firstName} ${lastName}`,
+    html: `
+      <div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:24px">
+        <h2 style="margin:0 0 16px;color:#1D4ED8">New ROC Experience Signup</h2>
+        <p style="margin:0 0 16px;color:#374151">Someone signed up for free 72-hour access at Skramblehouse Rochester.</p>
+        <table style="width:100%;border-collapse:collapse">
+          <tr><td style="padding:8px 0;color:#666;width:140px">Name</td><td style="padding:8px 0;font-weight:600">${firstName} ${lastName}</td></tr>
+          <tr><td style="padding:8px 0;color:#666">Email</td><td style="padding:8px 0"><a href="mailto:${email}">${email}</a></td></tr>
+          <tr><td style="padding:8px 0;color:#666">Phone</td><td style="padding:8px 0">${phone}</td></tr>
+          <tr><td style="padding:8px 0;color:#666">Interests</td><td style="padding:8px 0">${interestsList}</td></tr>
+          <tr><td style="padding:8px 0;color:#666">ID</td><td style="padding:8px 0;font-size:12px;color:#999">${signupId}</td></tr>
+        </table>
+        <p style="margin-top:24px;color:#999;font-size:12px">Skramblehouse Rochester · Free 72-Hour Access</p>
+      </div>
+    `,
+  })
+}

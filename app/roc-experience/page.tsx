@@ -1,0 +1,315 @@
+'use client'
+
+import { useState } from 'react'
+import Image from 'next/image'
+
+// ── Brand tokens ──────────────────────────────────────────────────────────────
+const BLUE    = '#1D4ED8'
+const BLUE_DK = '#1E40AF'
+const BLUE_LT = '#EFF6FF'
+const BLUE_MID= '#BFDBFE'
+const GRAY_1  = '#111827'
+const GRAY_3  = '#6B7280'
+const GRAY_4  = '#E5E7EB'
+const GRAY_5  = '#F9FAFB'
+
+// ── Interest options ──────────────────────────────────────────────────────────
+const INTERESTS = [
+  { id: 'coaching',  label: 'Get better / Coaching' },
+  { id: 'leagues',   label: 'Leagues / Events' },
+  { id: 'access',    label: '24/7/365 Access' },
+  { id: 'fun',       label: 'Have Fun' },
+]
+
+type Form = {
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  interests: string[]
+  website: string
+}
+
+const EMPTY: Form = {
+  firstName: '', lastName: '', email: '', phone: '',
+  interests: [],
+  website: '',
+}
+
+export default function RocExperiencePage() {
+  const [form, setForm]           = useState<Form>(EMPTY)
+  const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading]     = useState(false)
+  const [error, setError]         = useState('')
+
+  const toggleInterest = (id: string) => {
+    setForm(p => ({
+      ...p,
+      interests: p.interests.includes(id)
+        ? p.interests.filter(v => v !== id)
+        : [...p.interests, id],
+    }))
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError('')
+    setLoading(true)
+    const res  = await fetch('/api/roc-experience', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(form),
+    })
+    const data = await res.json()
+    if (!res.ok) { setError(data.error || 'Something went wrong. Please try again.'); setLoading(false); return }
+    setSubmitted(true)
+    setLoading(false)
+  }
+
+  return (
+    <main style={{ backgroundColor: '#fff', color: GRAY_1 }}>
+
+      {/* ── Hero ─────────────────────────────────────────────────────────── */}
+      <div style={{ maxWidth: 720, margin: '0 auto', padding: '24px 16px 0' }}>
+        <div style={{ borderRadius: 18, overflow: 'hidden', boxShadow: '0 8px 40px rgba(0,0,0,0.14)' }}>
+          <Image
+            src="/rochester-hero.jpg"
+            alt="Skramblehouse Rochester"
+            width={1200}
+            height={540}
+            priority
+            style={{ width: '100%', height: 'auto', display: 'block' }}
+          />
+        </div>
+      </div>
+
+      {/* ── Header ───────────────────────────────────────────────────────── */}
+      <div style={{ maxWidth: 720, margin: '0 auto', padding: '36px 16px 0', textAlign: 'center' }}>
+        <h1 style={{
+          fontSize: 'clamp(26px, 6vw, 40px)',
+          fontWeight: 800,
+          letterSpacing: '-0.02em',
+          color: GRAY_1,
+          margin: '0 0 16px',
+          lineHeight: 1.15,
+        }}>
+          Try Skramblehouse<br />Rochester — FREE
+        </h1>
+        <p style={{ color: GRAY_3, fontSize: 16, lineHeight: 1.75, maxWidth: 500, margin: '0 auto' }}>
+          Sign-up and get <strong style={{ color: GRAY_1 }}>FREE 72 hour access</strong> to our Rochester facility,
+          located in Perinton Square Mall.
+        </p>
+        <p style={{ color: GRAY_3, fontSize: 16, lineHeight: 1.75, maxWidth: 500, margin: '12px auto 0' }}>
+          Come see why Skramblehouse is the premier indoor golf experience in the area.
+        </p>
+      </div>
+
+      {/* ── Divider ──────────────────────────────────────────────────────── */}
+      <div style={{ maxWidth: 720, margin: '36px auto 0', padding: '0 16px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+          <div style={{ flex: 1, height: 1, backgroundColor: GRAY_4 }} />
+          <span style={{ color: BLUE, fontWeight: 700, fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+            Claim Your Free Access
+          </span>
+          <div style={{ flex: 1, height: 1, backgroundColor: GRAY_4 }} />
+        </div>
+      </div>
+
+      {/* ── Form card ─────────────────────────────────────────────────────── */}
+      <div style={{ maxWidth: 720, margin: '0 auto', padding: '24px 16px 72px' }}>
+        <div style={{
+          backgroundColor: '#fff',
+          border: `1px solid ${GRAY_4}`,
+          borderRadius: 22,
+          padding: 'clamp(20px, 5vw, 44px)',
+          boxShadow: '0 4px 24px rgba(0,0,0,0.07)',
+        }}>
+
+          {submitted ? (
+            <div style={{ textAlign: 'center', padding: '48px 0' }}>
+              <div style={{
+                width: 64, height: 64, borderRadius: '50%',
+                backgroundColor: BLUE_LT, border: `2px solid ${BLUE_MID}`,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                margin: '0 auto 20px', fontSize: 28,
+              }}>⛳</div>
+              <h2 style={{ fontSize: 22, fontWeight: 800, margin: '0 0 10px', color: GRAY_1 }}>
+                You&rsquo;re in!
+              </h2>
+              <p style={{ color: GRAY_3, fontSize: 15, lineHeight: 1.65, maxWidth: 320, margin: '0 auto' }}>
+                We&rsquo;ll be in touch soon with your FREE 72-hour access details.
+              </p>
+            </div>
+          ) : (
+            <>
+              <div style={{ marginBottom: 28 }}>
+                <h2 style={{ fontSize: 20, fontWeight: 800, margin: '0 0 6px', color: GRAY_1 }}>Sign Up</h2>
+                <p style={{ color: GRAY_3, fontSize: 13, margin: 0 }}>
+                  Fields marked <span style={{ color: BLUE, fontWeight: 700 }}>*</span> are required
+                </p>
+              </div>
+
+              <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+
+                {/* ── Name ── */}
+                <div className="two-col">
+                  <Field label="First Name">
+                    <input type="text" required maxLength={60} placeholder="Jane"
+                      value={form.firstName} onChange={e => setForm(p => ({ ...p, firstName: e.target.value }))} />
+                  </Field>
+                  <Field label="Last Name">
+                    <input type="text" required maxLength={60} placeholder="Smith"
+                      value={form.lastName} onChange={e => setForm(p => ({ ...p, lastName: e.target.value }))} />
+                  </Field>
+                </div>
+
+                {/* ── Contact ── */}
+                <Field label="Email Address">
+                  <input type="email" required maxLength={254} placeholder="jane@example.com"
+                    autoComplete="email" value={form.email}
+                    onChange={e => setForm(p => ({ ...p, email: e.target.value }))} />
+                </Field>
+
+                <Field label="Phone Number">
+                  <input type="tel" required placeholder="(555) 555-5555"
+                    autoComplete="tel" value={form.phone}
+                    onChange={e => setForm(p => ({ ...p, phone: e.target.value }))} />
+                </Field>
+
+                {/* ── Interests ── */}
+                <div style={{ paddingTop: 6 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+                    <div style={{ width: 4, height: 20, borderRadius: 2, backgroundColor: BLUE, flexShrink: 0 }} />
+                    <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: GRAY_1 }}>
+                      Why are you interested in Skramblehouse?
+                    </span>
+                    <span style={{ fontSize: 12, color: GRAY_3, fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>
+                      — optional
+                    </span>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    {INTERESTS.map(opt => {
+                      const checked = form.interests.includes(opt.id)
+                      return (
+                        <button key={opt.id} type="button" onClick={() => toggleInterest(opt.id)}
+                          style={{
+                            display: 'flex', alignItems: 'center', gap: 14,
+                            width: '100%', textAlign: 'left',
+                            backgroundColor: checked ? BLUE_LT : GRAY_5,
+                            border: `2px solid ${checked ? BLUE : GRAY_4}`,
+                            borderRadius: 14, padding: '14px 16px',
+                            cursor: 'pointer', transition: 'all 0.15s',
+                            fontFamily: 'inherit',
+                          }}>
+                          <span style={{
+                            width: 22, height: 22, borderRadius: 6, flexShrink: 0,
+                            backgroundColor: checked ? BLUE : '#fff',
+                            border: `2px solid ${checked ? BLUE : '#D1D5DB'}`,
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            transition: 'all 0.15s',
+                          }}>
+                            {checked && <span style={{ color: '#fff', fontSize: 13, fontWeight: 900, lineHeight: 1 }}>✓</span>}
+                          </span>
+                          <span style={{ fontWeight: 600, fontSize: 15, color: GRAY_1 }}>{opt.label}</span>
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
+
+                {/* Honeypot */}
+                <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, overflow: 'hidden' }}>
+                  <input name="website" type="text" tabIndex={-1} autoComplete="off"
+                    value={form.website} onChange={e => setForm(p => ({ ...p, website: e.target.value }))} />
+                </div>
+
+                {error && (
+                  <div style={{
+                    backgroundColor: '#FEF2F2', border: '1px solid #FECACA',
+                    borderRadius: 12, padding: '13px 16px',
+                    color: '#B91C1C', fontSize: 14, textAlign: 'center', fontWeight: 500,
+                  }}>
+                    {error}
+                  </div>
+                )}
+
+                <button type="submit" disabled={loading}
+                  style={{
+                    width: '100%',
+                    backgroundColor: loading ? '#93C5FD' : BLUE,
+                    color: '#fff',
+                    fontWeight: 800,
+                    fontSize: 15,
+                    letterSpacing: '0.07em',
+                    textTransform: 'uppercase',
+                    padding: '17px 24px',
+                    borderRadius: 14,
+                    border: 'none',
+                    cursor: loading ? 'not-allowed' : 'pointer',
+                    transition: 'background-color 0.15s',
+                    marginTop: 6,
+                    fontFamily: 'inherit',
+                  }}
+                  onMouseEnter={e => { if (!loading) (e.target as HTMLButtonElement).style.backgroundColor = BLUE_DK }}
+                  onMouseLeave={e => { if (!loading) (e.target as HTMLButtonElement).style.backgroundColor = BLUE }}
+                >
+                  {loading ? 'Submitting…' : 'Claim Free Access →'}
+                </button>
+
+              </form>
+            </>
+          )}
+        </div>
+      </div>
+
+      <style>{`
+        .two-col { display: flex; flex-direction: column; gap: 14px; }
+        @media (min-width: 520px) {
+          .two-col { flex-direction: row; }
+          .two-col > * { flex: 1; }
+        }
+        main input, main select, main textarea {
+          display: block;
+          width: 100%;
+          background-color: ${GRAY_5};
+          border: 1.5px solid ${GRAY_4};
+          border-radius: 12px;
+          padding: 13px 16px;
+          font-size: 15px;
+          font-family: inherit;
+          color: ${GRAY_1};
+          outline: none;
+          box-sizing: border-box;
+          -webkit-appearance: none;
+          appearance: none;
+          transition: border-color 0.15s, box-shadow 0.15s;
+        }
+        main input::placeholder { color: #9CA3AF; }
+        main input:focus, main select:focus {
+          border-color: ${BLUE};
+          box-shadow: 0 0 0 3px ${BLUE_LT};
+        }
+      `}</style>
+
+    </main>
+  )
+}
+
+// ── Sub-components ────────────────────────────────────────────────────────────
+
+function Field({ label, children, optional }: {
+  label: string; children: React.ReactNode; optional?: boolean
+}) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+      <label style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: GRAY_3 }}>
+        {label}{' '}
+        {optional
+          ? <span style={{ color: GRAY_3, fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>(optional)</span>
+          : <span style={{ color: BLUE }}>*</span>
+        }
+      </label>
+      {children}
+    </div>
+  )
+}
