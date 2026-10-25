@@ -133,10 +133,10 @@ export default function LeagueRegistrationPage() {
             textAlign: 'center',
           }}>
             <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', color: BLUE, margin: '0 0 6px' }}>
-              Members
+              New Members
             </p>
-            <p style={{ fontSize: 36, fontWeight: 900, color: BLUE, margin: '0 0 2px', lineHeight: 1 }}>$250</p>
-            <p style={{ fontSize: 13, color: GRAY_3, margin: 0 }}>per person</p>
+            <p style={{ fontSize: 36, fontWeight: 900, color: BLUE, margin: '0 0 2px', lineHeight: 1 }}>FREE</p>
+            <p style={{ fontSize: 13, color: GRAY_3, margin: 0 }}>join &amp; get Session 1 free</p>
           </div>
 
           <div style={{
@@ -150,7 +150,7 @@ export default function LeagueRegistrationPage() {
             <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', color: GRAY_3, margin: '0 0 6px' }}>
               Non-Members
             </p>
-            <p style={{ fontSize: 36, fontWeight: 900, color: GRAY_1, margin: '0 0 2px', lineHeight: 1 }}>$400</p>
+            <p style={{ fontSize: 36, fontWeight: 900, color: GRAY_1, margin: '0 0 2px', lineHeight: 1 }}>$150</p>
             <p style={{ fontSize: 13, color: GRAY_3, margin: 0 }}>per person</p>
           </div>
 
