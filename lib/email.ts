@@ -125,6 +125,8 @@ interface LeagueRegistrationPayload {
   leagueNights: string[]
   timeSlot: string
   sessions: string[]
+  teammateFirstName: string | null
+  teammateLastName: string | null
   registrationId: string
 }
 
@@ -134,11 +136,13 @@ export async function sendLeagueRegistrationNotification(payload: LeagueRegistra
     return
   }
 
-  const { firstName, lastName, email, phone, ghin, estimatedHcp, leagueNights, timeSlot, sessions } = payload
+  const { firstName, lastName, email, phone, ghin, estimatedHcp, leagueNights, timeSlot, sessions, teammateFirstName, teammateLastName } = payload
   const resend = new Resend(process.env.RESEND_API_KEY)
-  // Use LEAGUE_NOTIFY_EMAIL if set, otherwise fall back to NOTIFY_EMAIL
   const recipients = (process.env.LEAGUE_NOTIFY_EMAIL ?? process.env.NOTIFY_EMAIL ?? '')
     .split(',').map(e => e.trim()).filter(Boolean)
+  const teammateName = (teammateFirstName || teammateLastName)
+    ? `${teammateFirstName ?? ''} ${teammateLastName ?? ''}`.trim()
+    : '—'
 
   await resend.emails.send({
     from: process.env.EMAIL_FROM ?? 'Skramblehouse <noreply@skramblehouse.com>',
@@ -150,6 +154,7 @@ export async function sendLeagueRegistrationNotification(payload: LeagueRegistra
         <p style="margin:0 0 20px;color:#666;font-size:14px">skramblehouse.com/league-registration</p>
         <table style="width:100%;border-collapse:collapse">
           <tr><td style="padding:8px 0;color:#666;width:180px;vertical-align:top">Name</td><td style="padding:8px 0;font-weight:600">${firstName} ${lastName}</td></tr>
+          <tr><td style="padding:8px 0;color:#666;vertical-align:top">Teammate</td><td style="padding:8px 0;font-weight:600">${teammateName}</td></tr>
           <tr><td style="padding:8px 0;color:#666;vertical-align:top">Email</td><td style="padding:8px 0"><a href="mailto:${email}">${email}</a></td></tr>
           <tr><td style="padding:8px 0;color:#666;vertical-align:top">Phone</td><td style="padding:8px 0">${phone}</td></tr>
           <tr><td style="padding:8px 0;color:#666;vertical-align:top">GHIN #</td><td style="padding:8px 0">${ghin ?? '—'}</td></tr>
@@ -159,6 +164,42 @@ export async function sendLeagueRegistrationNotification(payload: LeagueRegistra
           <tr><td style="padding:8px 0;color:#666;vertical-align:top">Sessions</td><td style="padding:8px 0;font-weight:600">${sessions.join('<br/>')}</td></tr>
         </table>
         <p style="margin-top:24px;color:#999;font-size:12px">Skramblehouse League Registration</p>
+      </div>
+    `,
+  })
+}
+
+export async function sendLeagueRegistrationConfirmation(payload: LeagueRegistrationPayload) {
+  if (!process.env.RESEND_API_KEY) {
+    console.warn('[email] RESEND_API_KEY not set — skipping league registration confirmation')
+    return
+  }
+
+  // Confirmation email is sent once copy is provided.
+  // Placeholder: sends a minimal acknowledgement to the registrant.
+  const { firstName, lastName, email, timeSlot, sessions, teammateFirstName, teammateLastName } = payload
+  const resend = new Resend(process.env.RESEND_API_KEY)
+  const confirmationCopy = process.env.LEAGUE_CONFIRMATION_COPY ?? null
+  const teammateName = (teammateFirstName || teammateLastName)
+    ? `${teammateFirstName ?? ''} ${teammateLastName ?? ''}`.trim()
+    : null
+
+  await resend.emails.send({
+    from: process.env.EMAIL_FROM ?? 'Skramblehouse <noreply@skramblehouse.com>',
+    to: email,
+    subject: `You\'re registered — Tuesday Night Simulator League`,
+    html: confirmationCopy ?? `
+      <div style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:24px">
+        <h2 style="margin:0 0 8px;color:#111">Registration Confirmed! ⛳</h2>
+        <p style="color:#374151;margin:0 0 20px">Hey ${firstName}, you\'re in for the Tuesday Night Simulator League at Skramblehouse.</p>
+        <table style="width:100%;border-collapse:collapse;background:#f9fafb;border-radius:12px;overflow:hidden">
+          <tr><td style="padding:10px 14px;color:#666;width:160px">Name</td><td style="padding:10px 14px;font-weight:600">${firstName} ${lastName}</td></tr>
+          ${teammateName ? `<tr><td style="padding:10px 14px;color:#666">Teammate</td><td style="padding:10px 14px;font-weight:600">${teammateName}</td></tr>` : ''}
+          <tr><td style="padding:10px 14px;color:#666">Time Slot</td><td style="padding:10px 14px;font-weight:600">${timeSlot}</td></tr>
+          <tr><td style="padding:10px 14px;color:#666">Session</td><td style="padding:10px 14px;font-weight:600">${sessions.join(', ')}</td></tr>
+        </table>
+        <p style="color:#374151;margin:20px 0">We\'ll follow up with payment instructions and all the details before the first week. See you on the sim!</p>
+        <p style="color:#999;font-size:12px;margin-top:32px">Skramblehouse House of Golf ROC &middot; <a href="https://skramblehouse.com" style="color:#1D4ED8">skramblehouse.com</a></p>
       </div>
     `,
   })

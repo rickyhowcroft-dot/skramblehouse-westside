@@ -34,6 +34,8 @@ type Form = {
   leagueNights: string[]
   timeSlot: string
   sessions: string[]
+  teammateFirstName: string
+  teammateLastName: string
   website: string
 }
 
@@ -42,6 +44,7 @@ const EMPTY: Form = {
   ghin: '', estimatedHcp: '',
   leagueNights: ['tuesday'], // Tuesday only — always set
   timeSlot: '', sessions: [],
+  teammateFirstName: '', teammateLastName: '',
   website: '',
 }
 
@@ -108,7 +111,7 @@ export default function LeagueRegistrationPage() {
       <div style={{ maxWidth: 480, margin: '32px auto 0', padding: '0 16px' }}>
         <div style={{ borderRadius: 18, overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.12)' }}>
           <Image
-            src="/tuesday-league-promo.jpg"
+            src="/tuesday-league-promo-v2.jpg"
             alt="Tuesday Night Simulator League — Skramblehouse"
             width={900}
             height={900}
@@ -227,8 +230,9 @@ export default function LeagueRegistrationPage() {
 
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
 
-                {/* ── Name ── */}
-                <div className="two-col">
+                {/* ── Your Info ── */}
+                <GroupLabel label="Your Info" required />
+                <div className="two-col" style={{ marginTop: -6 }}>
                   <Field label="First Name"><input type="text" required maxLength={60} placeholder="Jane"
                     value={form.firstName} onChange={e => setForm(p => ({ ...p, firstName: e.target.value }))} /></Field>
                   <Field label="Last Name"><input type="text" required maxLength={60} placeholder="Smith"
@@ -243,6 +247,15 @@ export default function LeagueRegistrationPage() {
                 <Field label="Phone Number"><input type="tel" required placeholder="(555) 555-5555"
                   autoComplete="tel" value={form.phone}
                   onChange={e => setForm(p => ({ ...p, phone: e.target.value }))} /></Field>
+
+                {/* ── Teammate ── */}
+                <GroupLabel label="Teammate" />
+                <div className="two-col" style={{ marginTop: -6 }}>
+                  <Field label="First Name" optional><input type="text" maxLength={60} placeholder="Alex"
+                    value={form.teammateFirstName} onChange={e => setForm(p => ({ ...p, teammateFirstName: e.target.value }))} /></Field>
+                  <Field label="Last Name" optional><input type="text" maxLength={60} placeholder="Johnson"
+                    value={form.teammateLastName} onChange={e => setForm(p => ({ ...p, teammateLastName: e.target.value }))} /></Field>
+                </div>
 
                 {/* ── Handicap ── */}
                 <div className="two-col">

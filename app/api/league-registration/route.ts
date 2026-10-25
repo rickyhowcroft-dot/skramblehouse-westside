@@ -103,18 +103,24 @@ export async function POST(req: Request) {
   }
 
   // ── Email (non-blocking) ──────────────────────────────────────────────────
-  sendLeagueRegistrationNotification({
+  const emailPayload = {
     firstName,
     lastName,
     email,
     phone,
-    ghin:          ghin || null,
-    estimatedHcp:  estimatedHcp || null,
-    leagueNights:  leagueNights.map(n => NIGHT_LABELS[n] ?? n),
+    ghin:              ghin || null,
+    estimatedHcp:      estimatedHcp || null,
+    leagueNights:      leagueNights.map(n => NIGHT_LABELS[n] ?? n),
     timeSlot,
-    sessions:      sessions.map(s => SESSION_LABELS[s] ?? s),
-    registrationId: inserted?.id ?? '',
-  }).catch(err => console.error('[league-reg] email error', (err as Error).message))
+    sessions:          sessions.map(s => SESSION_LABELS[s] ?? s),
+    teammateFirstName: teammateFirstName || null,
+    teammateLastName:  teammateLastName || null,
+    registrationId:    inserted?.id ?? '',
+  }
+  sendLeagueRegistrationNotification(emailPayload)
+    .catch(err => console.error('[league-reg] admin email error', (err as Error).message))
+  sendLeagueRegistrationConfirmation(emailPayload)
+    .catch(err => console.error('[league-reg] confirmation email error', (err as Error).message))
 
   return NextResponse.json({ success: true })
 }
