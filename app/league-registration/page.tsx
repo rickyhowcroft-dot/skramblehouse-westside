@@ -136,7 +136,7 @@ export default function LeagueRegistrationPage() {
               New Members
             </p>
             <p style={{ fontSize: 36, fontWeight: 900, color: BLUE, margin: '0 0 2px', lineHeight: 1 }}>FREE</p>
-            <p style={{ fontSize: 13, color: GRAY_3, margin: 0 }}>join &amp; get Session 1 free</p>
+            <p style={{ fontSize: 13, color: GRAY_3, margin: 0 }}>Join &amp; get session 1 free</p>
           </div>
 
           <div style={{
