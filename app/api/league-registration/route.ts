@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
-import { sendLeagueRegistrationNotification } from '@/lib/email'
+import { sendLeagueRegistrationNotification, sendLeagueRegistrationConfirmation } from '@/lib/email'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 
@@ -52,15 +52,17 @@ export async function POST(req: Request) {
   }
 
   // ── Validate fields ───────────────────────────────────────────────────────
-  const firstName     = sanitize(body.firstName)
-  const lastName      = sanitize(body.lastName)
-  const email         = sanitize(body.email).toLowerCase()
-  const phone         = sanitize(body.phone)
-  const ghin          = sanitize(body.ghin)
-  const estimatedHcp  = sanitize(body.estimatedHcp)
-  const leagueNights  = sanitizeArr(body.leagueNights)
-  const timeSlot      = sanitize(body.timeSlot)
-  const sessions      = sanitizeArr(body.sessions)
+  const firstName          = sanitize(body.firstName)
+  const lastName           = sanitize(body.lastName)
+  const email              = sanitize(body.email).toLowerCase()
+  const phone              = sanitize(body.phone)
+  const ghin               = sanitize(body.ghin)
+  const estimatedHcp       = sanitize(body.estimatedHcp)
+  const leagueNights       = sanitizeArr(body.leagueNights)
+  const timeSlot           = sanitize(body.timeSlot)
+  const sessions           = sanitizeArr(body.sessions)
+  const teammateFirstName  = sanitize(body.teammateFirstName)
+  const teammateLastName   = sanitize(body.teammateLastName)
 
   // Required
   if (!firstName || !lastName)       return NextResponse.json({ error: 'First and last name are required.' }, { status: 400 })
@@ -84,15 +86,17 @@ export async function POST(req: Request) {
   const { data: inserted, error: insertErr } = await supabaseAdmin
     .from('league_registrations')
     .insert({
-      first_name:         firstName,
-      last_name:          lastName,
+      first_name:            firstName,
+      last_name:             lastName,
       email,
       phone,
-      ghin_number:        ghin || null,
-      estimated_handicap: estimatedHcp || null,
-      league_nights:      leagueNights,
-      time_slot:          timeSlot,
+      ghin_number:           ghin || null,
+      estimated_handicap:    estimatedHcp || null,
+      league_nights:         leagueNights,
+      time_slot:             timeSlot,
       sessions,
+      teammate_first_name:   teammateFirstName || null,
+      teammate_last_name:    teammateLastName || null,
     })
     .select('id')
     .single()
