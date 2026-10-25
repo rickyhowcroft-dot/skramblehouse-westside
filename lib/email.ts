@@ -219,7 +219,8 @@ export async function sendLeagueRegistrationConfirmation(payload: LeagueRegistra
             <table width="100%" cellpadding="0" cellspacing="0" style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px">
               <tr><td style="padding:12px 18px;color:#6b7280;font-size:11px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;border-bottom:1px solid #e5e7eb">League Details</td></tr>
               <tr><td style="padding:12px 18px 4px;font-size:14px;font-weight:700;color:#111827">Tuesday Night — Format League</td></tr>
-              <tr><td style="padding:0 18px 12px;font-size:14px;color:#374151">2-Person Teams &nbsp;·&nbsp; 9 Holes Every Week &nbsp;·&nbsp; Playoff Round 18 Holes</td></tr>
+              <tr><td style="padding:0 18px 4px;font-size:14px;color:#374151">2-Person Teams &nbsp;·&nbsp; 9 Holes Every Week</td></tr>
+              <tr><td style="padding:0 18px 12px;font-size:14px;color:#374151;text-align:center">Playoff Round 18 Holes</td></tr>
             </table>
           </td>
         </tr>
@@ -234,7 +235,7 @@ export async function sendLeagueRegistrationConfirmation(payload: LeagueRegistra
                 <td style="padding:10px 18px 4px;font-size:14px;font-weight:700;color:#111827">${registrantName}</td>
               </tr>
               <tr>
-                <td style="padding:4px 18px;font-size:13px;color:#6b7280">Name 2</td>
+                <td style="padding:4px 18px;font-size:13px;color:#6b7280">Teammate Name</td>
                 <td style="padding:4px 18px;font-size:14px;font-weight:700;color:#111827">${teammateName}</td>
               </tr>
               <tr>
