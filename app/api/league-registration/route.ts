@@ -61,8 +61,10 @@ export async function POST(req: Request) {
   const leagueNights       = sanitizeArr(body.leagueNights)
   const timeSlot           = sanitize(body.timeSlot)
   const sessions           = sanitizeArr(body.sessions)
-  const teammateFirstName  = sanitize(body.teammateFirstName)
-  const teammateLastName   = sanitize(body.teammateLastName)
+  const teammateFirstName   = sanitize(body.teammateFirstName)
+  const teammateLastName    = sanitize(body.teammateLastName)
+  const teammateGhin        = sanitize(body.teammateGhin)
+  const teammateEstimatedHcp = sanitize(body.teammateEstimatedHcp)
 
   // Required
   if (!firstName || !lastName)       return NextResponse.json({ error: 'First and last name are required.' }, { status: 400 })
@@ -95,8 +97,10 @@ export async function POST(req: Request) {
       league_nights:         leagueNights,
       time_slot:             timeSlot,
       sessions,
-      teammate_first_name:   teammateFirstName || null,
-      teammate_last_name:    teammateLastName || null,
+      teammate_first_name:    teammateFirstName || null,
+      teammate_last_name:     teammateLastName || null,
+      teammate_ghin_number:   teammateGhin || null,
+      teammate_estimated_hcp: teammateEstimatedHcp || null,
     })
     .select('id')
     .single()
@@ -117,9 +121,11 @@ export async function POST(req: Request) {
     leagueNights:      leagueNights.map(n => NIGHT_LABELS[n] ?? n),
     timeSlot,
     sessions:          sessions.map(s => SESSION_LABELS[s] ?? s),
-    teammateFirstName: teammateFirstName || null,
-    teammateLastName:  teammateLastName || null,
-    registrationId:    inserted?.id ?? '',
+    teammateFirstName:    teammateFirstName || null,
+    teammateLastName:     teammateLastName || null,
+    teammateGhin:         teammateGhin || null,
+    teammateEstimatedHcp: teammateEstimatedHcp || null,
+    registrationId:       inserted?.id ?? '',
   }
   sendLeagueRegistrationNotification(emailPayload)
     .catch(err => console.error('[league-reg] admin email error', (err as Error).message))

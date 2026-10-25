@@ -127,6 +127,8 @@ interface LeagueRegistrationPayload {
   sessions: string[]
   teammateFirstName: string | null
   teammateLastName: string | null
+  teammateGhin: string | null
+  teammateEstimatedHcp: string | null
   registrationId: string
 }
 
@@ -136,7 +138,7 @@ export async function sendLeagueRegistrationNotification(payload: LeagueRegistra
     return
   }
 
-  const { firstName, lastName, email, phone, ghin, estimatedHcp, leagueNights, timeSlot, sessions, teammateFirstName, teammateLastName } = payload
+  const { firstName, lastName, email, phone, ghin, estimatedHcp, leagueNights, timeSlot, sessions, teammateFirstName, teammateLastName, teammateGhin, teammateEstimatedHcp } = payload
   const resend = new Resend(process.env.RESEND_API_KEY)
   const recipients = (process.env.LEAGUE_NOTIFY_EMAIL ?? process.env.NOTIFY_EMAIL ?? '')
     .split(',').map(e => e.trim()).filter(Boolean)
@@ -162,6 +164,9 @@ export async function sendLeagueRegistrationNotification(payload: LeagueRegistra
           <tr><td style="padding:8px 0;color:#666;vertical-align:top">League Nights</td><td style="padding:8px 0;font-weight:600">${leagueNights.join('<br/>')}</td></tr>
           <tr><td style="padding:8px 0;color:#666;vertical-align:top">Time Slot</td><td style="padding:8px 0;font-weight:600">${timeSlot}</td></tr>
           <tr><td style="padding:8px 0;color:#666;vertical-align:top">Sessions</td><td style="padding:8px 0;font-weight:600">${sessions.join('<br/>')}</td></tr>
+          <tr><td style="padding:8px 0;color:#666;vertical-align:top">Teammate</td><td style="padding:8px 0;font-weight:600">${teammateName}</td></tr>
+          <tr><td style="padding:8px 0;color:#666;vertical-align:top">Teammate GHIN #</td><td style="padding:8px 0">${teammateGhin ?? '—'}</td></tr>
+          <tr><td style="padding:8px 0;color:#666;vertical-align:top">Teammate Est. HC</td><td style="padding:8px 0">${teammateEstimatedHcp ?? '—'}</td></tr>
         </table>
         <p style="margin-top:24px;color:#999;font-size:12px">Skramblehouse League Registration</p>
       </div>

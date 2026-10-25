@@ -36,6 +36,8 @@ type Form = {
   sessions: string[]
   teammateFirstName: string
   teammateLastName: string
+  teammateGhin: string
+  teammateEstimatedHcp: string
   website: string
 }
 
@@ -45,6 +47,7 @@ const EMPTY: Form = {
   leagueNights: ['tuesday'], // Tuesday only — always set
   timeSlot: '', sessions: [],
   teammateFirstName: '', teammateLastName: '',
+  teammateGhin: '', teammateEstimatedHcp: '',
   website: '',
 }
 
@@ -57,6 +60,9 @@ export default function LeagueRegistrationPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
+    if (!form.ghin && !form.estimatedHcp) return setError('Please enter your GHIN # or Estimated Handicap Index.')
+    const hasTeammate = form.teammateFirstName || form.teammateLastName
+    if (hasTeammate && !form.teammateGhin && !form.teammateEstimatedHcp) return setError('Please enter your teammate\'s GHIN # or Estimated Handicap Index.')
     if (!form.timeSlot)          return setError('Please select a time slot.')
     if (form.sessions.length === 0) return setError('Please select a session.')
     setLoading(true)
@@ -238,6 +244,14 @@ export default function LeagueRegistrationPage() {
                   <Field label="Last Name"><input type="text" required maxLength={60} placeholder="Smith"
                     value={form.lastName} onChange={e => setForm(p => ({ ...p, lastName: e.target.value }))} /></Field>
                 </div>
+                <div className="two-col">
+                  <Field label="GHIN #" optional><input type="text" placeholder="Optional"
+                    value={form.ghin} onChange={e => setForm(p => ({ ...p, ghin: e.target.value }))} /></Field>
+                  <Field label="Est. Handicap Index" optional={!!form.ghin} hint={form.ghin ? undefined : 'required if no GHIN'}>
+                    <input type="text" placeholder="e.g. 12.4"
+                      value={form.estimatedHcp} onChange={e => setForm(p => ({ ...p, estimatedHcp: e.target.value }))} />
+                  </Field>
+                </div>
 
                 {/* ── Contact ── */}
                 <Field label="Email Address"><input type="email" required maxLength={254} placeholder="jane@example.com"
@@ -256,14 +270,12 @@ export default function LeagueRegistrationPage() {
                   <Field label="Last Name" optional><input type="text" maxLength={60} placeholder="Johnson"
                     value={form.teammateLastName} onChange={e => setForm(p => ({ ...p, teammateLastName: e.target.value }))} /></Field>
                 </div>
-
-                {/* ── Handicap ── */}
                 <div className="two-col">
                   <Field label="GHIN #" optional><input type="text" placeholder="Optional"
-                    value={form.ghin} onChange={e => setForm(p => ({ ...p, ghin: e.target.value }))} /></Field>
-                  <Field label="Est. Handicap Index" optional hint="if no GHIN">
+                    value={form.teammateGhin} onChange={e => setForm(p => ({ ...p, teammateGhin: e.target.value }))} /></Field>
+                  <Field label="Est. Handicap Index" optional={!!form.teammateGhin} hint={form.teammateGhin ? undefined : 'required if no GHIN'}>
                     <input type="text" placeholder="e.g. 12.4"
-                      value={form.estimatedHcp} onChange={e => setForm(p => ({ ...p, estimatedHcp: e.target.value }))} />
+                      value={form.teammateEstimatedHcp} onChange={e => setForm(p => ({ ...p, teammateEstimatedHcp: e.target.value }))} />
                   </Field>
                 </div>
 
