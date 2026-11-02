@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Image from 'next/image'
 
 // ── Brand tokens ──────────────────────────────────────────────────────────────
@@ -41,6 +41,7 @@ export default function RocExperiencePage() {
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading]     = useState(false)
   const [error, setError]         = useState('')
+  const signupEventIdRef          = useRef<string | null>(null)
 
   const toggleInterest = (id: string) => {
     setForm(p => ({
@@ -55,6 +56,7 @@ export default function RocExperiencePage() {
     e.preventDefault()
     setError('')
     setLoading(true)
+    if (!signupEventIdRef.current) signupEventIdRef.current = crypto.randomUUID()
     const res  = await fetch('/api/roc-experience', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -62,6 +64,14 @@ export default function RocExperiencePage() {
     })
     const data = await res.json()
     if (!res.ok) { setError(data.error || 'Something went wrong. Please try again.'); setLoading(false); return }
+    // GTM conversion event
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const w = window as any
+    w.dataLayer = w.dataLayer || []
+    w.dataLayer.push({
+      event: 'roc_trial_signup_success',
+      roc_trial_signup_event_id: signupEventIdRef.current,
+    })
     setSubmitted(true)
     setLoading(false)
   }

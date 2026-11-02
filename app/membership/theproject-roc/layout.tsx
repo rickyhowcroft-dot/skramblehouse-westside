@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Script from 'next/script'
 
 export const metadata: Metadata = {
   title: 'Rochester Membership Pre-Sale 2026–2027 | Skramblehouse',
@@ -6,5 +7,18 @@ export const metadata: Metadata = {
 }
 
 export default function RocPresaleLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>
+  return (
+    <>
+      <Script
+        src="https://www.googletagmanager.com/gtm.js?id=GTM-N526QL43"
+        strategy="afterInteractive"
+      />
+      <Script id="gtm-init" strategy="afterInteractive">{`
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+      `}</Script>
+      {children}
+    </>
+  )
 }
