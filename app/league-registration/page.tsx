@@ -21,7 +21,7 @@ const TIME_SLOTS = [
 ]
 
 const SESSIONS = [
-  { id: 'session1', label: 'Session 1', dates: 'Nov 10 – Dec 22' },
+  { id: 'session1', label: 'Session 1', dates: '12/1, 12/8, 12/15, 12/29, 1/5, 1/12, 1/19' },
 ]
 
 type Form = {
@@ -113,19 +113,6 @@ export default function LeagueRegistrationPage() {
         </p>
       </div>
 
-      {/* ── Promo image ──────────────────────────────────────────────────── */}
-      <div style={{ maxWidth: 480, margin: '32px auto 0', padding: '0 16px' }}>
-        <div style={{ borderRadius: 18, overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.12)' }}>
-          <Image
-            src="/tuesday-league-promo-v2.jpg"
-            alt="Tuesday Night Simulator League — Skramblehouse"
-            width={900}
-            height={900}
-            style={{ width: '100%', height: 'auto', display: 'block' }}
-          />
-        </div>
-      </div>
-
       {/* ── Pricing cards ────────────────────────────────────────────────── */}
       <div style={{ maxWidth: 720, margin: '32px auto 0', padding: '0 16px' }}>
         <div style={{ display: 'flex', gap: 14 }} className="pricing-row">
@@ -156,7 +143,7 @@ export default function LeagueRegistrationPage() {
             <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', color: GRAY_3, margin: '0 0 6px' }}>
               Non-Members
             </p>
-            <p style={{ fontSize: 36, fontWeight: 900, color: GRAY_1, margin: '0 0 2px', lineHeight: 1 }}>$150</p>
+            <p style={{ fontSize: 36, fontWeight: 900, color: GRAY_1, margin: '0 0 2px', lineHeight: 1 }}>$100</p>
             <p style={{ fontSize: 13, color: GRAY_3, margin: 0 }}>per person</p>
           </div>
 
@@ -177,7 +164,7 @@ export default function LeagueRegistrationPage() {
           {[
             { icon: '👥', text: '2-person teams' },
             { icon: '⛳', text: '9 holes weekly' },
-            { icon: '📅', text: '7 weeks · Nov 10 – Dec 22' },
+            { icon: '📅', text: '12/1 · 12/8 · 12/15 · 12/29 · 1/5 · 1/12 · 1/19' },
             { icon: '🏆', text: '18-hole playoff · cash prizes' },
             { icon: '🎯', text: 'Skramble · Best Ball · Alternate Shot' },
           ].map(({ icon, text }) => (
