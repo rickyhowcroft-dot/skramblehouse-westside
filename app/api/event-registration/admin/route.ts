@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
     'skramble-tour':   'Skramble Tour',
   }
   const LOC_LABELS: Record<string, string> = {
-    'west-side': 'West Side (Rochester)',
+    'west-side': 'Rochester',
     'horsham':   'Horsham',
     'kop':       'KOP',
   }

@@ -470,7 +470,7 @@ const EVENT_LABELS: Record<string, string> = {
 }
 
 const LOCATION_LABELS: Record<string, string> = {
-  'west-side': 'West Side (Rochester)',
+  'west-side': 'Rochester',
   'horsham':   'Horsham',
   'kop':       'King of Prussia (KOP)',
 }

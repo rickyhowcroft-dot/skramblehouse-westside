@@ -45,7 +45,7 @@ const EVENTS = [
 ]
 
 const LOCATIONS = [
-  { id: 'west-side', label: 'West Side (Rochester)' },
+  { id: 'west-side', label: 'Rochester' },
   { id: 'horsham',   label: 'Horsham' },
   { id: 'kop',       label: 'King of Prussia (KOP)' },
 ]
