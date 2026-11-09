@@ -64,6 +64,7 @@ Before touching any code:
 - **Stack**: Next.js 16 on Vercel + Supabase (shared project) + Resend for email
 - **Deploy**: push `main` → GitHub Actions → `vercel deploy --prod`
 - **Repo**: `rickyhowcroft-dot/skramblehouse-westside`, `main` branch
-- **Live URLs**: `skramblehouse.com` (homepage), `skramblehouse.com/westside/presale` (westside presale), `skramblehouse.com/membership/presale` (2026–27 membership presale — TBD final URL), `/membership/admin` (paid tracking admin)
+- **Live URLs**: `skramblehouse.com` (homepage), `skramblehouse.com/westside/presale` (westside presale), `skramblehouse.com/membership/presale` (2026–27 membership presale — TBD final URL), `/membership/admin` (paid tracking admin), `/events` (all-locations events page)
 - **Email**: `noreply@skramblehouse.com` via Resend; notifies `Theskramblehouseofgolfroc@gmail.com` + `rickyhowcroft@gmail.com`
 - **Presale signups**: stored in `presale_signups` table; 10 signups as of 3/5-6/2026
+- **Event registrations**: stored in `event_registrations` table (migration `20261109_event_registrations.sql`). Fields: `event_slug`, `location`, player info, optional `division` (opening-weekend only), optional teammate fields. API route: `/api/event-registration`. Email via `sendEventRegistrationNotification` in `lib/email.ts`.

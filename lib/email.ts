@@ -460,3 +460,90 @@ export async function sendRocExperienceNotification(payload: RocExperiencePayloa
     `,
   })
 }
+
+// ── Event Registration ────────────────────────────────────────────────────────
+
+const EVENT_LABELS: Record<string, string> = {
+  'opening-weekend': 'Opening Weekend Skramble',
+  'baller-league':   'Baller League',
+  'skramble-tour':   'Skramble Tour',
+}
+
+const LOCATION_LABELS: Record<string, string> = {
+  'west-side': 'West Side (Rochester)',
+  'horsham':   'Horsham',
+  'kop':       'King of Prussia (KOP)',
+}
+
+const DIVISION_LABELS: Record<string, string> = {
+  'hcp-20-plus':  'Division A — Team handicap 20+',
+  'hcp-under-20': 'Division B — Team handicap under 20',
+}
+
+export interface EventRegistrationPayload {
+  eventSlug: string
+  location: string
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  ghin: string | null
+  estimatedHcp: string | null
+  division: string | null
+  teammateFirstName: string | null
+  teammateLastName: string | null
+  teammateGhin: string | null
+  teammateEstimatedHcp: string | null
+  registrationId: string
+}
+
+export async function sendEventRegistrationNotification(payload: EventRegistrationPayload) {
+  if (!process.env.RESEND_API_KEY) {
+    console.warn('[email] RESEND_API_KEY not set — skipping event registration notification')
+    return
+  }
+  const {
+    eventSlug, location, firstName, lastName, email, phone,
+    ghin, estimatedHcp, division,
+    teammateFirstName, teammateLastName, teammateGhin, teammateEstimatedHcp,
+    registrationId,
+  } = payload
+
+  const { Resend } = await import('resend')
+  const resend = new Resend(process.env.RESEND_API_KEY)
+  const recipients = (process.env.LEAGUE_NOTIFY_EMAIL ?? process.env.NOTIFY_EMAIL ?? '')
+    .split(',').map(e => e.trim()).filter(Boolean)
+
+  const eventLabel    = EVENT_LABELS[eventSlug]    ?? eventSlug
+  const locationLabel = LOCATION_LABELS[location]  ?? location
+  const divisionLabel = division ? (DIVISION_LABELS[division] ?? division) : null
+  const teammateName  = (teammateFirstName || teammateLastName)
+    ? `${teammateFirstName ?? ''} ${teammateLastName ?? ''}`.trim()
+    : null
+
+  await resend.emails.send({
+    from: process.env.EMAIL_FROM ?? 'Skramblehouse <noreply@skramblehouse.com>',
+    to: recipients,
+    subject: `⛳ ${eventLabel} Registration — ${firstName} ${lastName}`,
+    html: `
+      <div style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:24px">
+        <h2 style="margin:0 0 4px">${eventLabel}</h2>
+        <p style="margin:0 0 20px;color:#666;font-size:14px">skramblehouse.com/events</p>
+        <table style="width:100%;border-collapse:collapse">
+          <tr><td style="padding:8px 0;color:#666;width:180px">Name</td><td style="padding:8px 0;font-weight:600">${firstName} ${lastName}</td></tr>
+          <tr><td style="padding:8px 0;color:#666">Email</td><td style="padding:8px 0"><a href="mailto:${email}">${email}</a></td></tr>
+          <tr><td style="padding:8px 0;color:#666">Phone</td><td style="padding:8px 0">${phone}</td></tr>
+          <tr><td style="padding:8px 0;color:#666">Location</td><td style="padding:8px 0;font-weight:600">${locationLabel}</td></tr>
+          <tr><td style="padding:8px 0;color:#666">GHIN #</td><td style="padding:8px 0">${ghin ?? '—'}</td></tr>
+          <tr><td style="padding:8px 0;color:#666">Est. Handicap</td><td style="padding:8px 0">${estimatedHcp ?? '—'}</td></tr>
+          ${divisionLabel ? `<tr><td style="padding:8px 0;color:#666">Division</td><td style="padding:8px 0;font-weight:600">${divisionLabel}</td></tr>` : ''}
+          ${teammateName  ? `<tr><td style="padding:8px 0;color:#666">Teammate</td><td style="padding:8px 0;font-weight:600">${teammateName}</td></tr>` : ''}
+          ${teammateGhin  ? `<tr><td style="padding:8px 0;color:#666">Teammate GHIN</td><td style="padding:8px 0">${teammateGhin}</td></tr>` : ''}
+          ${teammateEstimatedHcp ? `<tr><td style="padding:8px 0;color:#666">Teammate Est. HC</td><td style="padding:8px 0">${teammateEstimatedHcp}</td></tr>` : ''}
+          <tr><td style="padding:8px 0;color:#666;font-size:11px">ID</td><td style="padding:8px 0;font-size:11px;color:#999">${registrationId}</td></tr>
+        </table>
+        <p style="margin-top:24px;color:#999;font-size:12px">Skramblehouse Events</p>
+      </div>
+    `,
+  })
+}
