@@ -582,3 +582,68 @@ export async function sendEventRegistrationNotification(payload: EventRegistrati
     `,
   })
 }
+
+// ── Floater Signup ─────────────────────────────────────────────────────────
+interface FloaterSignupPayload {
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+}
+
+export async function sendFloaterSignupNotification(payload: FloaterSignupPayload) {
+  if (!process.env.RESEND_API_KEY) {
+    console.warn('[email] RESEND_API_KEY not set — skipping floater notification')
+    return
+  }
+  const { firstName, lastName, email, phone } = payload
+  const resend     = new Resend(process.env.RESEND_API_KEY)
+  const recipients = (process.env.LEAGUE_NOTIFY_EMAIL ?? process.env.NOTIFY_EMAIL ?? '')
+    .split(',').map(e => e.trim()).filter(Boolean)
+
+  await resend.emails.send({
+    from: process.env.EMAIL_FROM ?? 'Skramblehouse <noreply@skramblehouse.com>',
+    to: recipients,
+    subject: `🏌️ Floater Sign-Up — ${firstName} ${lastName}`,
+    html: `
+      <div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:24px">
+        <h2 style="margin:0 0 4px">New Floater Sign-Up</h2>
+        <p style="margin:0 0 20px;color:#666;font-size:14px">skramblehouse.com/floater · Rochester · Limited to 50 spots</p>
+        <table style="width:100%;border-collapse:collapse">
+          <tr><td style="padding:8px 0;color:#666;width:120px">Name</td><td style="padding:8px 0;font-weight:700">${firstName} ${lastName}</td></tr>
+          <tr><td style="padding:8px 0;color:#666">Email</td><td style="padding:8px 0"><a href="mailto:${email}">${email}</a></td></tr>
+          <tr><td style="padding:8px 0;color:#666">Phone</td><td style="padding:8px 0">${phone}</td></tr>
+        </table>
+        <p style="margin-top:24px;color:#999;font-size:12px">Skramblehouse · Rochester · Floater Membership</p>
+      </div>
+    `,
+  })
+}
+
+export async function sendFloaterSignupConfirmation(payload: FloaterSignupPayload) {
+  if (!process.env.RESEND_API_KEY) return
+  const { firstName, email } = payload
+  const resend = new Resend(process.env.RESEND_API_KEY)
+
+  await resend.emails.send({
+    from: process.env.EMAIL_FROM ?? 'Skramblehouse <noreply@skramblehouse.com>',
+    to: email,
+    subject: `You're signed up — Skramblehouse Floater`,
+    html: `
+      <div style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:32px 24px">
+        <h2 style="margin:0 0 6px;color:#111827">Skramblehouse Floater Membership</h2>
+        <p style="margin:0 0 24px;color:#6B7280;font-size:14px">Rochester</p>
+        <p style="margin:0 0 20px;font-size:16px;color:#111827">
+          Hey ${firstName}, you&rsquo;re signed up! We&rsquo;ve received your registration and will reach out soon with payment info and next steps.
+        </p>
+        <table style="width:100%;border-collapse:collapse;margin-bottom:24px">
+          <tr><td style="padding:8px 0;color:#6B7280;width:160px;font-size:14px">Initiation Fee</td><td style="padding:8px 0;font-weight:700;font-size:14px">$100</td></tr>
+          <tr><td style="padding:8px 0;color:#6B7280;font-size:14px">Includes</td><td style="padding:8px 0;font-size:14px">One day pass + one coaching session</td></tr>
+          <tr><td style="padding:8px 0;color:#6B7280;font-size:14px">Additional Visits</td><td style="padding:8px 0;font-size:14px">$50 per visit</td></tr>
+          <tr><td style="padding:8px 0;color:#6B7280;font-size:14px">Guest Fee</td><td style="padding:8px 0;font-size:14px">$50 per guest, per visit</td></tr>
+        </table>
+        <p style="margin:0;color:#9CA3AF;font-size:12px">Skramblehouse · skramblehouse.com</p>
+      </div>
+    `,
+  })
+}
