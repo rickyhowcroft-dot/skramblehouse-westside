@@ -193,7 +193,8 @@ export default function FloaterPage() {
             </p>
             {[
               { label: 'Initiation Fee', value: '$100' },
-              { label: 'Includes', value: 'One day pass + one coaching session' },
+              { label: 'One Day Pass', value: 'Included' },
+              { label: 'Coaching Session', value: 'Included' },
               { label: 'Additional Visits', value: '$50 per visit' },
             ].map(({ label, value }) => (
               <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: `1px solid ${BLUE_MID}`, padding: '8px 0', gap: 12 }}>
