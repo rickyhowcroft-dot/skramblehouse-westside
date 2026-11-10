@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 
 // ── Brand tokens ──────────────────────────────────────────────────────────────
@@ -28,6 +28,16 @@ const DIVISIONS = [
   { id: 'hcp-under-20', label: 'Division B — Team handicap under 20' },
 ]
 
+const GTM_ID = 'GTM-N526QL43'
+
+type Attribution = {
+  utmSource: string; utmMedium: string; utmCampaign: string
+  utmContent: string; utmTerm: string; fbclid: string
+}
+const EMPTY_ATTR: Attribution = {
+  utmSource: '', utmMedium: '', utmCampaign: '', utmContent: '', utmTerm: '', fbclid: '',
+}
+
 type Form = {
   firstName: string
   lastName: string
@@ -36,6 +46,7 @@ type Form = {
   ghin: string
   estimatedHcp: string
   location: string
+  membershipStatus: string
   preferredTeeTimes: string
   division: string
   teammateFirstName: string
@@ -48,7 +59,7 @@ type Form = {
 const EMPTY: Form = {
   firstName: '', lastName: '', email: '', phone: '',
   ghin: '', estimatedHcp: '',
-  location: '', preferredTeeTimes: '', division: '',
+  location: '', membershipStatus: '', preferredTeeTimes: '', division: '',
   teammateFirstName: '', teammateLastName: '',
   teammateGhin: '', teammateEstimatedHcp: '',
   website: '',
@@ -60,6 +71,56 @@ export default function SkrambleOpenPage() {
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError]     = useState('')
+
+  const [isRochesterCtx, setIsRochesterCtx] = useState(false)
+  const [attribution,    setAttribution]    = useState<Attribution>(EMPTY_ATTR)
+  const sentRegId = useRef<string | null>(null)
+
+  // On mount: read ?location param, capture UTMs, establish Rochester context
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const locParam = params.get('location')
+    if (locParam === 'west-side') {
+      setForm(p => ({ ...p, location: 'west-side' }))
+      setIsRochesterCtx(true)
+    }
+    setAttribution({
+      utmSource:   params.get('utm_source')   ?? '',
+      utmMedium:   params.get('utm_medium')   ?? '',
+      utmCampaign: params.get('utm_campaign') ?? '',
+      utmContent:  params.get('utm_content')  ?? '',
+      utmTerm:     params.get('utm_term')     ?? '',
+      fbclid:      params.get('fbclid')       ?? '',
+    })
+  }, [])
+
+  // Load GTM once — Rochester context only
+  useEffect(() => {
+    if (!isRochesterCtx) return
+    const w = window as Window & { __gtmLoaded?: boolean; dataLayer?: object[] }
+    if (w.__gtmLoaded) return
+    w.__gtmLoaded = true
+    w.dataLayer = w.dataLayer || []
+    w.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' })
+    const f = document.getElementsByTagName('script')[0]
+    const j = document.createElement('script')
+    j.async = true
+    j.src = `https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`
+    f.parentNode!.insertBefore(j, f)
+  }, [isRochesterCtx])
+
+  // Handle location dropdown changes with full reload when crossing Rochester boundary
+  const handleLocationChange = (newLoc: string) => {
+    if (newLoc === 'west-side' && !isRochesterCtx) {
+      window.location.href = `${window.location.pathname}?location=west-side`
+      return
+    }
+    if (newLoc !== 'west-side' && isRochesterCtx) {
+      window.location.href = window.location.pathname
+      return
+    }
+    setForm(p => ({ ...p, location: newLoc }))
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -75,10 +136,26 @@ export default function SkrambleOpenPage() {
       const res  = await fetch('/api/event-registration', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, eventSlug: 'skramble-open' }),
+        body: JSON.stringify({ ...form, eventSlug: 'skramble-open', ...attribution }),
       })
       const data = await res.json()
       if (!res.ok) { setError(data.error || 'Something went wrong. Please try again.'); return }
+      // Fire dataLayer — Rochester only, deduplicated by stable registration ID
+      if (form.location === 'west-side' && isRochesterCtx && data.registrationId) {
+        const rid = data.registrationId as string
+        if (sentRegId.current !== rid) {
+          sentRegId.current = rid
+          const w = window as Window & { dataLayer?: object[] }
+          w.dataLayer = w.dataLayer || []
+          w.dataLayer.push({
+            event:                 'skramble_open_registration_success',
+            registration_event_id: rid,
+            event_slug:            'skramble-open',
+            location_id:           'west-side',
+            membership_status:     form.membershipStatus || 'unknown',
+          })
+        }
+      }
       setSubmitted(true)
     } catch {
       setError('Something went wrong. Please try again.')
@@ -89,6 +166,16 @@ export default function SkrambleOpenPage() {
 
   return (
     <main style={{ backgroundColor: '#fff', color: GRAY_1 }}>
+      {/* GTM noscript fallback — Rochester context only */}
+      {isRochesterCtx && (
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+            height="0" width="0"
+            style={{ display: 'none', visibility: 'hidden' }}
+          />
+        </noscript>
+      )}
 
       {/* ── Promo image ──────────────────────────────────────────────────── */}
       <div style={{ maxWidth: 520, margin: '0 auto', padding: '24px 16px 0' }}>
@@ -247,7 +334,7 @@ export default function SkrambleOpenPage() {
                   <select
                     required
                     value={form.location}
-                    onChange={e => setForm(p => ({ ...p, location: e.target.value }))}
+                    onChange={e => handleLocationChange(e.target.value)}
                     style={{ color: form.location ? GRAY_1 : '#9CA3AF' }}
                   >
                     <option value="" disabled>Select a location…</option>
@@ -315,6 +402,19 @@ export default function SkrambleOpenPage() {
                   <input type="tel" required placeholder="(555) 555-5555"
                     autoComplete="tel" value={form.phone}
                     onChange={e => setForm(p => ({ ...p, phone: e.target.value }))} />
+                </Field>
+
+                {/* Membership Status */}
+                <Field label="Skramblehouse Member?" optional>
+                  <select
+                    value={form.membershipStatus}
+                    onChange={e => setForm(p => ({ ...p, membershipStatus: e.target.value }))}
+                    style={{ color: form.membershipStatus ? GRAY_1 : '#9CA3AF' }}
+                  >
+                    <option value="">Select…</option>
+                    <option value="member">Yes — I&apos;m a member</option>
+                    <option value="non_member">No — not yet</option>
+                  </select>
                 </Field>
 
                 {/* Teammate */}

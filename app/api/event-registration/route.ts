@@ -55,6 +55,13 @@ export async function POST(req: Request) {
   const teammateLastName     = sanitize(body.teammateLastName)
   const teammateGhin         = sanitize(body.teammateGhin)
   const teammateEstimatedHcp = sanitize(body.teammateEstimatedHcp)
+  const membershipStatus     = sanitize(body.membershipStatus)   // 'member' | 'non_member' | ''
+  const utmSource            = sanitize(body.utmSource)
+  const utmMedium            = sanitize(body.utmMedium)
+  const utmCampaign          = sanitize(body.utmCampaign)
+  const utmContent           = sanitize(body.utmContent)
+  const utmTerm              = sanitize(body.utmTerm)
+  const fbclid               = sanitize(body.fbclid)
 
   // ── Required field validation ─────────────────────────────────────────────
   if (!VALID_EVENTS.has(eventSlug))     return NextResponse.json({ error: 'Invalid event.' }, { status: 400 })
@@ -95,6 +102,13 @@ export async function POST(req: Request) {
       teammate_last_name:      teammateLastName || null,
       teammate_ghin_number:    teammateGhin || null,
       teammate_estimated_hcp:  teammateEstimatedHcp || null,
+      membership_status:       membershipStatus || null,
+      utm_source:              utmSource   || null,
+      utm_medium:              utmMedium   || null,
+      utm_campaign:            utmCampaign || null,
+      utm_content:             utmContent  || null,
+      utm_term:                utmTerm     || null,
+      fbclid:                  fbclid      || null,
     })
     .select('id')
     .single()
@@ -120,12 +134,13 @@ export async function POST(req: Request) {
     teammateLastName:     teammateLastName || null,
     teammateGhin:         teammateGhin || null,
     teammateEstimatedHcp: teammateEstimatedHcp || null,
-    registrationId:       inserted?.id ?? '',
+    membershipStatus:      membershipStatus || null,
+    registrationId:        inserted?.id ?? '',
   }
   sendEventRegistrationNotification(emailPayload)
     .catch(err => console.error('[event-reg] notification error', (err as Error).message))
   sendEventRegistrationConfirmation(emailPayload)
     .catch(err => console.error('[event-reg] confirmation error', (err as Error).message))
 
-  return NextResponse.json({ success: true })
+  return NextResponse.json({ success: true, registrationId: inserted?.id ?? null })
 }

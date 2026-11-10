@@ -490,6 +490,7 @@ export interface EventRegistrationPayload {
   ghin: string | null
   estimatedHcp: string | null
   preferredTeeTimes: string | null
+  membershipStatus: string | null
   division: string | null
   teammateFirstName: string | null
   teammateLastName: string | null
@@ -538,7 +539,7 @@ export async function sendEventRegistrationNotification(payload: EventRegistrati
   }
   const {
     eventSlug, location, firstName, lastName, email, phone,
-    ghin, estimatedHcp, preferredTeeTimes, division,
+    ghin, estimatedHcp, preferredTeeTimes, membershipStatus, division,
     teammateFirstName, teammateLastName, teammateGhin, teammateEstimatedHcp,
     registrationId,
   } = payload
@@ -571,6 +572,7 @@ export async function sendEventRegistrationNotification(payload: EventRegistrati
           <tr><td style="padding:8px 0;color:#666">GHIN #</td><td style="padding:8px 0">${ghin ?? '—'}</td></tr>
           <tr><td style="padding:8px 0;color:#666">Est. Handicap</td><td style="padding:8px 0">${estimatedHcp ?? '—'}</td></tr>
           ${preferredTeeTimes ? `<tr><td style="padding:8px 0;color:#666">Preferred Tee Time</td><td style="padding:8px 0;font-weight:600">${preferredTeeTimes}</td></tr>` : ''}
+          ${membershipStatus ? `<tr><td style="padding:8px 0;color:#666">Member?</td><td style="padding:8px 0;font-weight:600">${membershipStatus === 'member' ? 'Member' : 'Non-member'}</td></tr>` : ''}
           ${divisionLabel ? `<tr><td style="padding:8px 0;color:#666">Division</td><td style="padding:8px 0;font-weight:600">${divisionLabel}</td></tr>` : ''}
           ${teammateName  ? `<tr><td style="padding:8px 0;color:#666">Teammate</td><td style="padding:8px 0;font-weight:600">${teammateName}</td></tr>` : ''}
           ${teammateGhin  ? `<tr><td style="padding:8px 0;color:#666">Teammate GHIN</td><td style="padding:8px 0">${teammateGhin}</td></tr>` : ''}
