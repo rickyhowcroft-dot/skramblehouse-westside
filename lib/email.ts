@@ -489,6 +489,7 @@ export interface EventRegistrationPayload {
   phone: string
   ghin: string | null
   estimatedHcp: string | null
+  preferredTeeTimes: string | null
   division: string | null
   teammateFirstName: string | null
   teammateLastName: string | null
@@ -499,7 +500,7 @@ export interface EventRegistrationPayload {
 
 export async function sendEventRegistrationConfirmation(payload: EventRegistrationPayload) {
   if (!process.env.RESEND_API_KEY) return
-  const { eventSlug, location, firstName, email, division } = payload
+  const { eventSlug, location, firstName, email, preferredTeeTimes, division } = payload
   const { Resend } = await import('resend')
   const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -521,6 +522,7 @@ export async function sendEventRegistrationConfirmation(payload: EventRegistrati
         <table style="width:100%;border-collapse:collapse;margin-bottom:24px">
           <tr><td style="padding:8px 0;color:#6B7280;width:160px;font-size:14px">Event</td><td style="padding:8px 0;font-weight:600;font-size:14px">${eventLabel}</td></tr>
           <tr><td style="padding:8px 0;color:#6B7280;font-size:14px">Location</td><td style="padding:8px 0;font-weight:600;font-size:14px">${locationLabel}</td></tr>
+          ${preferredTeeTimes ? `<tr><td style="padding:8px 0;color:#6B7280;font-size:14px">Preferred Tee Times</td><td style="padding:8px 0;font-weight:600;font-size:14px">${preferredTeeTimes}</td></tr>` : ''}
           ${divisionLabel ? `<tr><td style="padding:8px 0;color:#6B7280;font-size:14px">Division</td><td style="padding:8px 0;font-weight:600;font-size:14px">${divisionLabel}</td></tr>` : ''}
         </table>
         <p style="margin:0;color:#9CA3AF;font-size:12px">Skramblehouse · skramblehouse.com</p>
@@ -536,7 +538,7 @@ export async function sendEventRegistrationNotification(payload: EventRegistrati
   }
   const {
     eventSlug, location, firstName, lastName, email, phone,
-    ghin, estimatedHcp, division,
+    ghin, estimatedHcp, preferredTeeTimes, division,
     teammateFirstName, teammateLastName, teammateGhin, teammateEstimatedHcp,
     registrationId,
   } = payload
@@ -568,6 +570,7 @@ export async function sendEventRegistrationNotification(payload: EventRegistrati
           <tr><td style="padding:8px 0;color:#666">Location</td><td style="padding:8px 0;font-weight:600">${locationLabel}</td></tr>
           <tr><td style="padding:8px 0;color:#666">GHIN #</td><td style="padding:8px 0">${ghin ?? '—'}</td></tr>
           <tr><td style="padding:8px 0;color:#666">Est. Handicap</td><td style="padding:8px 0">${estimatedHcp ?? '—'}</td></tr>
+          ${preferredTeeTimes ? `<tr><td style="padding:8px 0;color:#666">Preferred Tee Times</td><td style="padding:8px 0;font-weight:600">${preferredTeeTimes}</td></tr>` : ''}
           ${divisionLabel ? `<tr><td style="padding:8px 0;color:#666">Division</td><td style="padding:8px 0;font-weight:600">${divisionLabel}</td></tr>` : ''}
           ${teammateName  ? `<tr><td style="padding:8px 0;color:#666">Teammate</td><td style="padding:8px 0;font-weight:600">${teammateName}</td></tr>` : ''}
           ${teammateGhin  ? `<tr><td style="padding:8px 0;color:#666">Teammate GHIN</td><td style="padding:8px 0">${teammateGhin}</td></tr>` : ''}

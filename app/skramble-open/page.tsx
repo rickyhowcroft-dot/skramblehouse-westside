@@ -36,6 +36,7 @@ type Form = {
   ghin: string
   estimatedHcp: string
   location: string
+  preferredTeeTimes: string
   division: string
   teammateFirstName: string
   teammateLastName: string
@@ -47,7 +48,7 @@ type Form = {
 const EMPTY: Form = {
   firstName: '', lastName: '', email: '', phone: '',
   ghin: '', estimatedHcp: '',
-  location: '', division: '',
+  location: '', preferredTeeTimes: '', division: '',
   teammateFirstName: '', teammateLastName: '',
   teammateGhin: '', teammateEstimatedHcp: '',
   website: '',
@@ -254,6 +255,17 @@ export default function SkrambleOpenPage() {
                       <option key={l.id} value={l.id}>{l.label}</option>
                     ))}
                   </select>
+                </Field>
+
+                {/* Preferred Tee Times */}
+                <Field label="Preferred Tee Times" optional>
+                  <input
+                    type="text"
+                    placeholder="e.g. Saturday morning, any time Sunday…"
+                    maxLength={300}
+                    value={form.preferredTeeTimes}
+                    onChange={e => setForm(p => ({ ...p, preferredTeeTimes: e.target.value }))}
+                  />
                 </Field>
 
                 {/* Division */}

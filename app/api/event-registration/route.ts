@@ -49,6 +49,7 @@ export async function POST(req: Request) {
   const phone                = sanitize(body.phone)
   const ghin                 = sanitize(body.ghin)
   const estimatedHcp         = sanitize(body.estimatedHcp)
+  const preferredTeeTimes    = sanitize(body.preferredTeeTimes)
   const division             = sanitize(body.division)
   const teammateFirstName    = sanitize(body.teammateFirstName)
   const teammateLastName     = sanitize(body.teammateLastName)
@@ -87,6 +88,7 @@ export async function POST(req: Request) {
       phone,
       ghin_number:             ghin || null,
       estimated_handicap:      estimatedHcp || null,
+      preferred_tee_times:     preferredTeeTimes || null,
       division:                division || null,
       teammate_first_name:     teammateFirstName || null,
       teammate_last_name:      teammateLastName || null,
@@ -111,6 +113,7 @@ export async function POST(req: Request) {
     phone,
     ghin:                 ghin || null,
     estimatedHcp:         estimatedHcp || null,
+    preferredTeeTimes:    preferredTeeTimes || null,
     division:             division || null,
     teammateFirstName:    teammateFirstName || null,
     teammateLastName:     teammateLastName || null,
