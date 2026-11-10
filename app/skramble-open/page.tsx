@@ -258,9 +258,10 @@ export default function SkrambleOpenPage() {
                 </Field>
 
                 {/* Preferred Tee Times */}
-                <Field label="Preferred Tee Times" optional>
+                <Field label="Preferred Tee Times">
                   <input
                     type="text"
+                    required
                     placeholder="e.g. Saturday morning, any time Sunday…"
                     maxLength={300}
                     value={form.preferredTeeTimes}

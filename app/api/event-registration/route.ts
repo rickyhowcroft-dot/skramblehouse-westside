@@ -63,6 +63,7 @@ export async function POST(req: Request) {
   if (!email || !EMAIL_RE.test(email))  return NextResponse.json({ error: 'A valid email address is required.' }, { status: 400 })
   if (!phone)                           return NextResponse.json({ error: 'Phone number is required.' }, { status: 400 })
   if (!ghin && !estimatedHcp)           return NextResponse.json({ error: 'Please enter your GHIN # or Estimated Handicap Index.' }, { status: 400 })
+  if (!preferredTeeTimes)               return NextResponse.json({ error: 'Please enter your preferred tee times.' }, { status: 400 })
 
   // Team-event-specific validation
   if (TEAM_EVENTS.has(eventSlug)) {
