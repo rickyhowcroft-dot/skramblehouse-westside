@@ -257,8 +257,8 @@ export default function SkrambleOpenPage() {
                   </select>
                 </Field>
 
-                {/* Preferred Tee Times */}
-                <Field label="Preferred Tee Times">
+                {/* Preferred Tee Time */}
+                <Field label="Preferred Tee Time">
                   <input
                     type="text"
                     required
