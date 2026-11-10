@@ -19,27 +19,6 @@ const GOLD_MID= '#FDE68A'
 // ── Event definitions ─────────────────────────────────────────────────────────
 const EVENTS = [
   {
-    slug: 'opening-weekend',
-    title: 'Opening Weekend Skramble',
-    dates: 'Sat Nov 21 & Sun Nov 22',
-    membersOnly: false,
-    teamFormat: true,
-    details: [
-      { icon: '👥', text: '2-person teams' },
-      { icon: '📅', text: 'Sat 11/21 & Sun 11/22' },
-      { icon: '🕐', text: 'Play whenever — set your own time' },
-    ],
-    divisions: [
-      'Division A — Team handicap total 20 or higher',
-      'Division B — Team handicap total 20 or lower',
-    ],
-    pricing: [
-      { label: 'Members', price: 'FREE', sub: 'per team' },
-      { label: 'Non-Members', price: '$100', sub: 'per team' },
-    ],
-    cta: 'Register Your Team',
-  },
-  {
     slug: 'baller-league',
     title: 'Baller League',
     dates: 'Starts week of 11/22',

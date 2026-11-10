@@ -83,9 +83,9 @@ export async function POST(req: NextRequest) {
   }
 
   const EVENT_LABELS: Record<string, string> = {
-    'opening-weekend': 'Opening Weekend Skramble',
-    'baller-league':   'Baller League',
-    'skramble-tour':   'Skramble Tour',
+    'skramble-open': 'Open House Skramble',
+    'baller-league': 'Baller League',
+    'skramble-tour': 'Skramble Tour',
   }
   const LOC_LABELS: Record<string, string> = {
     'west-side': 'Rochester',

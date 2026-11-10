@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
-import { sendEventRegistrationNotification } from '@/lib/email'
+import { sendEventRegistrationNotification, sendEventRegistrationConfirmation } from '@/lib/email'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 
-const VALID_EVENTS    = new Set(['opening-weekend', 'baller-league', 'skramble-tour'])
+const VALID_EVENTS    = new Set(['skramble-open', 'baller-league', 'skramble-tour'])
 const VALID_LOCATIONS = new Set(['west-side', 'horsham', 'kop'])
 const VALID_DIVISIONS = new Set(['hcp-20-plus', 'hcp-under-20'])
 const TEAM_EVENTS     = new Set(['opening-weekend'])
@@ -102,7 +102,7 @@ export async function POST(req: Request) {
   }
 
   // ── Email (non-blocking) ──────────────────────────────────────────────────
-  sendEventRegistrationNotification({
+  const emailPayload = {
     eventSlug,
     location,
     firstName,
@@ -117,7 +117,11 @@ export async function POST(req: Request) {
     teammateGhin:         teammateGhin || null,
     teammateEstimatedHcp: teammateEstimatedHcp || null,
     registrationId:       inserted?.id ?? '',
-  }).catch(err => console.error('[event-reg] email error', (err as Error).message))
+  }
+  sendEventRegistrationNotification(emailPayload)
+    .catch(err => console.error('[event-reg] notification error', (err as Error).message))
+  sendEventRegistrationConfirmation(emailPayload)
+    .catch(err => console.error('[event-reg] confirmation error', (err as Error).message))
 
   return NextResponse.json({ success: true })
 }

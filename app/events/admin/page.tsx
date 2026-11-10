@@ -39,9 +39,9 @@ type EventReg = {
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 const EVENTS = [
-  { slug: 'opening-weekend', label: 'Opening Weekend Skramble', dates: 'Sat 11/21 & Sun 11/22', teamFormat: true },
-  { slug: 'baller-league',   label: 'Baller League',            dates: 'Starts week of 11/22',  teamFormat: false },
-  { slug: 'skramble-tour',   label: 'Skramble Tour',            dates: 'Starts week of 11/22',  teamFormat: false },
+  { slug: 'skramble-open',  label: 'Open House Skramble',       dates: 'Sat 11/21 & Sun 11/22', teamFormat: true },
+  { slug: 'baller-league',  label: 'Baller League',             dates: 'Starts week of 11/22',  teamFormat: false },
+  { slug: 'skramble-tour',  label: 'Skramble Tour',             dates: 'Starts week of 11/22',  teamFormat: false },
 ]
 
 const LOCATIONS = [

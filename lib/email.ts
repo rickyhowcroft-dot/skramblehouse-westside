@@ -464,7 +464,7 @@ export async function sendRocExperienceNotification(payload: RocExperiencePayloa
 // ── Event Registration ────────────────────────────────────────────────────────
 
 const EVENT_LABELS: Record<string, string> = {
-  'opening-weekend': 'Opening Weekend Skramble',
+  'skramble-open':   'Open House Skramble',
   'baller-league':   'Baller League',
   'skramble-tour':   'Skramble Tour',
 }
@@ -495,6 +495,38 @@ export interface EventRegistrationPayload {
   teammateGhin: string | null
   teammateEstimatedHcp: string | null
   registrationId: string
+}
+
+export async function sendEventRegistrationConfirmation(payload: EventRegistrationPayload) {
+  if (!process.env.RESEND_API_KEY) return
+  const { eventSlug, location, firstName, email, division } = payload
+  const { Resend } = await import('resend')
+  const resend = new Resend(process.env.RESEND_API_KEY)
+
+  const eventLabel    = EVENT_LABELS[eventSlug]    ?? eventSlug
+  const locationLabel = LOCATION_LABELS[location]  ?? location
+  const divisionLabel = division ? (DIVISION_LABELS[division] ?? division) : null
+
+  await resend.emails.send({
+    from: process.env.EMAIL_FROM ?? 'Skramblehouse <noreply@skramblehouse.com>',
+    to: email,
+    subject: `You're registered — ${eventLabel}`,
+    html: `
+      <div style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:32px 24px">
+        <h2 style="margin:0 0 6px;color:#111827">${eventLabel}</h2>
+        <p style="margin:0 0 24px;color:#6B7280;font-size:14px">${locationLabel}</p>
+        <p style="margin:0 0 20px;font-size:16px;color:#111827">
+          Hey ${firstName}, you&rsquo;re all set! We&rsquo;ve received your registration and will be in touch soon with all the details.
+        </p>
+        <table style="width:100%;border-collapse:collapse;margin-bottom:24px">
+          <tr><td style="padding:8px 0;color:#6B7280;width:160px;font-size:14px">Event</td><td style="padding:8px 0;font-weight:600;font-size:14px">${eventLabel}</td></tr>
+          <tr><td style="padding:8px 0;color:#6B7280;font-size:14px">Location</td><td style="padding:8px 0;font-weight:600;font-size:14px">${locationLabel}</td></tr>
+          ${divisionLabel ? `<tr><td style="padding:8px 0;color:#6B7280;font-size:14px">Division</td><td style="padding:8px 0;font-weight:600;font-size:14px">${divisionLabel}</td></tr>` : ''}
+        </table>
+        <p style="margin:0;color:#9CA3AF;font-size:12px">Skramblehouse · skramblehouse.com</p>
+      </div>
+    `,
+  })
 }
 
 export async function sendEventRegistrationNotification(payload: EventRegistrationPayload) {
