@@ -110,13 +110,26 @@ export default function SkrambleOpenPage() {
   }, [isRochesterCtx])
 
   // Handle location dropdown changes with full reload when crossing Rochester boundary
+  // UTMs + fbclid are preserved across the reload so attribution isn't lost
   const handleLocationChange = (newLoc: string) => {
+    const preserveAttribution = () => {
+      const src = new URLSearchParams(window.location.search)
+      const fwd = new URLSearchParams()
+      ;['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid'].forEach(k => {
+        const v = src.get(k)
+        if (v) fwd.set(k, v)
+      })
+      return fwd.toString()
+    }
     if (newLoc === 'west-side' && !isRochesterCtx) {
-      window.location.href = `${window.location.pathname}?location=west-side`
+      const qs = preserveAttribution()
+      const base = `${window.location.pathname}?location=west-side`
+      window.location.href = qs ? `${base}&${qs}` : base
       return
     }
     if (newLoc !== 'west-side' && isRochesterCtx) {
-      window.location.href = window.location.pathname
+      const qs = preserveAttribution()
+      window.location.href = qs ? `${window.location.pathname}?${qs}` : window.location.pathname
       return
     }
     setForm(p => ({ ...p, location: newLoc }))

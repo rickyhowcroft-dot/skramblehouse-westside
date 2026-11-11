@@ -21,11 +21,11 @@ const securityHeaders = [
     key: 'Content-Security-Policy',
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com", // Next.js requires these; GTM added for ad agency tracking
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://connect.facebook.net", // Next.js requires these; GTM + Meta Pixel
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
-      `connect-src 'self' https://*.supabase.co https://www.googletagmanager.com https://*.google-analytics.com https://analytics.google.com`,
-      "img-src 'self' data: blob: https://www.googletagmanager.com",
+      `connect-src 'self' https://*.supabase.co https://www.googletagmanager.com https://*.google-analytics.com https://analytics.google.com https://www.facebook.com`,
+      "img-src 'self' data: blob: https://www.googletagmanager.com https://www.facebook.com",
       "frame-ancestors 'none'",
       "base-uri 'self'",
       "form-action 'self'",
