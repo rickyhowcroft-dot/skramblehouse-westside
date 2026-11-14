@@ -17,6 +17,8 @@ type EventReg = {
   phone: string
   ghin_number: string | null
   estimated_handicap: string | null
+  preferred_tee_times: string | null
+  membership_status: string | null
   division: string | null
   teammate_first_name: string | null
   teammate_last_name: string | null
@@ -29,6 +31,7 @@ const SELECT_COLS = [
   'id', 'event_slug', 'location',
   'first_name', 'last_name', 'email', 'phone',
   'ghin_number', 'estimated_handicap',
+  'preferred_tee_times', 'membership_status',
   'division',
   'teammate_first_name', 'teammate_last_name',
   'teammate_ghin_number', 'teammate_estimated_hcp',
@@ -73,6 +76,7 @@ export async function POST(req: NextRequest) {
     'ID', 'Event', 'Location', 'Division',
     'First Name', 'Last Name', 'Email', 'Phone',
     'GHIN #', 'Est. Handicap',
+    'Preferred Tee Time', 'Member?',
     'Teammate First', 'Teammate Last', 'Teammate GHIN', 'Teammate Est. HC',
     'Registered At',
   ]
@@ -110,7 +114,10 @@ export async function POST(req: NextRequest) {
       r.phone,
       r.ghin_number ?? '',
       r.estimated_handicap ?? '',
+      r.preferred_tee_times ?? '',
+      r.membership_status === 'member' ? 'Member' : r.membership_status === 'non_member' ? 'Non-member' : '',
       r.teammate_first_name ?? '',
+
       r.teammate_last_name ?? '',
       r.teammate_ghin_number ?? '',
       r.teammate_estimated_hcp ?? '',

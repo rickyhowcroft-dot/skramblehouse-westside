@@ -29,6 +29,8 @@ type EventReg = {
   phone: string
   ghin_number: string | null
   estimated_handicap: string | null
+  preferred_tee_times: string | null
+  membership_status: string | null
   division: string | null
   teammate_first_name: string | null
   teammate_last_name: string | null
@@ -348,6 +350,15 @@ function RegRow({ reg, isLast, isEven, teamFormat, fmtDate }: {
                 {DIVISION_LABELS[reg.division] ?? reg.division}
               </span>
             )}
+            {reg.membership_status === 'member' && (
+              <span style={{
+                fontSize: 11, fontWeight: 700,
+                backgroundColor: GOLD_LT, border: `1px solid ${GOLD_MID}`,
+                color: GOLD, borderRadius: 999, padding: '1px 8px',
+              }}>
+                Member
+              </span>
+            )}
           </div>
           {/* Contact */}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2px 14px', marginBottom: 2 }}>
@@ -355,7 +366,7 @@ function RegRow({ reg, isLast, isEven, teamFormat, fmtDate }: {
             <span style={{ fontSize: 13, color: GRAY_3 }}>{reg.phone}</span>
           </div>
           {/* Handicap */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2px 14px' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2px 14px', marginBottom: reg.preferred_tee_times ? 4 : 0 }}>
             {reg.ghin_number && (
               <span style={{ fontSize: 12, color: GRAY_3 }}>GHIN: <strong>{reg.ghin_number}</strong></span>
             )}
@@ -371,6 +382,17 @@ function RegRow({ reg, isLast, isEven, teamFormat, fmtDate }: {
               </span>
             )}
           </div>
+          {/* Preferred Tee Time */}
+          {reg.preferred_tee_times && (
+            <div style={{
+              display: 'inline-flex', alignItems: 'center', gap: 6,
+              backgroundColor: GOLD_LT, border: `1px solid ${GOLD_MID}`,
+              borderRadius: 8, padding: '4px 10px', marginTop: 2,
+            }}>
+              <span style={{ fontSize: 11, fontWeight: 700, color: GOLD, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Tee Time</span>
+              <span style={{ fontSize: 12, fontWeight: 600, color: GOLD }}>{reg.preferred_tee_times}</span>
+            </div>
+          )}
         </div>
         {/* Date */}
         <span style={{ fontSize: 11, color: GRAY_3, whiteSpace: 'nowrap', paddingTop: 2 }}>
