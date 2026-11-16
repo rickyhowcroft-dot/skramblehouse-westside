@@ -195,7 +195,7 @@ export default function SkrambleOpenPage() {
         <div style={{ borderRadius: 20, overflow: 'hidden', boxShadow: '0 8px 40px rgba(0,0,0,0.18)' }}>
           <Image
             src="/skramble-open-promo.jpg"
-            alt="Open House Skramble — Nov 21–22"
+            alt="Open House Skramble — Jan 16–17"
             width={900}
             height={900}
             priority
@@ -233,7 +233,7 @@ export default function SkrambleOpenPage() {
           gap: '10px 28px',
         }}>
           {[
-            { icon: '📅', text: 'Sat Nov 21 & Sun Nov 22' },
+            { icon: '📅', text: 'Sat Jan 16 & Sun Jan 17' },
             { icon: '👥', text: '2-person teams' },
             { icon: '🕐', text: 'Pick your tee time' },
             { icon: '📍', text: 'Pick your facility' },
