@@ -4,7 +4,7 @@ import { supabaseAdmin } from '@/lib/supabase'
 // Max caps per membership type for ROC pre-sale
 const CAPS: Record<string, number> = {
   'Full Year': 200,
-  '5 Month':   50,
+  '5 Month':   75,
   'Junior':    20,
 }
 
