@@ -263,15 +263,15 @@ export async function sendLeagueRegistrationConfirmation(payload: LeagueRegistra
           <td style="padding:20px 36px 0">
             <table width="100%" cellpadding="0" cellspacing="0" style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;border-collapse:collapse">
               <tr><td colspan="2" style="padding:12px 18px;color:#6b7280;font-size:11px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;border-bottom:1px solid #e5e7eb">Session I Schedule</td></tr>
-              <tr><td style="padding:9px 18px 4px;font-size:13px;color:#6b7280;width:80px">Week 1</td><td style="padding:9px 18px 4px;font-size:14px;font-weight:600;color:#111827">November 10</td></tr>
-              <tr><td style="padding:4px 18px;font-size:13px;color:#6b7280">Week 2</td><td style="padding:4px 18px;font-size:14px;font-weight:600;color:#111827">November 17</td></tr>
-              <tr><td style="padding:4px 18px;font-size:13px;color:#6b7280">Week 3</td><td style="padding:4px 18px;font-size:14px;font-weight:600;color:#111827">November 24</td></tr>
-              <tr><td style="padding:4px 18px;font-size:13px;color:#6b7280">Week 4</td><td style="padding:4px 18px;font-size:14px;font-weight:600;color:#111827">December 1</td></tr>
-              <tr><td style="padding:4px 18px;font-size:13px;color:#6b7280">Week 5</td><td style="padding:4px 18px;font-size:14px;font-weight:600;color:#111827">December 8</td></tr>
-              <tr><td style="padding:4px 18px;font-size:13px;color:#6b7280">Week 6</td><td style="padding:4px 18px;font-size:14px;font-weight:600;color:#111827">December 15</td></tr>
+              <tr><td style="padding:9px 18px 4px;font-size:13px;color:#6b7280;width:80px">Week 1</td><td style="padding:9px 18px 4px;font-size:14px;font-weight:600;color:#111827">December 1</td></tr>
+              <tr><td style="padding:4px 18px;font-size:13px;color:#6b7280">Week 2</td><td style="padding:4px 18px;font-size:14px;font-weight:600;color:#111827">December 8</td></tr>
+              <tr><td style="padding:4px 18px;font-size:13px;color:#6b7280">Week 3</td><td style="padding:4px 18px;font-size:14px;font-weight:600;color:#111827">December 15</td></tr>
+              <tr><td style="padding:4px 18px;font-size:13px;color:#6b7280">Week 4</td><td style="padding:4px 18px;font-size:14px;font-weight:600;color:#111827">December 29</td></tr>
+              <tr><td style="padding:4px 18px;font-size:13px;color:#6b7280">Week 5</td><td style="padding:4px 18px;font-size:14px;font-weight:600;color:#111827">January 5</td></tr>
+              <tr><td style="padding:4px 18px;font-size:13px;color:#6b7280">Week 6</td><td style="padding:4px 18px;font-size:14px;font-weight:600;color:#111827">January 12</td></tr>
               <tr style="background:#111827">
                 <td style="padding:10px 18px;font-size:13px;color:#9ca3af;border-radius:0 0 0 9px">Playoffs</td>
-                <td style="padding:10px 18px;font-size:14px;font-weight:700;color:#ffffff">December 22 — 18 Holes &nbsp;(6pm &amp; 8pm Tee Times)</td>
+                <td style="padding:10px 18px;font-size:14px;font-weight:700;color:#ffffff">January 19 — 18 Holes &nbsp;(6pm &amp; 8pm Tee Times)</td>
               </tr>
             </table>
             <p style="margin:10px 0 0;font-size:13px;color:#6b7280">Regular-season rounds are <strong>9 holes</strong>. The playoff round will be <strong>18 holes</strong>.</p>
